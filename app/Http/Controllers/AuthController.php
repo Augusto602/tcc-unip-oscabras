@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CadUsuario;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,32 +20,19 @@ class AuthController extends Controller
             'senha' => 'required|string',
         ]);
 
-        $usuario = CadUsuario::where('cad_usuario_email', $request->email)
-            ->where('cad_usuario_ativo_sn', 'S')
-            ->first();
+        $usuario = Usuario::where('email', $request->email)->first();
 
         if (!$usuario) {
             return redirect()
                 ->route('login')
-                ->with('erro_login', 'Usuário não encontrado ou inativo.');
+                ->with('erro_login', 'Usuário não encontrado.');
         }
 
         $senhaInformada = $request->senha;
-        $senhaBanco = $usuario->cad_usuario_senha;
+        $senhaBanco = $usuario->senha_hash;
 
-        $senhaValida = Hash::check($senhaInformada, $senhaBanco);
-
-        /*
-         * Compatibilidade com senha antiga em texto puro.
-         * Seu projeto atual compara senha diretamente.
-         * Esse bloco permite login antigo e já converte para Hash.
-         */
-        if (!$senhaValida && $senhaInformada === $senhaBanco) {
-            $usuario->cad_usuario_senha = Hash::make($senhaInformada);
-            $usuario->save();
-
-            $senhaValida = true;
-        }
+        $senhaValida = Hash::check($senhaInformada, $senhaBanco)
+            || $senhaInformada === $senhaBanco;
 
         if (!$senhaValida) {
             return redirect()
@@ -53,9 +40,14 @@ class AuthController extends Controller
                 ->with('erro_login', 'Senha incorreta.');
         }
 
-        $request->session()->put('usuario_id', $usuario->cad_usuario_id);
-        $request->session()->put('usuario_nome', $usuario->cad_usuario_nome);
-        $request->session()->put('tipo_login', $usuario->cad_usuario_tipo_login);
+        if ($senhaInformada === $senhaBanco) {
+            $usuario->senha_hash = Hash::make($senhaInformada);
+            $usuario->save();
+        }
+
+        $request->session()->put('usuario_id', $usuario->id_usuario);
+        $request->session()->put('usuario_nome', $usuario->nome_usuario);
+        $request->session()->put('tipo_login', $usuario->tipo_login ?? 'Cliente');
 
         return redirect()->route('dashboard');
     }

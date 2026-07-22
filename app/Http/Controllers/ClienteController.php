@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CadUsuario;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = CadUsuario::where('cad_usuario_ativo_sn', 'S')
-            ->orderBy('cad_usuario_id', 'asc')
-            ->get();
+        $clientes = Usuario::orderBy('id_usuario')->get();
 
         return view('clientes.index', compact('clientes'));
     }
@@ -21,19 +20,17 @@ class ClienteController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:cad_usuarios,cad_usuario_email',
+            'email' => ['required', 'email', 'max:255', Rule::unique('usuarios', 'email')],
             'senha' => 'required|string|min:4|max:255',
             'tipo_login' => 'required|string|max:50',
         ]);
 
-        CadUsuario::create([
-            'cad_usuario_nome' => $request->nome,
-            'cad_usuario_ativo_sn' => 'S',
-            'cad_usuario_dt_cad' => now(),
-            'cad_usuario_usu_cad' => $request->session()->get('usuario_nome'),
-            'cad_usuario_tipo_login' => $request->tipo_login,
-            'cad_usuario_senha' => Hash::make($request->senha),
-            'cad_usuario_email' => $request->email,
+        Usuario::create([
+            'nome_usuario' => $request->nome,
+            'email' => $request->email,
+            'senha_hash' => Hash::make($request->senha),
+            'data_cadastro' => now(),
+            'tipo_login' => $request->tipo_login,
         ]);
 
         return redirect()
