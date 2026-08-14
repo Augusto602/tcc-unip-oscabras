@@ -11,7 +11,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Usuario::orderBy('id_usuario')->get();
+        $clientes = Usuario::orderBy('cad_usuario_id')->get();
 
         return view('clientes.index', compact('clientes'));
     }
@@ -20,17 +20,22 @@ class ClienteController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => ['required', 'email', 'max:255', Rule::unique('usuarios', 'email')],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('cad_usuarios', 'cad_usuario_email')
+            ],
             'senha' => 'required|string|min:4|max:255',
             'tipo_login' => 'required|string|max:50',
         ]);
 
         Usuario::create([
-            'nome_usuario' => $request->nome,
-            'email' => $request->email,
-            'senha_hash' => Hash::make($request->senha),
-            'data_cadastro' => now(),
-            'tipo_login' => $request->tipo_login,
+            'cad_usuario_nome' => $request->nome,
+            'cad_usuario_email' => $request->email,
+            'cad_usuario_senha' => Hash::make($request->senha),
+            'cad_usuario_usu_cad' => now(),
+            'cad_usuario_tipo_login' => $request->tipo_login,
         ]);
 
         return redirect()

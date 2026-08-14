@@ -7,59 +7,59 @@ use Illuminate\Support\Str;
 
 class Usuario extends Model
 {
-    protected $table = 'usuarios';
+    protected $table = 'cad_usuarios';
 
-    protected $primaryKey = 'id_usuario';
+    protected $primaryKey = 'cad_usuario_id';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'nome_usuario',
-        'email',
-        'senha_hash',
-        'data_cadastro',
-        'tipo_login',
-        'api_token',
+        'cad_usuario_nome',
+        'cad_usuario_email',
+        'cad_usuario_senha',
+        'cad_usuario_dt_cad',
+        'cad_usuario_tipo_login',
+        'cad_usuario_usu_cad',
     ];
 
     protected $hidden = [
-        'senha_hash',
-        'api_token',
+        'cad_usuario_senha',
     ];
 
     public function veiculos()
     {
-        return $this->hasMany(Veiculo::class, 'id_usuario', 'id_usuario');
+        return $this->hasMany(
+            Veiculo::class,
+            'id_usuario',
+            'cad_usuario_id'
+        );
     }
 
     public function execucoes()
     {
-        return $this->hasMany(Execucao::class, 'id_usuario', 'id_usuario');
+        return $this->hasMany(
+            Execucao::class,
+            'id_usuario',
+            'cad_usuario_id'
+        );
     }
 
     public function emitirToken(): string
     {
         $token = Str::random(60);
-        $this->api_token = $token;
-        $this->save();
 
+        // Só use se criar uma coluna api_token no banco
         return $token;
-    }
-
-    public function revogarToken(): void
-    {
-        $this->api_token = null;
-        $this->save();
     }
 
     public function paraResposta(): array
     {
         return [
-            'id_usuario' => $this->id_usuario,
-            'nome_usuario' => $this->nome_usuario,
-            'email' => $this->email,
-            'data_cadastro' => $this->data_cadastro,
-            'tipo_login' => $this->tipo_login,
+            'id_usuario' => $this->cad_usuario_id,
+            'nome_usuario' => $this->cad_usuario_nome,
+            'email' => $this->cad_usuario_email,
+            'data_cadastro' => $this->cad_usuario_dt_cad,
+            'tipo_login' => $this->cad_usuario_tipo_login,
         ];
     }
 }

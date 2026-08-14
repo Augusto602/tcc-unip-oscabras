@@ -20,7 +20,10 @@ class AuthController extends Controller
             'senha' => 'required|string',
         ]);
 
-        $usuario = Usuario::where('email', $request->email)->first();
+        $usuario = Usuario::where(
+            'cad_usuario_email',
+            $request->email
+        )->first();
 
         if (!$usuario) {
             return redirect()
@@ -29,7 +32,7 @@ class AuthController extends Controller
         }
 
         $senhaInformada = $request->senha;
-        $senhaBanco = $usuario->senha_hash;
+        $senhaBanco = $usuario->cad_usuario_senha;
 
         $senhaValida = Hash::check($senhaInformada, $senhaBanco)
             || $senhaInformada === $senhaBanco;
@@ -40,14 +43,26 @@ class AuthController extends Controller
                 ->with('erro_login', 'Senha incorreta.');
         }
 
+        // Caso a senha esteja salva em texto puro, converte para hash
         if ($senhaInformada === $senhaBanco) {
-            $usuario->senha_hash = Hash::make($senhaInformada);
+            $usuario->cad_usuario_senha = Hash::make($senhaInformada);
             $usuario->save();
         }
 
-        $request->session()->put('usuario_id', $usuario->id_usuario);
-        $request->session()->put('usuario_nome', $usuario->nome_usuario);
-        $request->session()->put('tipo_login', $usuario->tipo_login ?? 'Cliente');
+        $request->session()->put(
+            'usuario_id',
+            $usuario->cad_usuario_id
+        );
+
+        $request->session()->put(
+            'usuario_nome',
+            $usuario->cad_usuario_nome
+        );
+
+        $request->session()->put(
+            'tipo_login',
+            $usuario->cad_usuario_tipo_login ?? 'Cliente'
+        );
 
         return redirect()->route('dashboard');
     }
