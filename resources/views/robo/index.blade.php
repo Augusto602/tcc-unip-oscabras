@@ -30,11 +30,35 @@
         </div>
 
 
-        <div class="robo-online">
+        <div class="robo-header-right">
 
-            <span class="online-dot"></span>
+            <div class="robo-controls">
 
-            ROBÔ ONLINE
+                <button type="button" class="robo-btn start" id="btnIniciar" title="Iniciar">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Iniciar</span>
+                </button>
+
+                <button type="button" class="robo-btn stop" id="btnParar" title="Parar">
+                    <i class="fa-solid fa-pause"></i>
+                    <span>Parar</span>
+                </button>
+
+                <button type="button" class="robo-btn reset" id="btnReiniciar" title="Reiniciar">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reiniciar</span>
+                </button>
+
+            </div>
+
+
+            <div class="robo-online">
+
+                <span class="online-dot"></span>
+
+                ROBÔ ONLINE
+
+            </div>
 
         </div>
 
@@ -492,6 +516,23 @@
 
                 </div>
 
+
+                <div class="system-row">
+
+                    <span>
+
+                        <i class="fa-solid fa-circle-play"></i>
+
+                        Estado do robô
+
+                    </span>
+
+                    <strong id="estadoRobo" class="status-ok">
+                        Parado
+                    </strong>
+
+                </div>
+
             </div>
 
 
@@ -514,14 +555,30 @@
 <style>
 
 /* =========================================================
+   PÁGINA / SCROLL
+========================================================= */
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    overflow-y: auto !important;
+}
+
+
+/* =========================================================
    DASHBOARD
 ========================================================= */
 
 .robo-dashboard {
     width: 100%;
-    padding: 18px 22px;
+    min-height: 100vh;
+    padding: 22px 25px 60px;
     box-sizing: border-box;
     color: #e6eee9;
+    overflow-y: visible;
 }
 
 
@@ -533,18 +590,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 22px;
 }
 
-.robo-title-line {
+.robo-header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
+}
+
+.robo-header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
 }
 
 .robo-title-icon {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
 
     display: flex;
     align-items: center;
@@ -552,27 +618,103 @@
 
     background: #1d392d;
     border: 1px solid #315b46;
-    border-radius: 10px;
+    border-radius: 11px;
 
     color: #69c174;
-    font-size: 19px;
+    font-size: 21px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.18);
 }
 
-.robo-title-line h2 {
+.robo-header-left h2 {
     margin: 0;
 
     color: #eef5f1;
 
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 600;
 }
 
-.robo-title-line p {
-    margin: 3px 0 0;
+.robo-header-left p {
+    margin: 5px 0 0;
 
     color: #8fa39a;
 
     font-size: 13px;
+}
+
+
+/* =========================================================
+   CONTROLES DO ROBÔ (Iniciar / Parar / Reiniciar)
+========================================================= */
+
+.robo-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.robo-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
+    border: 1px solid transparent;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
+}
+
+.robo-btn i {
+    font-size: 12px;
+}
+
+.robo-btn.start {
+    background: #17351f;
+    border-color: #2f6b3d;
+    color: #6de07c;
+}
+
+.robo-btn.start:hover:not(:disabled) {
+    background: #1e4527;
+    transform: translateY(-1px);
+}
+
+.robo-btn.stop {
+    background: #3a2216;
+    border-color: #78432a;
+    color: #ffab63;
+}
+
+.robo-btn.stop:hover:not(:disabled) {
+    background: #4a2c1c;
+    transform: translateY(-1px);
+}
+
+.robo-btn.reset {
+    background: #201c38;
+    border-color: #453d78;
+    color: #b7a9ff;
+}
+
+.robo-btn.reset:hover:not(:disabled) {
+    background: #2a2448;
+    transform: translateY(-1px);
+}
+
+.robo-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
 
@@ -583,9 +725,9 @@
 .robo-online {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
 
-    padding: 7px 12px;
+    padding: 9px 14px;
 
     background: #183125;
     border: 1px solid #28533a;
@@ -596,22 +738,24 @@
 
     font-size: 10px;
     font-weight: 700;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
 }
 
 .online-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
 
     background: #55c965;
 
     border-radius: 50%;
 
-    box-shadow: 0 0 8px rgba(85, 201, 101, .7);
+    box-shadow: 0 0 10px rgba(85, 201, 101, .8);
 }
 
 
 /* =========================================================
-   INDICADORES
+   INDICADORES (DESTACADOS)
 ========================================================= */
 
 .robo-stats {
@@ -620,36 +764,40 @@
     grid-template-columns:
         repeat(6, minmax(130px, 1fr));
 
-    gap: 10px;
+    gap: 14px;
 
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .robo-stat {
-    min-height: 82px;
+    min-height: 100px;
 
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 13px;
 
-    padding: 12px;
+    padding: 16px;
 
-    background: #17221f;
+    background: linear-gradient(160deg, #1b2925, #15211d);
 
-    border: 1px solid #263a34;
+    border: 1px solid #315b46;
 
-    border-radius: 9px;
+    border-radius: 11px;
 
     box-sizing: border-box;
 
     transition: .2s;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.15), inset 0 0 0 1px rgba(105,193,116,.03);
 }
 
 .robo-stat:hover {
-    border-color: #3c674f;
+    border-color: #69c174;
 
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 22px rgba(0,0,0,.22), 0 0 0 1px rgba(105,193,116,.15);
 }
 
 
@@ -658,18 +806,20 @@
 ========================================================= */
 
 .stat-icon {
-    width: 36px;
-    height: 36px;
+    width: 45px;
+    height: 45px;
 
-    min-width: 36px;
+    min-width: 45px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 8px;
+    border-radius: 9px;
 
-    font-size: 15px;
+    font-size: 18px;
+
+    box-shadow: 0 0 0 1px rgba(255,255,255,.04) inset;
 }
 
 
@@ -677,7 +827,7 @@
 
 .stat-icon.green {
     background: #193629;
-    color: #69c174;
+    color: #7bdc86;
 }
 
 
@@ -685,7 +835,7 @@
 
 .stat-icon.blue {
     background: #182e38;
-    color: #55b9d9;
+    color: #6ccbef;
 }
 
 
@@ -693,7 +843,7 @@
 
 .stat-icon.orange {
     background: #38291b;
-    color: #e7a65c;
+    color: #f2b46e;
 }
 
 
@@ -701,7 +851,7 @@
 
 .stat-icon.purple {
     background: #2d2338;
-    color: #b78be0;
+    color: #c79cf2;
 }
 
 
@@ -709,20 +859,20 @@
 
 .stat-icon.cyan {
     background: #173239;
-    color: #62c8d5;
+    color: #74dbea;
 }
 
 
 /* Bateria */
 
-.stat-icon.battery-icon {
+.stat-icon.battery {
     background: #24331f;
-    color: #91c96d;
+    color: #a4e07d;
 }
 
 
 /* =========================================================
-   TEXTO DOS INDICADORES
+   TEXTO DOS INDICADORES (MAIS DESTACADO)
 ========================================================= */
 
 .stat-info {
@@ -732,11 +882,17 @@
 .stat-info span {
     display: block;
 
-    color: #91a39b;
+    color: #9db3aa;
 
     font-size: 11px;
 
-    margin-bottom: 2px;
+    font-weight: 600;
+
+    letter-spacing: .3px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 6px;
 
     white-space: nowrap;
 }
@@ -744,19 +900,25 @@
 .stat-info strong {
     display: inline-block;
 
-    color: #edf5f0;
+    color: #ffffff;
 
-    font-size: 19px;
+    font-size: 25px;
 
-    font-weight: 600;
+    font-weight: 800;
+
+    text-shadow: 0 0 18px rgba(105,193,116,.25);
+
+    letter-spacing: .3px;
 }
 
 .stat-info small {
-    color: #72847c;
+    color: #86988f;
 
-    font-size: 9px;
+    font-size: 10px;
 
-    margin-left: 2px;
+    font-weight: 600;
+
+    margin-left: 4px;
 }
 
 
@@ -769,9 +931,9 @@
 
     grid-template-columns:
         minmax(0, 2.2fr)
-        minmax(280px, .8fr);
+        minmax(300px, .8fr);
 
-    gap: 14px;
+    gap: 18px;
 
     align-items: stretch;
 }
@@ -786,11 +948,13 @@
 
     background: #17221f;
 
-    border: 1px solid #263a34;
+    border: 1px solid #2c423a;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
 }
 
 
@@ -799,7 +963,7 @@
 ========================================================= */
 
 .panel-header {
-    min-height: 55px;
+    min-height: 62px;
 
     display: flex;
 
@@ -807,7 +971,7 @@
 
     justify-content: space-between;
 
-    padding: 10px 15px;
+    padding: 12px 17px;
 
     background: #192622;
 
@@ -819,13 +983,13 @@
 
     color: #e9f1ed;
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 600;
 }
 
 .panel-header h3 i {
-    margin-right: 6px;
+    margin-right: 7px;
 
     color: #69c174;
 }
@@ -833,7 +997,7 @@
 .panel-header span {
     display: block;
 
-    margin-top: 3px;
+    margin-top: 5px;
 
     color: #7e9389;
 
@@ -848,9 +1012,9 @@
 .map-status {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 
-    padding: 5px 9px;
+    padding: 6px 10px;
 
     background: #172e24;
 
@@ -865,8 +1029,15 @@
     font-weight: 700;
 }
 
-.map-status i {
-    font-size: 9px;
+.gps-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #55c965;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 7px rgba(85,201,101,.7);
 }
 
 
@@ -879,7 +1050,7 @@
 
     width: 100%;
 
-    height: 525px;
+    height: 555px;
 
     background: #101a17;
 
@@ -901,36 +1072,38 @@
 .map-legend {
     position: absolute;
 
-    left: 12px;
-    bottom: 12px;
+    left: 15px;
+    bottom: 15px;
 
     display: flex;
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 10px;
 
-    padding: 8px 10px;
+    padding: 9px 12px;
 
-    background: rgba(16, 26, 23, .94);
+    background: rgba(16, 26, 23, .96);
 
     border: 1px solid #30443c;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
     color: #aabbb3;
 
     font-size: 9px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.25);
 }
 
 .map-legend > div {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
 }
 
 .legend {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
 
     display: inline-block;
 
@@ -942,8 +1115,8 @@
 }
 
 .legend.route {
-    width: 13px;
-    height: 2px;
+    width: 15px;
+    height: 3px;
 
     background: #54a96a;
 
@@ -968,7 +1141,7 @@
 
     flex-direction: column;
 
-    gap: 10px;
+    gap: 14px;
 
     min-width: 0;
 }
@@ -981,11 +1154,13 @@
 .info-panel {
     background: #17221f;
 
-    border: 1px solid #263a34;
+    border: 1px solid #2c423a;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
-    padding: 12px;
+    padding: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.12);
 }
 
 
@@ -998,9 +1173,9 @@
 
     align-items: center;
 
-    gap: 7px;
+    gap: 8px;
 
-    margin-bottom: 10px;
+    margin-bottom: 13px;
 
     color: #dce8e2;
 
@@ -1011,11 +1186,13 @@
 
 .info-panel-title i {
     color: #69c174;
+
+    font-size: 13px;
 }
 
 
 /* =========================================================
-   CLIMA
+   CLIMA (DESTACADO)
 ========================================================= */
 
 .environment-grid {
@@ -1024,46 +1201,54 @@
     grid-template-columns:
         1fr 1fr;
 
-    gap: 7px;
+    gap: 10px;
 }
 
 .environment-item {
     display: grid;
 
     grid-template-columns:
-        22px 1fr;
+        25px 1fr;
 
     align-items: center;
 
-    padding: 8px;
+    padding: 11px;
 
     background: #121c19;
 
-    border: 1px solid #26352f;
+    border: 1px solid #315b46;
 
-    border-radius: 7px;
+    border-radius: 8px;
+
+    min-height: 50px;
 }
 
 .environment-item i {
     grid-row: span 2;
 
-    color: #69b9c6;
+    color: #7fd1de;
 
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .environment-item span {
-    color: #7f948a;
+    color: #8ca097;
 
     font-size: 9px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    margin-bottom: 3px;
 }
 
 .environment-item strong {
-    color: #e2ebe6;
+    color: #ffffff;
 
-    font-size: 12px;
+    font-size: 15px;
 
-    font-weight: 600;
+    font-weight: 800;
 }
 
 
@@ -1074,8 +1259,8 @@
 .detection-count {
     margin-left: auto;
 
-    min-width: 20px;
-    height: 20px;
+    min-width: 22px;
+    height: 22px;
 
     display: flex;
     align-items: center;
@@ -1095,7 +1280,7 @@
 
     flex-direction: column;
 
-    gap: 6px;
+    gap: 9px;
 }
 
 .detection {
@@ -1103,30 +1288,30 @@
 
     align-items: center;
 
-    gap: 9px;
+    gap: 11px;
 
-    padding: 7px;
+    padding: 10px;
 
     background: #121c19;
 
-    border: 1px solid #26352f;
+    border: 1px solid #2b3d36;
 
-    border-radius: 7px;
+    border-radius: 8px;
 }
 
 .detection-icon {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
 
-    min-width: 30px;
+    min-width: 34px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .detection-icon.tree {
@@ -1147,9 +1332,13 @@
 .detection strong {
     display: block;
 
-    color: #dce8e2;
+    color: #eef5f0;
 
-    font-size: 11px;
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 3px;
 }
 
 .detection span {
@@ -1158,8 +1347,6 @@
     color: #71847b;
 
     font-size: 9px;
-
-    margin-top: 2px;
 }
 
 
@@ -1174,7 +1361,7 @@
 
     justify-content: space-between;
 
-    padding: 7px 0;
+    padding: 10px 2px;
 
     border-bottom: 1px solid #25352f;
 
@@ -1190,7 +1377,7 @@
 }
 
 .system-row span i {
-    width: 17px;
+    width: 20px;
 
     color: #628f73;
 }
@@ -1198,11 +1385,23 @@
 .status-ok {
     color: #69c878;
 
-    font-size: 10px;
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.status-paused {
+    color: #ffab63;
+
+    font-size: 11px;
+
+    font-weight: 700;
 }
 
 #ultimaAtualizacao {
-    color: #b2c2ba;
+    color: #cfe0d7;
+
+    font-weight: 700;
 }
 
 
@@ -1220,7 +1419,7 @@
     .robo-content {
         grid-template-columns:
             minmax(0, 1.8fr)
-            minmax(260px, .8fr);
+            minmax(280px, .8fr);
     }
 
 }
@@ -1233,7 +1432,7 @@
     }
 
     .map-wrapper {
-        height: 450px;
+        height: 480px;
     }
 
 }
@@ -1242,16 +1441,20 @@
 @media (max-width: 700px) {
 
     .robo-dashboard {
-        padding: 12px;
+        padding: 14px 14px 60px;
     }
 
     .robo-header {
         align-items: flex-start;
-        gap: 10px;
+        gap: 12px;
     }
 
     .robo-online {
         font-size: 8px;
+    }
+
+    .robo-controls {
+        flex-wrap: wrap;
     }
 
     .robo-stats {
@@ -1260,7 +1463,7 @@
     }
 
     .map-wrapper {
-        height: 400px;
+        height: 420px;
     }
 
 }
@@ -1272,12 +1475,20 @@
         grid-template-columns: 1fr;
     }
 
-    .robo-title-line h2 {
+    .robo-header-left h2 {
         font-size: 18px;
     }
 
     .environment-grid {
         grid-template-columns: 1fr;
+    }
+
+    .robo-btn span {
+        display: none;
+    }
+
+    .robo-btn {
+        padding: 10px 12px;
     }
 
 }
@@ -1298,6 +1509,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     /*
     |--------------------------------------------------------------------------
     | CONFIGURAÇÃO DO ROBÔ
@@ -1307,9 +1519,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const robo = {
 
         x: 10,
+
         y: 15,
 
         destinoX: 90,
+
         destinoY: 85,
 
         distancia: 0,
@@ -1337,104 +1551,73 @@ document.addEventListener('DOMContentLoaded', function () {
     |--------------------------------------------------------------------------
     */
 
-    const canvas = document.getElementById('mapaRobo');
+    const canvas =
+        document.getElementById('mapaRobo');
+
 
     if (!canvas) {
-        console.error('Canvas mapaRobo não encontrado.');
+
+        console.error(
+            'Canvas mapaRobo não encontrado.'
+        );
+
         return;
+
     }
 
-    const ctx = canvas.getContext('2d');
+
+    const ctx =
+        canvas.getContext('2d');
+
 
     if (!ctx) {
-        console.error('Canvas 2D não disponível.');
+
+        console.error(
+            'Canvas 2D não disponível.'
+        );
+
         return;
+
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | ROTA DO ROBÔ
+    | BOTÕES DE CONTROLE
     |--------------------------------------------------------------------------
     */
 
-    const rota = [
+    const btnIniciar =
+        document.getElementById('btnIniciar');
 
-        { x: 10, y: 15 },
-        { x: 18, y: 20 },
-        { x: 25, y: 30 },
-        { x: 32, y: 42 },
-        { x: 40, y: 50 },
-        { x: 48, y: 58 },
-        { x: 55, y: 52 },
-        { x: 62, y: 60 },
-        { x: 68, y: 70 },
-        { x: 75, y: 68 },
-        { x: 82, y: 76 },
-        { x: 90, y: 85 }
+    const btnParar =
+        document.getElementById('btnParar');
 
-    ];
+    const btnReiniciar =
+        document.getElementById('btnReiniciar');
+
+    const estadoRoboEl =
+        document.getElementById('estadoRobo');
 
 
     /*
     |--------------------------------------------------------------------------
-    | TEMPERATURA POR REGIÃO
+    | DADOS DO BANCO
     |--------------------------------------------------------------------------
-    |
-    | Futuramente estes dados podem vir do banco.
-    |
     */
 
-    const pontosClima = [
+    let medicoes = [];
 
-        {
-            x: 15,
-            y: 20,
-            temperatura: 22.5,
-            umidade: 74
-        },
+    let rota = [];
 
-        {
-            x: 30,
-            y: 30,
-            temperatura: 23.8,
-            umidade: 70
-        },
+    let rotaVisual = [];
 
-        {
-            x: 45,
-            y: 45,
-            temperatura: 25.2,
-            umidade: 67
-        },
-
-        {
-            x: 60,
-            y: 55,
-            temperatura: 27.4,
-            umidade: 61
-        },
-
-        {
-            x: 75,
-            y: 70,
-            temperatura: 29.1,
-            umidade: 56
-        },
-
-        {
-            x: 90,
-            y: 85,
-            temperatura: 30.2,
-            umidade: 52
-        }
-
-    ];
+    let pontosClima = [];
 
 
     /*
     |--------------------------------------------------------------------------
-    | OBJETOS DETECTADOS
+    | OBJETOS DO MAPA
     |--------------------------------------------------------------------------
     */
 
@@ -1466,7 +1649,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | ESTADO
+    | ESTADO DA ANIMAÇÃO
     |--------------------------------------------------------------------------
     */
 
@@ -1481,43 +1664,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | DISTÂNCIA ENTRE DOIS PONTOS
+    | ESTADO DE EXECUÇÃO (Iniciar / Parar / Reiniciar)
     |--------------------------------------------------------------------------
     */
 
-    function calcularDistancia(a, b) {
+    let emExecucao = false;
 
-        const dx = b.x - a.x;
+    let animacaoId = null;
 
-        const dy = b.y - a.y;
-
-        return Math.sqrt(
-            dx * dx +
-            dy * dy
-        );
-
-    }
+    let dadosCarregados = false;
 
 
     /*
     |--------------------------------------------------------------------------
-    | DISTÂNCIA TOTAL DA ROTA
+    | ATUALIZA BOTÕES
     |--------------------------------------------------------------------------
     */
 
-    rota.forEach(function (ponto, index) {
+    function atualizarBotoes() {
 
-        if (index > 0) {
+        if (btnIniciar) {
 
-            distanciaTotal +=
-                calcularDistancia(
-                    rota[index - 1],
-                    ponto
-                );
+            btnIniciar.disabled =
+                emExecucao ||
+                !dadosCarregados ||
+                rota.length < 2;
 
         }
 
-    });
+
+        if (btnParar) {
+
+            btnParar.disabled =
+                !emExecucao;
+
+        }
+
+
+        if (btnReiniciar) {
+
+            btnReiniciar.disabled =
+                !dadosCarregados;
+
+        }
+
+
+        if (estadoRoboEl) {
+
+            if (emExecucao) {
+
+                estadoRoboEl.innerText =
+                    'Em movimento';
+
+                estadoRoboEl.className =
+                    'status-ok';
+
+            } else {
+
+                estadoRoboEl.innerText =
+                    'Parado';
+
+                estadoRoboEl.className =
+                    'status-paused';
+
+            }
+
+        }
+
+    }
 
 
     /*
@@ -1535,41 +1749,539 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | TEMPERATURA DA REGIÃO
+    | SUAVIZAÇÃO
+    |--------------------------------------------------------------------------
+    */
+
+    function suavizar(valor) {
+
+        return valor * valor * (3 - 2 * valor);
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DISTÂNCIA
+    |--------------------------------------------------------------------------
+    */
+
+    function calcularDistancia(a, b) {
+
+        const dx =
+            b.x - a.x;
+
+        const dy =
+            b.y - a.y;
+
+
+        return Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DISTÂNCIA TOTAL
+    |--------------------------------------------------------------------------
+    */
+
+    function calcularDistanciaTotal() {
+
+        distanciaTotal = 0;
+
+
+        for (
+            let i = 1;
+            i < rota.length;
+            i++
+        ) {
+
+            distanciaTotal +=
+                calcularDistancia(
+                    rota[i - 1],
+                    rota[i]
+                );
+
+        }
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CRIA ROTA VISUAL
     |--------------------------------------------------------------------------
     |
-    | Procura os pontos climáticos mais próximos.
-    | Isso permite criar uma transição suave.
+    | Os valores reais continuam sendo usados
+    | nas informações.
     |
+    | O mapa expande automaticamente a rota
+    | para que os pontos não fiquem grudados.
+    |
+    */
+
+    function criarRotaVisual() {
+
+        if (
+            rota.length === 0
+        ) {
+
+            rotaVisual = [];
+
+            pontosClima = [];
+
+            return;
+
+        }
+
+
+        let menorX =
+            rota[0].x;
+
+        let maiorX =
+            rota[0].x;
+
+        let menorY =
+            rota[0].y;
+
+        let maiorY =
+            rota[0].y;
+
+
+        rota.forEach(function (ponto) {
+
+            if (
+                ponto.x < menorX
+            ) {
+
+                menorX =
+                    ponto.x;
+
+            }
+
+
+            if (
+                ponto.x > maiorX
+            ) {
+
+                maiorX =
+                    ponto.x;
+
+            }
+
+
+            if (
+                ponto.y < menorY
+            ) {
+
+                menorY =
+                    ponto.y;
+
+            }
+
+
+            if (
+                ponto.y > maiorY
+            ) {
+
+                maiorY =
+                    ponto.y;
+
+            }
+
+        });
+
+
+        let intervaloX =
+            maiorX - menorX;
+
+        let intervaloY =
+            maiorY - menorY;
+
+
+        if (
+            intervaloX === 0
+        ) {
+
+            intervaloX = 1;
+
+        }
+
+
+        if (
+            intervaloY === 0
+        ) {
+
+            intervaloY = 1;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ESPAÇO VISUAL
+        |--------------------------------------------------------------------------
+        */
+
+        const visualMinimo = 8;
+
+        const visualMaximo = 92;
+
+        const visualTamanho =
+            visualMaximo -
+            visualMinimo;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CONVERTE A ROTA
+        |--------------------------------------------------------------------------
+        */
+
+        rotaVisual =
+            rota.map(function (ponto) {
+
+                const visualX =
+                    visualMinimo +
+                    (
+                        (
+                            ponto.x -
+                            menorX
+                        ) /
+                        intervaloX
+                    ) *
+                    visualTamanho;
+
+
+                const visualY =
+                    visualMinimo +
+                    (
+                        (
+                            ponto.y -
+                            menorY
+                        ) /
+                        intervaloY
+                    ) *
+                    visualTamanho;
+
+
+                return {
+
+                    x: visualX,
+
+                    y: visualY,
+
+                    realX:
+                        ponto.x,
+
+                    realY:
+                        ponto.y,
+
+                    temperatura:
+                        ponto.temperatura,
+
+                    umidade:
+                        ponto.umidade,
+
+                    recebidaEm:
+                        ponto.recebidaEm
+
+                };
+
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PONTOS CLIMÁTICOS
+        |--------------------------------------------------------------------------
+        */
+
+        pontosClima =
+            rotaVisual.map(function (ponto) {
+
+                return {
+
+                    x:
+                        ponto.x,
+
+                    y:
+                        ponto.y,
+
+                    temperatura:
+                        ponto.temperatura,
+
+                    umidade:
+                        ponto.umidade
+
+                };
+
+            });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | POSIÇÃO VISUAL
+    |--------------------------------------------------------------------------
+    */
+
+    function obterPosicaoVisual() {
+
+        if (
+            rotaVisual.length === 0
+        ) {
+
+            return {
+                x: 0,
+                y: 0
+            };
+
+        }
+
+
+        if (
+            pontoAtual >=
+            rotaVisual.length - 1
+        ) {
+
+            return {
+
+                x:
+                    rotaVisual[
+                        rotaVisual.length - 1
+                    ].x,
+
+                y:
+                    rotaVisual[
+                        rotaVisual.length - 1
+                    ].y
+
+            };
+
+        }
+
+
+        const movimento =
+            suavizar(
+                progresso
+            );
+
+
+        return {
+
+            x:
+                interpolar(
+
+                    rotaVisual[
+                        pontoAtual
+                    ].x,
+
+                    rotaVisual[
+                        pontoAtual + 1
+                    ].x,
+
+                    movimento
+
+                ),
+
+            y:
+                interpolar(
+
+                    rotaVisual[
+                        pontoAtual
+                    ].y,
+
+                    rotaVisual[
+                        pontoAtual + 1
+                    ].y,
+
+                    movimento
+
+                )
+
+        };
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | POSIÇÃO REAL
+    |--------------------------------------------------------------------------
+    */
+
+    function obterPosicaoReal() {
+
+        if (
+            rota.length === 0
+        ) {
+
+            return {
+                x: 0,
+                y: 0
+            };
+
+        }
+
+
+        if (
+            pontoAtual >=
+            rota.length - 1
+        ) {
+
+            return {
+
+                x:
+                    rota[
+                        rota.length - 1
+                    ].x,
+
+                y:
+                    rota[
+                        rota.length - 1
+                    ].y
+
+            };
+
+        }
+
+
+        const movimento =
+            suavizar(
+                progresso
+            );
+
+
+        return {
+
+            x:
+                interpolar(
+
+                    rota[
+                        pontoAtual
+                    ].x,
+
+                    rota[
+                        pontoAtual + 1
+                    ].x,
+
+                    movimento
+
+                ),
+
+            y:
+                interpolar(
+
+                    rota[
+                        pontoAtual
+                    ].y,
+
+                    rota[
+                        pontoAtual + 1
+                    ].y,
+
+                    movimento
+
+                )
+
+        };
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DIREÇÃO
+    |--------------------------------------------------------------------------
+    */
+
+    function calcularDirecao(a, b) {
+
+        const dx =
+            b.x - a.x;
+
+        const dy =
+            b.y - a.y;
+
+
+        let graus =
+            Math.atan2(
+                dy,
+                dx
+            ) *
+            180 /
+            Math.PI;
+
+
+        if (
+            graus < 0
+        ) {
+
+            graus += 360;
+
+        }
+
+
+        return graus;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLIMA
+    |--------------------------------------------------------------------------
     */
 
     function obterClima(x, y) {
 
-        let menorDistancia = Infinity;
+        if (
+            rota.length === 0
+        ) {
 
-        let pontoMaisProximo = pontosClima[0];
+            return {
 
+                temperatura: 0,
 
-        pontosClima.forEach(function (ponto) {
+                umidade: 0
 
-            const distancia = Math.sqrt(
+            };
 
-                Math.pow(
-                    ponto.x - x,
-                    2
-                )
-
-                +
-
-                Math.pow(
-                    ponto.y - y,
-                    2
-                )
-
-            );
+        }
 
 
-            if (distancia < menorDistancia) {
+        let menorDistancia =
+            Infinity;
+
+        let pontoMaisProximo =
+            rota[0];
+
+
+        rota.forEach(function (ponto) {
+
+            const distancia =
+                calcularDistancia(
+
+                    {
+                        x: x,
+                        y: y
+                    },
+
+                    ponto
+
+                );
+
+
+            if (
+                distancia <
+                menorDistancia
+            ) {
 
                 menorDistancia =
                     distancia;
@@ -1582,14 +2294,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 
-        return pontoMaisProximo;
+        return {
+
+            temperatura:
+                pontoMaisProximo.temperatura,
+
+            umidade:
+                pontoMaisProximo.umidade
+
+        };
 
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | TAMANHO DO CANVAS
+    | AJUSTA CANVAS
     |--------------------------------------------------------------------------
     */
 
@@ -1606,7 +2326,9 @@ document.addEventListener('DOMContentLoaded', function () {
             width <= 0 ||
             height <= 0
         ) {
+
             return;
+
         }
 
 
@@ -1629,12 +2351,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         ctx.setTransform(
+
             dpr,
             0,
             0,
             dpr,
             0,
             0
+
         );
 
     }
@@ -1642,34 +2366,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CONVERTER COORDENADAS
+    | CONVERSÃO DO MAPA
     |--------------------------------------------------------------------------
     */
 
-    function criarConversao(width, height) {
+    function criarConversao(
+        width,
+        height
+    ) {
 
-        const margem = 45;
+        const margem = 55;
+
 
         const larguraMapa =
-            width - margem * 2;
+            width -
+            margem * 2;
+
 
         const alturaMapa =
-            height - margem * 2;
+            height -
+            margem * 2;
 
 
         return {
 
             margem: margem,
 
-            largura: larguraMapa,
+            largura:
+                larguraMapa,
 
-            altura: alturaMapa,
+            altura:
+                alturaMapa,
 
 
             x: function (valor) {
 
                 return margem +
-                    (valor / 100) *
+                    (
+                        valor / 100
+                    ) *
                     larguraMapa;
 
             },
@@ -1679,7 +2414,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 return height -
                     margem -
-                    (valor / 100) *
+                    (
+                        valor / 100
+                    ) *
                     alturaMapa;
 
             }
@@ -1697,7 +2434,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function corTemperatura(temp) {
 
-        if (temp < 22) {
+        if (
+            temp < 22
+        ) {
 
             return {
                 r: 59,
@@ -1707,7 +2446,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        if (temp < 24) {
+
+        if (
+            temp < 24
+        ) {
 
             return {
                 r: 56,
@@ -1717,7 +2459,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        if (temp < 26) {
+
+        if (
+            temp < 26
+        ) {
 
             return {
                 r: 74,
@@ -1727,7 +2472,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        if (temp < 28) {
+
+        if (
+            temp < 28
+        ) {
 
             return {
                 r: 250,
@@ -1737,7 +2485,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        if (temp < 30) {
+
+        if (
+            temp < 30
+        ) {
 
             return {
                 r: 249,
@@ -1746,6 +2497,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
         }
+
 
         return {
             r: 239,
@@ -1758,7 +2510,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | MAPA
+    | DESENHA MAPA
     |--------------------------------------------------------------------------
     */
 
@@ -1775,7 +2527,9 @@ document.addEventListener('DOMContentLoaded', function () {
             !width ||
             !height
         ) {
+
             return;
+
         }
 
 
@@ -1821,100 +2575,16 @@ document.addEventListener('DOMContentLoaded', function () {
             '#16251d';
 
         ctx.fillRect(
+
             mapa.margem,
+
             mapa.margem,
+
             mapa.largura,
+
             mapa.altura
+
         );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | MAPA TÉRMICO
-        |--------------------------------------------------------------------------
-        */
-
-        pontosClima.forEach(function (ponto) {
-
-            const px =
-                mapa.x(ponto.x);
-
-            const py =
-                mapa.y(ponto.y);
-
-
-            const cor =
-                corTemperatura(
-                    ponto.temperatura
-                );
-
-
-            const raio =
-                Math.min(
-                    mapa.largura,
-                    mapa.altura
-                ) * 0.18;
-
-
-            const gradiente =
-                ctx.createRadialGradient(
-
-                    px,
-                    py,
-                    0,
-
-                    px,
-                    py,
-                    raio
-
-                );
-
-
-            gradiente.addColorStop(
-
-                0,
-
-                `rgba(
-                    ${cor.r},
-                    ${cor.g},
-                    ${cor.b},
-                    0.20
-                )`
-
-            );
-
-
-            gradiente.addColorStop(
-
-                1,
-
-                `rgba(
-                    ${cor.r},
-                    ${cor.g},
-                    ${cor.b},
-                    0
-                )`
-
-            );
-
-
-            ctx.fillStyle =
-                gradiente;
-
-
-            ctx.beginPath();
-
-            ctx.arc(
-                px,
-                py,
-                raio,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fill();
-
-        });
 
 
         /*
@@ -1924,7 +2594,7 @@ document.addEventListener('DOMContentLoaded', function () {
         */
 
         ctx.strokeStyle =
-            'rgba(130,170,130,0.10)';
+            'rgba(130,170,130,0.12)';
 
         ctx.lineWidth = 1;
 
@@ -1937,7 +2607,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const x =
                 mapa.margem +
-                (i / 10) *
+                (
+                    i / 10
+                ) *
                 mapa.largura;
 
 
@@ -1959,7 +2631,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const y =
                 height -
                 mapa.margem -
-                (i / 10) *
+                (
+                    i / 10
+                ) *
                 mapa.altura;
 
 
@@ -1987,7 +2661,7 @@ document.addEventListener('DOMContentLoaded', function () {
         */
 
         ctx.strokeStyle =
-            'rgba(72,187,120,0.08)';
+            'rgba(72,187,120,0.06)';
 
         ctx.lineWidth = 2;
 
@@ -2021,54 +2695,113 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | EIXOS
+        | MAPA TÉRMICO
         |--------------------------------------------------------------------------
         */
 
-        ctx.strokeStyle =
-            'rgba(255,255,255,0.25)';
+        pontosClima.forEach(
+            function (ponto) {
 
-        ctx.lineWidth = 1;
+                const px =
+                    mapa.x(
+                        ponto.x
+                    );
+
+                const py =
+                    mapa.y(
+                        ponto.y
+                    );
 
 
-        ctx.beginPath();
+                const cor =
+                    corTemperatura(
+                        ponto.temperatura
+                    );
 
-        ctx.moveTo(
-            mapa.margem,
-            height - mapa.margem
+
+                /*
+                |----------------------------------------------------------------------
+                | RAIO MENOR PARA NÃO ESCONDER A ROTA
+                |----------------------------------------------------------------------
+                */
+
+                const raio =
+                    Math.min(
+                        mapa.largura,
+                        mapa.altura
+                    ) * 0.075;
+
+
+                const gradiente =
+                    ctx.createRadialGradient(
+
+                        px,
+                        py,
+                        0,
+
+                        px,
+                        py,
+                        raio
+
+                    );
+
+
+                gradiente.addColorStop(
+
+                    0,
+
+                    `rgba(
+                        ${cor.r},
+                        ${cor.g},
+                        ${cor.b},
+                        0.16
+                    )`
+
+                );
+
+
+                gradiente.addColorStop(
+
+                    1,
+
+                    `rgba(
+                        ${cor.r},
+                        ${cor.g},
+                        ${cor.b},
+                        0
+                    )`
+
+                );
+
+
+                ctx.fillStyle =
+                    gradiente;
+
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    px,
+                    py,
+                    raio,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+            }
         );
-
-        ctx.lineTo(
-            width - mapa.margem,
-            height - mapa.margem
-        );
-
-        ctx.stroke();
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            mapa.margem,
-            height - mapa.margem
-        );
-
-        ctx.lineTo(
-            mapa.margem,
-            mapa.margem
-        );
-
-        ctx.stroke();
 
 
         /*
         |--------------------------------------------------------------------------
-        | VALORES X / Y
+        | VALORES DOS EIXOS
         |--------------------------------------------------------------------------
         */
 
         ctx.fillStyle =
-            'rgba(255,255,255,0.45)';
+            'rgba(255,255,255,0.55)';
 
         ctx.font =
             '11px Arial';
@@ -2087,23 +2820,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 i * 10;
 
 
+            /*
+            |----------------------------------------------------------------------
+            | EIXO X
+            |----------------------------------------------------------------------
+            */
+
             const x =
                 mapa.margem +
-                (i / 10) *
+                (
+                    i / 10
+                ) *
                 mapa.largura;
 
 
             ctx.fillText(
+
                 valor,
+
                 x,
-                height - 25
+
+                height - 12
+
             );
 
+
+            /*
+            |----------------------------------------------------------------------
+            | EIXO Y
+            |----------------------------------------------------------------------
+            */
 
             const y =
                 height -
                 mapa.margem -
-                (i / 10) *
+                (
+                    i / 10
+                ) *
                 mapa.altura;
 
 
@@ -2112,9 +2865,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             ctx.fillText(
+
                 valor,
-                mapa.margem - 8,
+
+                mapa.margem - 17,
+
                 y + 4
+
             );
 
 
@@ -2130,141 +2887,158 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        pontosClima.forEach(function (ponto) {
+        pontosClima.forEach(
+            function (ponto, index) {
 
-            const x =
-                mapa.x(ponto.x);
+                const x =
+                    mapa.x(
+                        ponto.x
+                    );
 
-            const y =
-                mapa.y(ponto.y);
+                const y =
+                    mapa.y(
+                        ponto.y
+                    );
 
 
-            const cor =
-                corTemperatura(
-                    ponto.temperatura
+                const cor =
+                    corTemperatura(
+                        ponto.temperatura
+                    );
+
+
+                /*
+                |----------------------------------------------------------------------
+                | CÍRCULO EXTERNO
+                |----------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    x,
+                    y,
+                    6,
+                    0,
+                    Math.PI * 2
                 );
 
 
-            /*
-            |--------------------------------------------------------------
-            | PONTO
-            |--------------------------------------------------------------
-            */
+                ctx.fillStyle =
+                    `rgb(
+                        ${cor.r},
+                        ${cor.g},
+                        ${cor.b}
+                    )`;
 
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                y,
-                5,
-                0,
-                Math.PI * 2
-            );
+                ctx.fill();
 
 
-            ctx.fillStyle =
-                `rgb(
-                    ${cor.r},
-                    ${cor.g},
-                    ${cor.b}
-                )`;
+                ctx.strokeStyle =
+                    'rgba(255,255,255,0.75)';
 
-            ctx.fill();
+                ctx.lineWidth = 1.5;
+
+                ctx.stroke();
 
 
-            /*
-            |--------------------------------------------------------------
-            | BORDA
-            |--------------------------------------------------------------
-            */
+                /*
+                |----------------------------------------------------------------------
+                | NÚMERO DO PONTO
+                |----------------------------------------------------------------------
+                */
 
-            ctx.strokeStyle =
-                'rgba(255,255,255,0.55)';
+                ctx.fillStyle =
+                    'rgba(255,255,255,0.75)';
 
-            ctx.lineWidth = 1;
+                ctx.font =
+                    '9px Arial';
 
-            ctx.stroke();
-
-
-            /*
-            |--------------------------------------------------------------
-            | TEMPERATURA
-            |--------------------------------------------------------------
-            */
-
-            ctx.fillStyle =
-                '#dce8e2';
-
-            ctx.font =
-                '10px Arial';
-
-            ctx.textAlign =
-                'left';
+                ctx.textAlign =
+                    'center';
 
 
-            ctx.fillText(
+                ctx.fillText(
 
-                ponto.temperatura.toFixed(1) +
-                '°C',
+                    index + 1,
 
-                x + 8,
-                y + 3
+                    x,
 
-            );
+                    y - 10
 
-        });
+                );
+
+            }
+        );
 
 
         /*
         |--------------------------------------------------------------------------
-        | ROTA FUTURA
+        | ROTA COMPLETA
         |--------------------------------------------------------------------------
         */
 
-        ctx.beginPath();
+        if (
+            rotaVisual.length > 0
+        ) {
+
+            ctx.beginPath();
 
 
-        rota.forEach(function (ponto, index) {
+            rotaVisual.forEach(
+                function (
+                    ponto,
+                    index
+                ) {
 
-            const x =
-                mapa.x(ponto.x);
+                    const x =
+                        mapa.x(
+                            ponto.x
+                        );
 
-            const y =
-                mapa.y(ponto.y);
-
-
-            if (index === 0) {
-
-                ctx.moveTo(
-                    x,
-                    y
-                );
-
-            } else {
-
-                ctx.lineTo(
-                    x,
-                    y
-                );
-
-            }
-
-        });
+                    const y =
+                        mapa.y(
+                            ponto.y
+                        );
 
 
-        ctx.strokeStyle =
-            'rgba(255,255,255,0.12)';
+                    if (
+                        index === 0
+                    ) {
 
-        ctx.lineWidth = 2;
+                        ctx.moveTo(
+                            x,
+                            y
+                        );
 
-        ctx.setLineDash([
-            6,
-            6
-        ]);
+                    } else {
 
-        ctx.stroke();
+                        ctx.lineTo(
+                            x,
+                            y
+                        );
 
-        ctx.setLineDash([]);
+                    }
+
+                }
+            );
+
+
+            ctx.strokeStyle =
+                'rgba(255,255,255,0.18)';
+
+            ctx.lineWidth = 2;
+
+            ctx.setLineDash([
+                7,
+                7
+            ]);
+
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+
+        }
 
 
         /*
@@ -2273,7 +3047,9 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        if (pontoAtual >= 0) {
+        if (
+            rotaVisual.length > 0
+        ) {
 
             ctx.beginPath();
 
@@ -2285,17 +3061,23 @@ document.addEventListener('DOMContentLoaded', function () {
             ) {
 
                 const ponto =
-                    rota[i];
+                    rotaVisual[i];
 
 
                 const x =
-                    mapa.x(ponto.x);
+                    mapa.x(
+                        ponto.x
+                    );
 
                 const y =
-                    mapa.y(ponto.y);
+                    mapa.y(
+                        ponto.y
+                    );
 
 
-                if (i === 0) {
+                if (
+                    i === 0
+                ) {
 
                     ctx.moveTo(
                         x,
@@ -2315,57 +3097,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             /*
-            |--------------------------------------------------------------
+            |----------------------------------------------------------------------
             | TRECHO ATUAL
-            |--------------------------------------------------------------
+            |----------------------------------------------------------------------
             */
 
             if (
                 pontoAtual <
-                rota.length - 1
+                rotaVisual.length - 1
             ) {
 
                 const inicio =
-                    rota[pontoAtual];
+                    rotaVisual[
+                        pontoAtual
+                    ];
 
                 const fim =
-                    rota[pontoAtual + 1];
+                    rotaVisual[
+                        pontoAtual + 1
+                    ];
+
+
+                const movimento =
+                    suavizar(
+                        progresso
+                    );
 
 
                 const x =
                     interpolar(
+
                         inicio.x,
+
                         fim.x,
-                        progresso
+
+                        movimento
+
                     );
 
 
                 const y =
                     interpolar(
+
                         inicio.y,
+
                         fim.y,
-                        progresso
+
+                        movimento
+
                     );
 
 
                 ctx.lineTo(
+
                     mapa.x(x),
+
                     mapa.y(y)
+
                 );
 
             }
 
 
-            /*
-            |--------------------------------------------------------------
-            | DESENHO
-            |--------------------------------------------------------------
-            */
-
             ctx.strokeStyle =
                 '#4ade80';
 
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 5;
 
             ctx.lineJoin =
                 'round';
@@ -2384,38 +3181,77 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        rota.forEach(function (
-            ponto,
-            index
-        ) {
+        rotaVisual.forEach(
+            function (
+                ponto,
+                index
+            ) {
 
-            const x =
-                mapa.x(ponto.x);
+                const x =
+                    mapa.x(
+                        ponto.x
+                    );
 
-            const y =
-                mapa.y(ponto.y);
-
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                y,
-                3,
-                0,
-                Math.PI * 2
-            );
+                const y =
+                    mapa.y(
+                        ponto.y
+                    );
 
 
-            ctx.fillStyle =
-                index <= pontoAtual
-                    ? '#4ade80'
-                    : 'rgba(255,255,255,0.25)';
+                /*
+                |----------------------------------------------------------------------
+                | ANEL
+                |----------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    x,
+                    y,
+                    6,
+                    0,
+                    Math.PI * 2
+                );
 
 
-            ctx.fill();
+                ctx.strokeStyle =
+                    index <= pontoAtual
+                        ? 'rgba(74,222,128,0.35)'
+                        : 'rgba(255,255,255,0.18)';
 
-        });
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                /*
+                |----------------------------------------------------------------------
+                | PONTO
+                |----------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    x,
+                    y,
+                    3.5,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle =
+                    index <= pontoAtual
+                        ? '#4ade80'
+                        : '#94a3a0';
+
+
+                ctx.fill();
+
+            }
+        );
 
 
         /*
@@ -2424,51 +3260,65 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        const inicioX =
-            mapa.x(
-                rota[0].x
+        if (
+            rotaVisual.length > 0
+        ) {
+
+            const inicio =
+                rotaVisual[0];
+
+
+            const inicioX =
+                mapa.x(
+                    inicio.x
+                );
+
+            const inicioY =
+                mapa.y(
+                    inicio.y
+                );
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                inicioX,
+                inicioY,
+                11,
+                0,
+                Math.PI * 2
             );
 
-        const inicioY =
-            mapa.y(
-                rota[0].y
+
+            ctx.strokeStyle =
+                '#94a3b8';
+
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+
+            ctx.fillStyle =
+                '#cbd5e1';
+
+            ctx.font =
+                'bold 10px Arial';
+
+            ctx.textAlign =
+                'left';
+
+
+            ctx.fillText(
+
+                'INÍCIO',
+
+                inicioX + 15,
+
+                inicioY + 4
+
             );
 
-
-        ctx.beginPath();
-
-        ctx.arc(
-            inicioX,
-            inicioY,
-            8,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.strokeStyle =
-            '#94a3b8';
-
-        ctx.lineWidth = 2;
-
-        ctx.stroke();
-
-
-        ctx.fillStyle =
-            '#cbd5e1';
-
-        ctx.font =
-            'bold 10px Arial';
-
-        ctx.textAlign =
-            'left';
-
-
-        ctx.fillText(
-            'INÍCIO',
-            inicioX + 12,
-            inicioY + 4
-        );
+        }
 
 
         /*
@@ -2493,7 +3343,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.arc(
             destinoX,
             destinoY,
-            13,
+            15,
             0,
             Math.PI * 2
         );
@@ -2512,7 +3362,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.arc(
             destinoX,
             destinoY,
-            4,
+            5,
             0,
             Math.PI * 2
         );
@@ -2530,210 +3380,193 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.font =
             'bold 10px Arial';
 
+        ctx.textAlign =
+            'left';
+
 
         ctx.fillText(
+
             'DESTINO',
-            destinoX + 18,
+
+            destinoX + 19,
+
             destinoY + 4
+
         );
 
 
         /*
         |--------------------------------------------------------------------------
-        | OBJETOS
+        | OBJETOS DETECTADOS
         |--------------------------------------------------------------------------
         */
 
-        objetos.forEach(function (objeto) {
+        objetos.forEach(
+            function (objeto) {
 
-            const x =
-                mapa.x(objeto.x);
+                const x =
+                    mapa.x(
+                        objeto.x
+                    );
 
-            const y =
-                mapa.y(objeto.y);
-
-
-            /*
-            |--------------------------------------------------------------
-            | ÁREA DE DETECÇÃO
-            |--------------------------------------------------------------
-            */
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                y,
-                16,
-                0,
-                Math.PI * 2
-            );
+                const y =
+                    mapa.y(
+                        objeto.y
+                    );
 
 
-            ctx.fillStyle =
-                'rgba(245,158,11,0.10)';
+                /*
+                |----------------------------------------------------------------------
+                | ÁREA DE DETECÇÃO
+                |----------------------------------------------------------------------
+                */
 
-            ctx.fill();
+                ctx.beginPath();
 
-
-            ctx.strokeStyle =
-                'rgba(245,158,11,0.30)';
-
-            ctx.stroke();
-
-
-            /*
-            |--------------------------------------------------------------
-            | PONTO
-            |--------------------------------------------------------------
-            */
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                y,
-                6,
-                0,
-                Math.PI * 2
-            );
+                ctx.arc(
+                    x,
+                    y,
+                    22,
+                    0,
+                    Math.PI * 2
+                );
 
 
-            ctx.fillStyle =
-                '#f59e0b';
+                ctx.fillStyle =
+                    'rgba(245,158,11,0.08)';
 
-            ctx.fill();
-
-
-            /*
-            |--------------------------------------------------------------
-            | NOME
-            |--------------------------------------------------------------
-            */
-
-            ctx.fillStyle =
-                '#f8fafc';
-
-            ctx.font =
-                '11px Arial';
-
-            ctx.textAlign =
-                'left';
+                ctx.fill();
 
 
-            ctx.fillText(
-                objeto.tipo,
-                x + 12,
-                y - 8
-            );
+                ctx.strokeStyle =
+                    'rgba(245,158,11,0.35)';
 
-        });
+                ctx.lineWidth = 1;
+
+                ctx.stroke();
+
+
+                /*
+                |----------------------------------------------------------------------
+                | OBJETO
+                |----------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    x,
+                    y,
+                    8,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle =
+                    '#f59e0b';
+
+                ctx.fill();
+
+
+                ctx.strokeStyle =
+                    '#fff';
+
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                /*
+                |----------------------------------------------------------------------
+                | NOME
+                |----------------------------------------------------------------------
+                */
+
+                ctx.fillStyle =
+                    '#f8fafc';
+
+                ctx.font =
+                    'bold 11px Arial';
+
+                ctx.textAlign =
+                    'left';
+
+
+                ctx.fillText(
+
+                    objeto.tipo,
+
+                    x + 15,
+
+                    y - 10
+
+                );
+
+            }
+        );
 
 
         /*
         |--------------------------------------------------------------------------
-        | POSIÇÃO ATUAL DO ROBÔ
+        | POSIÇÃO VISUAL DO ROBÔ
         |--------------------------------------------------------------------------
         */
 
-        if (
-            pontoAtual <
-            rota.length - 1
-        ) {
-
-            const inicio =
-                rota[pontoAtual];
-
-            const fim =
-                rota[pontoAtual + 1];
-
-
-            robo.x =
-                interpolar(
-                    inicio.x,
-                    fim.x,
-                    progresso
-                );
-
-
-            robo.y =
-                interpolar(
-                    inicio.y,
-                    fim.y,
-                    progresso
-                );
-
-        } else {
-
-            robo.x =
-                rota[
-                    rota.length - 1
-                ].x;
-
-            robo.y =
-                rota[
-                    rota.length - 1
-                ].y;
-
-        }
+        const posicaoVisual =
+            obterPosicaoVisual();
 
 
         const roboX =
-            mapa.x(robo.x);
+            mapa.x(
+                posicaoVisual.x
+            );
+
 
         const roboY =
-            mapa.y(robo.y);
+            mapa.y(
+                posicaoVisual.y
+            );
 
 
         /*
         |--------------------------------------------------------------------------
-        | CLIMA NA POSIÇÃO DO ROBÔ
+        | POSIÇÃO REAL
         |--------------------------------------------------------------------------
         */
 
-        const climaAtual =
+        const posicaoReal =
+            obterPosicaoReal();
+
+
+        robo.x =
+            posicaoReal.x;
+
+        robo.y =
+            posicaoReal.y;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CLIMA
+        |--------------------------------------------------------------------------
+        */
+
+        const clima =
             obterClima(
+
                 robo.x,
+
                 robo.y
+
             );
 
 
         robo.temperatura =
-            climaAtual.temperatura;
+            clima.temperatura;
 
         robo.umidade =
-            climaAtual.umidade;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CÍRCULO DE DETECÇÃO
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.beginPath();
-
-        ctx.arc(
-            roboX,
-            roboY,
-            25,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle =
-            'rgba(74,222,128,0.08)';
-
-        ctx.fill();
-
-
-        ctx.strokeStyle =
-            'rgba(74,222,128,0.25)';
-
-        ctx.lineWidth = 1;
-
-        ctx.stroke();
+            clima.umidade;
 
 
         /*
@@ -2747,43 +3580,80 @@ document.addEventListener('DOMContentLoaded', function () {
             rota.length - 1
         ) {
 
+            robo.direcao =
+                calcularDirecao(
+
+                    rota[pontoAtual],
+
+                    rota[pontoAtual + 1]
+
+                );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CÍRCULO DE DETECÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        ctx.beginPath();
+
+        ctx.arc(
+            roboX,
+            roboY,
+            32,
+            0,
+            Math.PI * 2
+        );
+
+
+        ctx.fillStyle =
+            'rgba(74,222,128,0.07)';
+
+        ctx.fill();
+
+
+        ctx.strokeStyle =
+            'rgba(74,222,128,0.30)';
+
+        ctx.lineWidth = 1.5;
+
+        ctx.stroke();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SETA DE DIREÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            pontoAtual <
+            rota.length - 1
+        ) {
+
             const inicio =
-                rota[pontoAtual];
+                rotaVisual[
+                    pontoAtual
+                ];
 
             const fim =
-                rota[pontoAtual + 1];
+                rotaVisual[
+                    pontoAtual + 1
+                ];
 
 
             const dx =
-                fim.x - inicio.x;
+                fim.x -
+                inicio.x;
+
 
             const dy =
-                fim.y - inicio.y;
+                fim.y -
+                inicio.y;
 
-
-            robo.direcao =
-                Math.atan2(
-                    dy,
-                    dx
-                ) *
-                180 /
-                Math.PI;
-
-
-            if (
-                robo.direcao < 0
-            ) {
-
-                robo.direcao += 360;
-
-            }
-
-
-            /*
-            |--------------------------------------------------------------
-            | SETA
-            |--------------------------------------------------------------
-            */
 
             const angulo =
                 Math.atan2(
@@ -2792,8 +3662,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 );
 
 
-            const tamanhoSeta =
-                25;
+            const tamanho = 34;
 
 
             const setaX =
@@ -2801,7 +3670,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Math.cos(
                     angulo
                 ) *
-                tamanhoSeta;
+                tamanho;
 
 
             const setaY =
@@ -2809,7 +3678,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Math.sin(
                     angulo
                 ) *
-                tamanhoSeta;
+                tamanho;
 
 
             ctx.beginPath();
@@ -2836,14 +3705,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ctx.stroke();
 
 
-            /*
-            |--------------------------------------------------------------
-            | PONTA DA SETA
-            |--------------------------------------------------------------
-            */
-
-            const tamanhoPonta =
-                7;
+            const ponta = 8;
 
 
             ctx.beginPath();
@@ -2860,13 +3722,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 Math.cos(
                     angulo - 0.5
                 ) *
-                tamanhoPonta,
+                ponta,
 
                 setaY -
                 Math.sin(
                     angulo - 0.5
                 ) *
-                tamanhoPonta
+                ponta
 
             );
 
@@ -2877,18 +3739,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 Math.cos(
                     angulo + 0.5
                 ) *
-                tamanhoPonta,
+                ponta,
 
                 setaY -
                 Math.sin(
                     angulo + 0.5
                 ) *
-                tamanhoPonta
+                ponta
 
             );
 
 
             ctx.closePath();
+
 
             ctx.fillStyle =
                 '#22c55e';
@@ -2909,7 +3772,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.arc(
             roboX,
             roboY,
-            10,
+            12,
             0,
             Math.PI * 2
         );
@@ -2931,7 +3794,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | IDENTIFICAÇÃO
+        | NOME DO ROBÔ
         |--------------------------------------------------------------------------
         */
 
@@ -2946,35 +3809,134 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         ctx.fillText(
+
             'ROBÔ',
-            roboX + 17,
-            roboY - 12
-        );
 
+            roboX + 19,
 
-        ctx.fillStyle =
-            'rgba(255,255,255,0.60)';
-
-        ctx.font =
-            '10px Arial';
-
-
-        ctx.fillText(
-
-            'X: ' +
-            robo.x.toFixed(1) +
-            ' | Y: ' +
-            robo.y.toFixed(1),
-
-            roboX + 17,
-            roboY + 3
+            roboY - 21
 
         );
 
 
         /*
         |--------------------------------------------------------------------------
-        | TEMPERATURA DO ROBÔ
+        | COORDENADAS
+        |--------------------------------------------------------------------------
+        */
+
+        const textoX =
+            'X: ' +
+            robo.x.toFixed(1);
+
+
+        const textoY =
+            'Y: ' +
+            robo.y.toFixed(1);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FUNDO DAS COORDENADAS
+        |--------------------------------------------------------------------------
+        */
+
+        ctx.fillStyle =
+            'rgba(10,20,16,0.94)';
+
+
+        ctx.beginPath();
+
+
+        if (
+            ctx.roundRect
+        ) {
+
+            ctx.roundRect(
+
+                roboX + 15,
+
+                roboY + 7,
+
+                104,
+
+                27,
+
+                6
+
+            );
+
+        } else {
+
+            ctx.rect(
+
+                roboX + 15,
+
+                roboY + 7,
+
+                104,
+
+                27
+
+            );
+
+        }
+
+
+        ctx.fill();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | X
+        |--------------------------------------------------------------------------
+        */
+
+        ctx.font =
+            'bold 11px Arial';
+
+        ctx.fillStyle =
+            '#69c174';
+
+        ctx.textAlign =
+            'left';
+
+
+        ctx.fillText(
+
+            textoX,
+
+            roboX + 22,
+
+            roboY + 25
+
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Y
+        |--------------------------------------------------------------------------
+        */
+
+        ctx.fillStyle =
+            '#55b9d9';
+
+
+        ctx.fillText(
+
+            textoY,
+
+            roboX + 72,
+
+            roboY + 25
+
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TEMPERATURA
         |--------------------------------------------------------------------------
         */
 
@@ -2984,14 +3946,18 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.font =
             'bold 10px Arial';
 
+        ctx.textAlign =
+            'left';
+
 
         ctx.fillText(
 
             robo.temperatura.toFixed(1) +
             '°C',
 
-            roboX + 17,
-            roboY + 17
+            roboX + 18,
+
+            roboY + 43
 
         );
 
@@ -3000,18 +3966,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | ATUALIZAR PAINEL
+    | ATUALIZA INFORMAÇÕES
     |--------------------------------------------------------------------------
     */
 
     function atualizarInformacoes() {
 
-        const x =
+        const posicaoX =
             document.getElementById(
                 'posicaoX'
             );
 
-        const y =
+        const posicaoY =
             document.getElementById(
                 'posicaoY'
             );
@@ -3057,17 +4023,17 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
 
-        if (x) {
+        if (posicaoX) {
 
-            x.innerText =
+            posicaoX.innerText =
                 robo.x.toFixed(1);
 
         }
 
 
-        if (y) {
+        if (posicaoY) {
 
-            y.innerText =
+            posicaoY.innerText =
                 robo.y.toFixed(1);
 
         }
@@ -3103,7 +4069,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (bateria) {
 
             bateria.innerText =
-                robo.bateria +
+                Math.round(
+                    robo.bateria
+                ) +
                 '%';
 
         }
@@ -3121,7 +4089,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (umidade) {
 
             umidade.innerText =
-                robo.umidade +
+                Math.round(
+                    robo.umidade
+                ) +
                 '%';
 
         }
@@ -3145,20 +4115,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        const ultima =
+        const ultimaAtualizacao =
             document.getElementById(
                 'ultimaAtualizacao'
             );
 
 
-        if (ultima) {
+        if (ultimaAtualizacao) {
 
-            const agora =
-                new Date();
-
-
-            ultima.innerText =
-                agora.toLocaleTimeString(
+            ultimaAtualizacao.innerText =
+                new Date().toLocaleTimeString(
                     'pt-BR'
                 );
 
@@ -3176,13 +4142,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function animar() {
 
         if (
-            pontoAtual >=
-            rota.length - 1
+            !emExecucao
         ) {
 
-            desenharMapa();
+            return;
 
-            atualizarInformacoes();
+        }
+
+
+        if (
+            rota.length < 2
+        ) {
+
+            emExecucao = false;
+
+            atualizarBotoes();
 
             return;
 
@@ -3191,16 +4165,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | VELOCIDADE DA ANIMAÇÃO
+        | VELOCIDADE
         |--------------------------------------------------------------------------
         */
 
-        progresso += 0.008;
+        progresso += 0.006;
 
 
         /*
         |--------------------------------------------------------------------------
-        | CHEGOU AO PRÓXIMO PONTO
+        | AVANÇA PONTO
         |--------------------------------------------------------------------------
         */
 
@@ -3211,6 +4185,44 @@ document.addEventListener('DOMContentLoaded', function () {
             progresso = 0;
 
             pontoAtual++;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FINAL DA ROTA
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            pontoAtual >=
+            rota.length - 1
+        ) {
+
+            pontoAtual =
+                rota.length - 1;
+
+            progresso = 0;
+
+
+            distanciaPercorrida =
+                distanciaTotal;
+
+
+            robo.bateria = 67;
+
+
+            desenharMapa();
+
+            atualizarInformacoes();
+
+
+            emExecucao = false;
+
+            atualizarBotoes();
+
+            return;
 
         }
 
@@ -3232,8 +4244,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             distancia +=
                 calcularDistancia(
+
                     rota[i - 1],
+
                     rota[i]
+
                 );
 
         }
@@ -3241,27 +4256,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | DISTÂNCIA DO TRECHO ATUAL
+        | TRECHO ATUAL
         |--------------------------------------------------------------------------
         */
 
-        if (
-            pontoAtual <
-            rota.length - 1
-        ) {
+        const trechoAtual =
+            calcularDistancia(
 
-            const trecho =
-                calcularDistancia(
-                    rota[pontoAtual],
-                    rota[pontoAtual + 1]
-                );
+                rota[pontoAtual],
+
+                rota[pontoAtual + 1]
+
+            );
 
 
-            distancia +=
-                trecho *
-                progresso;
-
-        }
+        distancia +=
+            trechoAtual *
+            progresso;
 
 
         distanciaPercorrida =
@@ -3270,31 +4281,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | REDUZ BATERIA
+        | BATERIA
         |--------------------------------------------------------------------------
         */
 
-        robo.bateria =
-            Math.max(
-                15,
-                87 -
-                (
-                    distanciaPercorrida /
-                    distanciaTotal
-                ) *
-                20
-            );
+        if (
+            distanciaTotal > 0
+        ) {
 
+            robo.bateria =
+                Math.max(
 
-        robo.bateria =
-            Math.round(
-                robo.bateria
-            );
+                    15,
+
+                    87 -
+                    (
+                        distanciaPercorrida /
+                        distanciaTotal
+                    ) *
+                    20
+
+                );
+
+        }
 
 
         /*
         |--------------------------------------------------------------------------
-        | DESENHAR
+        | DESENHA
         |--------------------------------------------------------------------------
         */
 
@@ -3303,24 +4317,18 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarInformacoes();
 
 
-        requestAnimationFrame(
-            animar
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | PRÓXIMO FRAME
+        |--------------------------------------------------------------------------
+        */
+
+        animacaoId =
+            requestAnimationFrame(
+                animar
+            );
 
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | INICIALIZAÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    ajustarCanvas();
-
-    desenharMapa();
-
-    atualizarInformacoes();
 
 
     /*
@@ -3329,16 +4337,383 @@ document.addEventListener('DOMContentLoaded', function () {
     |--------------------------------------------------------------------------
     */
 
-    setTimeout(
-        function () {
+    function iniciarAnimacao() {
 
+        if (
+            emExecucao ||
+            rota.length < 2
+        ) {
+
+            return;
+
+        }
+
+
+        emExecucao = true;
+
+        atualizarBotoes();
+
+
+        animacaoId =
             requestAnimationFrame(
                 animar
             );
 
-        },
-        800
-    );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PARAR
+    |--------------------------------------------------------------------------
+    */
+
+    function pararAnimacao() {
+
+        emExecucao = false;
+
+
+        if (
+            animacaoId
+        ) {
+
+            cancelAnimationFrame(
+                animacaoId
+            );
+
+            animacaoId = null;
+
+        }
+
+
+        atualizarBotoes();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | REINICIAR
+    |--------------------------------------------------------------------------
+    */
+
+    function reiniciarAnimacao() {
+
+        pararAnimacao();
+
+
+        pontoAtual = 0;
+
+        progresso = 0;
+
+        distanciaPercorrida = 0;
+
+
+        robo.bateria = 87;
+
+
+        if (
+            rota.length > 0
+        ) {
+
+            robo.x =
+                rota[0].x;
+
+            robo.y =
+                rota[0].y;
+
+
+            robo.temperatura =
+                rota[0].temperatura;
+
+
+            robo.umidade =
+                rota[0].umidade;
+
+        }
+
+
+        desenharMapa();
+
+        atualizarInformacoes();
+
+        atualizarBotoes();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EVENTOS DOS BOTÕES
+    |--------------------------------------------------------------------------
+    */
+
+    if (btnIniciar) {
+
+        btnIniciar.addEventListener(
+            'click',
+            iniciarAnimacao
+        );
+
+    }
+
+
+    if (btnParar) {
+
+        btnParar.addEventListener(
+            'click',
+            pararAnimacao
+        );
+
+    }
+
+
+    if (btnReiniciar) {
+
+        btnReiniciar.addEventListener(
+            'click',
+            reiniciarAnimacao
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CARREGA DADOS DO BANCO
+    |--------------------------------------------------------------------------
+    */
+
+    function carregarMedicoes() {
+
+        fetch(
+            '/monitoramento/dados'
+        )
+
+        .then(
+            function (response) {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        'Erro HTTP: ' +
+                        response.status
+                    );
+
+                }
+
+                return response.json();
+
+            }
+        )
+
+        .then(
+            function (data) {
+
+                medicoes =
+                    data;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | TRANSFORMA BANCO EM ROTA
+                |--------------------------------------------------------------------------
+                */
+
+                rota =
+                    medicoes
+                    .map(
+                        function (medicao) {
+
+                            return {
+
+                                x:
+                                    parseFloat(
+                                        medicao.x
+                                    ),
+
+                                y:
+                                    parseFloat(
+                                        medicao.y
+                                    ),
+
+                                temperatura:
+                                    parseFloat(
+                                        medicao.temperatura
+                                    ),
+
+                                umidade:
+                                    parseFloat(
+                                        medicao.umidade
+                                    ),
+
+                                recebidaEm:
+                                    medicao.recebida_em
+
+                            };
+
+                        }
+                    )
+                    .filter(
+                        function (ponto) {
+
+                            return (
+
+                                !isNaN(
+                                    ponto.x
+                                )
+
+                                &&
+
+                                !isNaN(
+                                    ponto.y
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | ORDENA POR DATA
+                |--------------------------------------------------------------------------
+                */
+
+                rota.sort(
+                    function (a, b) {
+
+                        return (
+
+                            new Date(
+                                a.recebidaEm
+                            )
+
+                            -
+
+                            new Date(
+                                b.recebidaEm
+                            )
+
+                        );
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | NENHUM DADO
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    rota.length === 0
+                ) {
+
+                    console.warn(
+                        'Nenhuma medição encontrada.'
+                    );
+
+                    dadosCarregados =
+                        true;
+
+                    atualizarBotoes();
+
+                    return;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CRIA ROTA VISUAL
+                |--------------------------------------------------------------------------
+                */
+
+                criarRotaVisual();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CALCULA DISTÂNCIA
+                |--------------------------------------------------------------------------
+                */
+
+                calcularDistanciaTotal();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | ESTADO INICIAL
+                |--------------------------------------------------------------------------
+                */
+
+                pontoAtual = 0;
+
+                progresso = 0;
+
+                distanciaPercorrida = 0;
+
+
+                robo.x =
+                    rota[0].x;
+
+                robo.y =
+                    rota[0].y;
+
+
+                robo.temperatura =
+                    rota[0].temperatura;
+
+
+                robo.umidade =
+                    rota[0].umidade;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PRIMEIRO DESENHO
+                |--------------------------------------------------------------------------
+                */
+
+                ajustarCanvas();
+
+                desenharMapa();
+
+                atualizarInformacoes();
+
+
+                dadosCarregados = true;
+
+                atualizarBotoes();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | COMEÇA PARADO — O USUÁRIO INICIA PELO BOTÃO
+                |--------------------------------------------------------------------------
+                */
+
+            }
+        )
+
+        .catch(
+            function (error) {
+
+                console.error(
+
+                    'Erro ao carregar medições:',
+
+                    error
+
+                );
+
+            }
+        );
+
+    }
 
 
     /*
@@ -3351,7 +4726,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     window.addEventListener(
+
         'resize',
+
         function () {
 
             clearTimeout(
@@ -3361,6 +4738,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             resizeTimeout =
                 setTimeout(
+
                     function () {
 
                         ajustarCanvas();
@@ -3368,16 +4746,28 @@ document.addEventListener('DOMContentLoaded', function () {
                         desenharMapa();
 
                     },
+
                     100
+
                 );
 
         }
+
     );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INICIA
+    |--------------------------------------------------------------------------
+    */
+
+    atualizarBotoes();
+
+    carregarMedicoes();
 
 });
 
 </script>
 
 @endsection
-
-
