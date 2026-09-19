@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\RoboController;
+use App\Http\Controllers\MonitoramentoController;
 
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
@@ -15,6 +16,7 @@ Route::middleware(['autenticado'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/carrinhos', [CarrinhoController::class, 'index'])->name('carrinhos.index');
+    Route::get('/monitoramento/dados', [MonitoramentoController::class, 'dados']);
 
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
     Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
