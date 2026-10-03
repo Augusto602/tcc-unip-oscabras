@@ -64,7 +64,7 @@ class AuthController extends Controller
             $usuario->cad_usuario_tipo_login ?? 'Cliente'
         );
 
-        return redirect()->route('dashboard');
+        return redirect()->route('index.informacoes');
     }
 
     public function logout(Request $request)

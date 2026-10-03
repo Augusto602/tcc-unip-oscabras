@@ -26,8 +26,8 @@
                 </svg>
             </div>
 
-            <p class="nome">Sistema Agrícola</p>
-            <p class="sub_nome">Automação Agrícola</p>
+            <p class="nome">Sistema Integrado De Navegação Autônoma</p>
+            <p class="sub_nome">Agricultura Inteligente</p>
         </div>
 
         <div class="card">
@@ -92,7 +92,7 @@
             </form>
         </div>
 
-        <p class="footer-note">Sistema Agrícola v1.0 · Safra 2025/26</p>
+        <p class="footer-note">Sistema Agrícola v1.0 º TCC 2026</p>
     </div>
 </body>
 </html>

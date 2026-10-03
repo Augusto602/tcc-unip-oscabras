@@ -7,6 +7,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\RoboController;
 use App\Http\Controllers\MonitoramentoController;
+use App\Http\Controllers\InformacoesController;
 
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
@@ -25,4 +26,6 @@ Route::middleware(['autenticado'])->group(function () {
     Route::get('/robo', [RoboController::class, 'index'])->name('robo.index');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+   Route::get('/informacoes', [InformacoesController::class, 'index'])->name('index.informacoes');
 });
