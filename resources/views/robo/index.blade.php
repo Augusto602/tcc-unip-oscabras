@@ -170,26 +170,6 @@
 
         </div>
 
-
-        {{-- BATERIA --}}
-        <div class="robo-stat">
-
-            <div class="stat-icon battery">
-                <i class="fa-solid fa-battery-three-quarters"></i>
-            </div>
-
-            <div class="stat-info">
-
-                <span>Bateria</span>
-
-                <strong id="bateria">87%</strong>
-
-                <small>carga atual</small>
-
-            </div>
-
-        </div>
-
     </div>
 
 
@@ -229,7 +209,7 @@
 
                     <span class="gps-dot"></span>
 
-                    GPS ATIVO
+                    LOCALIZAÇÃO 
 
                 </div>
 
@@ -322,31 +302,7 @@
 
                     </div>
 
-
-                    <div class="environment-item">
-
-                        <i class="fa-solid fa-wind"></i>
-
-                        <span>Vento</span>
-
-                        <strong id="vento">
-                            12.3 km/h
-                        </strong>
-
-                    </div>
-
-
-                    <div class="environment-item">
-
-                        <i class="fa-solid fa-cloud-rain"></i>
-
-                        <span>Chuva</span>
-
-                        <strong id="chuva">
-                            0 mm
-                        </strong>
-
-                    </div>
+                    
 
                 </div>
 
@@ -489,7 +445,7 @@
 
                         <i class="fa-solid fa-location-crosshairs"></i>
 
-                        GPS
+                        Localização
 
                     </span>
 
@@ -574,7 +530,7 @@ body {
 
 .robo-dashboard {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     padding: 22px 25px 60px;
     box-sizing: border-box;
     color: #e6eee9;
@@ -762,7 +718,7 @@ body {
     display: grid;
 
     grid-template-columns:
-        repeat(6, minmax(130px, 1fr));
+        repeat(5, minmax(130px, 1fr));
 
     gap: 14px;
 
@@ -930,12 +886,12 @@ body {
     display: grid;
 
     grid-template-columns:
-        minmax(0, 2.2fr)
-        minmax(300px, .8fr);
+        minmax(0, 3fr)
+        minmax(280px, 1fr);
 
     gap: 18px;
 
-    align-items: stretch;
+    width: 100%;
 }
 
 
@@ -1418,8 +1374,10 @@ body {
 
     .robo-content {
         grid-template-columns:
-            minmax(0, 1.8fr)
-            minmax(280px, .8fr);
+            minmax(0, 2.5fr)
+            minmax(260px, 1fr);
+
+        gap: 16px;
     }
 
 }
@@ -1429,10 +1387,11 @@ body {
 
     .robo-content {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .map-wrapper {
-        height: 480px;
+        height: 500px;
     }
 
 }
@@ -3972,161 +3931,84 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function atualizarInformacoes() {
 
-        const posicaoX =
-            document.getElementById(
-                'posicaoX'
-            );
+        const posicaoX = document.getElementById('posicaoX');
 
-        const posicaoY =
-            document.getElementById(
-                'posicaoY'
-            );
+        const posicaoY = document.getElementById('posicaoY');
 
-        const distancia =
-            document.getElementById(
-                'distancia'
-            );
+        const distancia = document.getElementById('distancia');
 
-        const direcao =
-            document.getElementById(
-                'direcao'
-            );
+        const direcao = document.getElementById('direcao');
 
-        const velocidade =
-            document.getElementById(
-                'velocidade'
-            );
+        const velocidade = document.getElementById('velocidade');
 
-        const bateria =
-            document.getElementById(
-                'bateria'
-            );
+        const bateria = document.getElementById('bateria');
 
-        const temperatura =
-            document.getElementById(
-                'temperatura'
-            );
+        const temperatura = document.getElementById('temperatura');
 
-        const umidade =
-            document.getElementById(
-                'umidade'
-            );
-
-        const vento =
-            document.getElementById(
-                'vento'
-            );
-
-        const chuva =
-            document.getElementById(
-                'chuva'
-            );
+        const umidade = document.getElementById('umidade');
 
 
         if (posicaoX) {
 
-            posicaoX.innerText =
-                robo.x.toFixed(1);
+            posicaoX.innerText = robo.x.toFixed(1);
 
         }
 
 
         if (posicaoY) {
 
-            posicaoY.innerText =
-                robo.y.toFixed(1);
+            posicaoY.innerText = robo.y.toFixed(1);
 
         }
 
 
         if (distancia) {
 
-            distancia.innerText =
-                distanciaPercorrida.toFixed(1);
+            distancia.innerText = distanciaPercorrida.toFixed(1);
 
         }
 
 
         if (direcao) {
 
-            direcao.innerText =
-                Math.round(
-                    robo.direcao
-                ) +
-                '°';
+            direcao.innerText = Math.round(robo.direcao) + '°';
 
         }
 
 
         if (velocidade) {
 
-            velocidade.innerText =
-                robo.velocidade.toFixed(1);
+            velocidade.innerText = robo.velocidade.toFixed(1);
 
         }
 
 
         if (bateria) {
 
-            bateria.innerText =
-                Math.round(
-                    robo.bateria
-                ) +
-                '%';
+            bateria.innerText = Math.round(robo.bateria) + '%';
 
         }
 
 
         if (temperatura) {
 
-            temperatura.innerText =
-                robo.temperatura.toFixed(1) +
-                '°C';
+            temperatura.innerText = robo.temperatura.toFixed(1) + '°C';
 
         }
 
 
         if (umidade) {
 
-            umidade.innerText =
-                Math.round(
-                    robo.umidade
-                ) +
-                '%';
+            umidade.innerText = Math.round(robo.umidade) + '%';
 
         }
 
-
-        if (vento) {
-
-            vento.innerText =
-                robo.vento.toFixed(1) +
-                ' km/h';
-
-        }
-
-
-        if (chuva) {
-
-            chuva.innerText =
-                robo.chuva +
-                ' mm';
-
-        }
-
-
-        const ultimaAtualizacao =
-            document.getElementById(
-                'ultimaAtualizacao'
-            );
+        const ultimaAtualizacao = document.getElementById('ultimaAtualizacao');
 
 
         if (ultimaAtualizacao) {
 
-            ultimaAtualizacao.innerText =
-                new Date().toLocaleTimeString(
-                    'pt-BR'
-                );
+            ultimaAtualizacao.innerText = new Date().toLocaleTimeString('pt-BR');
 
         }
 
@@ -4141,18 +4023,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function animar() {
 
-        if (
-            !emExecucao
-        ) {
+        if (!emExecucao){
 
             return;
 
         }
 
 
-        if (
-            rota.length < 2
-        ) {
+        if (rota.length < 2) {
 
             emExecucao = false;
 
@@ -4178,9 +4056,7 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        if (
-            progresso >= 1
-        ) {
+        if (progresso >= 1) {
 
             progresso = 0;
 
@@ -4195,19 +4071,14 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        if (
-            pontoAtual >=
-            rota.length - 1
-        ) {
+        if (pontoAtual >= rota.length - 1) {
 
-            pontoAtual =
-                rota.length - 1;
+            pontoAtual = rota.length - 1;
 
             progresso = 0;
 
 
-            distanciaPercorrida =
-                distanciaTotal;
+            distanciaPercorrida = distanciaTotal;
 
 
             robo.bateria = 67;
@@ -4216,7 +4087,6 @@ document.addEventListener('DOMContentLoaded', function () {
             desenharMapa();
 
             atualizarInformacoes();
-
 
             emExecucao = false;
 
@@ -4236,20 +4106,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let distancia = 0;
 
 
-        for (
-            let i = 1;
-            i <= pontoAtual;
-            i++
-        ) {
+        for (let i = 1; i <= pontoAtual;i++) {
 
-            distancia +=
-                calcularDistancia(
+            distancia += calcularDistancia(
+                            rota[i - 1],
 
-                    rota[i - 1],
+                            rota[i]
 
-                    rota[i]
-
-                );
+                        );
 
         }
 
@@ -4260,23 +4124,18 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        const trechoAtual =
-            calcularDistancia(
+        const trechoAtual = calcularDistancia(
+                                rota[pontoAtual],
 
-                rota[pontoAtual],
+                                rota[pontoAtual + 1]
 
-                rota[pontoAtual + 1]
-
-            );
+                            );
 
 
-        distancia +=
-            trechoAtual *
-            progresso;
+        distancia += trechoAtual * progresso;
 
 
-        distanciaPercorrida =
-            distancia;
+        distanciaPercorrida = distancia;
 
 
         /*
@@ -4285,23 +4144,9 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        if (
-            distanciaTotal > 0
-        ) {
+        if (distanciaTotal > 0){
 
-            robo.bateria =
-                Math.max(
-
-                    15,
-
-                    87 -
-                    (
-                        distanciaPercorrida /
-                        distanciaTotal
-                    ) *
-                    20
-
-                );
+            robo.bateria = Math.max(15,87 - (distanciaPercorrida /distanciaTotal) * 20);
 
         }
 
@@ -4323,10 +4168,7 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         */
 
-        animacaoId =
-            requestAnimationFrame(
-                animar
-            );
+        animacaoId = requestAnimationFrame(animar);
 
     }
 
@@ -4339,25 +4181,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function iniciarAnimacao() {
 
-        if (
-            emExecucao ||
-            rota.length < 2
-        ) {
+        if (emExecucao || rota.length < 2){
 
             return;
 
         }
 
-
         emExecucao = true;
 
         atualizarBotoes();
 
-
-        animacaoId =
-            requestAnimationFrame(
-                animar
-            );
+        animacaoId = requestAnimationFrame(animar);
 
     }
 
@@ -4373,14 +4207,9 @@ document.addEventListener('DOMContentLoaded', function () {
         emExecucao = false;
 
 
-        if (
-            animacaoId
-        ) {
+        if (animacaoId){
 
-            cancelAnimationFrame(
-                animacaoId
-            );
-
+            cancelAnimationFrame(animacaoId);
             animacaoId = null;
 
         }
@@ -4401,7 +4230,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         pararAnimacao();
 
-
         pontoAtual = 0;
 
         progresso = 0;
@@ -4412,26 +4240,19 @@ document.addEventListener('DOMContentLoaded', function () {
         robo.bateria = 87;
 
 
-        if (
-            rota.length > 0
-        ) {
+        if (rota.length > 0) {
 
-            robo.x =
-                rota[0].x;
+            robo.x = rota[0].x;
 
-            robo.y =
-                rota[0].y;
+            robo.y = rota[0].y;
 
 
-            robo.temperatura =
-                rota[0].temperatura;
+            robo.temperatura = rota[0].temperatura;
 
 
-            robo.umidade =
-                rota[0].umidade;
+            robo.umidade = rota[0].umidade;
 
         }
-
 
         desenharMapa();
 
@@ -4486,9 +4307,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function carregarMedicoes() {
 
-        fetch(
-            '/monitoramento/dados'
-        )
+        fetch('/monitoramento/dados')
 
         .then(
             function (response) {
@@ -4510,8 +4329,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(
             function (data) {
 
-                medicoes =
-                    data;
+                medicoes = data;
 
 
                 /*
@@ -4608,16 +4426,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 |--------------------------------------------------------------------------
                 */
 
-                if (
-                    rota.length === 0
-                ) {
+                if (rota.length === 0) {
 
                     console.warn(
                         'Nenhuma medição encontrada.'
                     );
 
-                    dadosCarregados =
-                        true;
+                    dadosCarregados = true;
 
                     atualizarBotoes();
 

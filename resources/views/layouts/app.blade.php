@@ -34,7 +34,19 @@
         </div>
 
 
-       <nav class="sidebar-menu">
+        <nav class="sidebar-menu">
+
+            {{-- HOME --}}
+            <a href="{{ route('index.informacoes') }}"
+            class="menu-item {{ request()->routeIs('index.informacoes') ? 'active' : '' }}">
+
+                <span class="menu-icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+
+                <span>Home</span>
+
+            </a>
 
             {{-- ROTAS DE ENTREGAS --}}
             <a href="{{ route('dashboard') }}"
@@ -90,124 +102,11 @@
         </nav>
 
 
-        <div class="sidebar-section">
-
-            <div class="section-title">
-                Mapa de Miniclima
-            </div>
-
-
-            <div class="climate-card blue">
-
-                <div class="climate-number">
-                    3
-                </div>
-
-                <div class="climate-info">
-                    <strong>Setor Norte</strong>
-                    <span>Umidade 72%</span>
-                </div>
-
-                <div class="battery">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-            </div>
-
-
-            <div class="climate-card red">
-
-                <div class="climate-number">
-                    4
-                </div>
-
-                <div class="climate-info">
-                    <strong>Setor Leste</strong>
-                    <span>Temp. 31°C</span>
-                </div>
-
-                <div class="battery">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-            </div>
-
-
-            <div class="climate-card green">
-
-                <div class="climate-number">
-                    5
-                </div>
-
-                <div class="climate-info">
-                    <strong>Setor Central</strong>
-                    <span>Solo 63%</span>
-                </div>
-
-                <div class="battery">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-            </div>
-
-
-            <div class="climate-card orange">
-
-                <div class="climate-number">
-                    1
-                </div>
-
-                <div class="climate-info">
-                    <strong>Setor Sul</strong>
-                    <span>Vento 12 km/h</span>
-                </div>
-
-                <div class="battery">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-            </div>
-
-        </div>
 
 
         <div class="sidebar-footer">
 
-            <div class="total-box">
-
-                <span>🌱 Índice Geral:</span>
-
-                <strong>82%</strong>
-
-            </div>
-
-
-            <label class="check-line">
-
-                <input type="checkbox">
-
-                Exibir Regiões
-
-            </label>
-
-
-            <label class="check-line">
-
-                <input type="checkbox">
-
-                Exibir Pontos Operacionais
-
-            </label>
+              
 
 
             <form method="POST"
@@ -233,18 +132,8 @@
 
             <div class="search-box">
 
-                <button type="button">
-                    +
-                </button>
 
-                <input
-                    type="text"
-                    placeholder="Endereço / Área agrícola"
-                >
-
-                <button type="button">
-                    🔍
-                </button>
+             
 
             </div>
 

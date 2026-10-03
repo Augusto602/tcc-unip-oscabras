@@ -988,3 +988,122 @@ form button[type="submit"]:hover {
         padding: 1.75rem;
     }
 }
+
+/* =========================================
+   PÁGINA DE INFORMAÇÕES
+   ========================================= */
+
+.content-map {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* Centraliza o conteúdo dentro da área principal */
+.content-map > * {
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Espaçamento entre os painéis */
+.content-map > .page-panel + .page-panel {
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   INTRODUÇÃO
+   ========================================= */
+
+.info-introduction {
+    margin-top: 25px;
+}
+
+.info-introduction p {
+    line-height: 1.7;
+    margin: 0 0 20px 0;
+}
+
+
+/* =========================================
+   FUNCIONALIDADES
+   ========================================= */
+
+.info-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.info-feature:last-child {
+    border-bottom: none;
+}
+
+.info-feature-icon {
+    font-size: 32px;
+    width: 50px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.info-feature h3 {
+    margin: 0 0 8px 0;
+}
+
+.info-feature p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+/* Tablets */
+@media (max-width: 900px) {
+
+    .content-map {
+        padding: 20px;
+    }
+
+    .content-map > * {
+        max-width: 100%;
+    }
+
+}
+
+
+/* Celulares */
+@media (max-width: 600px) {
+
+    .content-map {
+        padding: 15px;
+    }
+
+    .info-feature {
+        gap: 12px;
+        padding: 18px 0;
+    }
+
+    .info-feature-icon {
+        font-size: 26px;
+        width: 40px;
+        min-width: 40px;
+    }
+
+    .info-feature h3 {
+        font-size: 17px;
+    }
+
+    .info-feature p {
+        font-size: 14px;
+    }
+
+}
