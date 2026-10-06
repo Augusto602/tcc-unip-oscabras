@@ -1107,3 +1107,337 @@ form button[type="submit"]:hover {
     }
 
 }
+
+/* =========================================
+   CADASTRO DE USUÁRIOS
+   ========================================= */
+
+.clientes-page {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 10px 0 40px 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   TÍTULO
+   ========================================= */
+
+.clientes-titulo {
+    width: 100%;
+    max-width: 760px;
+    margin: 10px auto 18px auto;
+    font-size: 32px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+
+/* =========================================
+   ALERTAS
+   ========================================= */
+
+.clientes-alert {
+    width: 100%;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 18px;
+}
+
+.clientes-alert ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+
+/* =========================================
+   CARD DO FORMULÁRIO
+   ========================================= */
+
+.clientes-form-card {
+    width: 100%;
+    max-width: 760px;
+
+    margin: 0 auto;
+
+    padding: 24px;
+
+    background: rgba(255, 255, 255, 0.055);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 14px;
+
+    box-sizing: border-box;
+}
+
+
+/* Remove interferência do estilo geral */
+
+.clientes-form-card form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+
+/* =========================================
+   CAMPOS
+   ========================================= */
+
+.clientes-form-group {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+
+.clientes-form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #c6d2c0;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+.clientes-form-group input,
+.clientes-form-group select {
+
+    width: 100%;
+    height: 44px;
+
+    padding: 0 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.clientes-form-group input:focus,
+.clientes-form-group select:focus {
+
+    border-color: #97c84a;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    box-shadow: 0 0 0 3px rgba(151, 200, 74, 0.10);
+}
+
+
+.clientes-form-group select option {
+    background: #101722;
+    color: #ffffff;
+}
+
+
+/* =========================================
+   BOTÃO CADASTRAR
+   ========================================= */
+
+.clientes-btn-cadastrar {
+
+    width: 100%;
+    height: 46px;
+
+    margin-top: 3px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #77ad41,
+        #a4cc53
+    );
+
+    color: #0b1208;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        filter 0.2s ease,
+        transform 0.1s ease;
+}
+
+
+.clientes-btn-cadastrar:hover {
+    filter: brightness(1.08);
+}
+
+
+.clientes-btn-cadastrar:active {
+    transform: scale(0.995);
+}
+
+
+/* =========================================
+   LISTAGEM
+   ========================================= */
+
+.clientes-listagem {
+
+    width: 100%;
+
+    margin-top: 35px;
+}
+
+
+.clientes-listagem h2 {
+
+    margin: 0 0 12px 0;
+
+    color: #f5f7fb;
+
+    font-size: 26px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   TABELA
+   ========================================= */
+
+.clientes-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 12px;
+}
+
+
+.clientes-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    color: #e8edf7;
+}
+
+
+.clientes-table thead {
+
+    background: rgba(255, 255, 255, 0.09);
+}
+
+
+.clientes-table th {
+
+    padding: 13px 14px;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+
+.clientes-table td {
+
+    padding: 13px 14px;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    background: rgba(255, 255, 255, 0.025);
+}
+
+
+.clientes-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.clientes-table tbody tr:hover td {
+
+    background: rgba(255, 255, 255, 0.055);
+}
+
+
+.clientes-sem-registro {
+
+    text-align: center;
+
+    color: #aeb8c9;
+
+    padding: 25px !important;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .clientes-page {
+        max-width: 100%;
+    }
+
+    .clientes-form-card,
+    .clientes-titulo,
+    .clientes-alert {
+        max-width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .clientes-titulo {
+        font-size: 26px;
+    }
+
+    .clientes-form-card {
+        padding: 18px;
+    }
+
+    .clientes-listagem h2 {
+        font-size: 22px;
+    }
+
+    .clientes-table {
+        min-width: 700px;
+    }
+
+}

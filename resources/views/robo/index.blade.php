@@ -242,7 +242,7 @@
 
                     <div>
                         <span class="legend start"></span>
-                        Início
+                        ORIGEM
                     </div>
 
                 </div>
@@ -514,13 +514,20 @@
    PÁGINA / SCROLL
 ========================================================= */
 
-html {
-    height: 100%;
+html,
+body {
+    min-height: 100%;
+    height: auto;
 }
 
 body {
-    min-height: 100%;
     overflow-y: auto !important;
+}
+
+.content-map {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
 }
 
 
@@ -530,11 +537,23 @@ body {
 
 .robo-dashboard {
     width: 100%;
-    min-height: 100%;
+    min-height: auto;
     padding: 22px 25px 60px;
     box-sizing: border-box;
     color: #e6eee9;
-    overflow-y: visible;
+    overflow: visible;
+}
+
+.main-map {
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible !important;
+}
+
+.agro-dashboard {
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible !important;
 }
 
 
@@ -1477,13 +1496,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const robo = {
 
-        x: 10,
+        x: 0,
 
-        y: 15,
-
-        destinoX: 90,
-
-        destinoY: 85,
+        y: 0,
 
         distancia: 0,
 
@@ -1493,9 +1508,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         bateria: 87,
 
-        temperatura: 24.7,
+        temperatura: 0,
 
-        umidade: 68,
+        umidade: 0,
 
         vento: 12.3,
 
@@ -3215,7 +3230,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | INÍCIO
+        | ORIGEM
         |--------------------------------------------------------------------------
         */
 
@@ -3269,7 +3284,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             ctx.fillText(
 
-                'INÍCIO',
+                'ORIGEM',
 
                 inicioX + 15,
 
@@ -3284,74 +3299,97 @@ document.addEventListener('DOMContentLoaded', function () {
         |--------------------------------------------------------------------------
         | DESTINO
         |--------------------------------------------------------------------------
+        |
+        | O destino é sempre o último ponto da rota carregada do banco.
+        |
         */
 
-        const destinoX =
-            mapa.x(
-                robo.destinoX
+        if (rotaVisual.length > 0){
+
+            const destino =rotaVisual[rotaVisual.length - 1];
+
+
+            const destinoX = mapa.x(destino.x);
+
+
+            const destinoY = mapa.y(destino.y);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CÍRCULO EXTERNO
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.beginPath();
+
+            ctx.arc(
+                destinoX,
+                destinoY,
+                15,
+                0,
+                Math.PI * 2
             );
 
-        const destinoY =
-            mapa.y(
-                robo.destinoY
+
+            ctx.strokeStyle =
+                '#f59e0b';
+
+            ctx.lineWidth = 3;
+
+            ctx.stroke();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PONTO CENTRAL
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.beginPath();
+
+            ctx.arc(
+                destinoX,
+                destinoY,
+                5,
+                0,
+                Math.PI * 2
             );
 
 
-        ctx.beginPath();
+            ctx.fillStyle =
+                '#f59e0b';
 
-        ctx.arc(
-            destinoX,
-            destinoY,
-            15,
-            0,
-            Math.PI * 2
-        );
+            ctx.fill();
 
 
-        ctx.strokeStyle =
-            '#f59e0b';
+            /*
+            |--------------------------------------------------------------------------
+            | TEXTO
+            |--------------------------------------------------------------------------
+            */
 
-        ctx.lineWidth = 3;
+            ctx.fillStyle =
+                '#f8fafc';
 
-        ctx.stroke();
+            ctx.font =
+                'bold 10px Arial';
 
-
-        ctx.beginPath();
-
-        ctx.arc(
-            destinoX,
-            destinoY,
-            5,
-            0,
-            Math.PI * 2
-        );
+            ctx.textAlign =
+                'left';
 
 
-        ctx.fillStyle =
-            '#f59e0b';
+            ctx.fillText(
 
-        ctx.fill();
+                'DESTINO',
 
+                destinoX + 19,
 
-        ctx.fillStyle =
-            '#f8fafc';
+                destinoY + 4
 
-        ctx.font =
-            'bold 10px Arial';
+            );
 
-        ctx.textAlign =
-            'left';
-
-
-        ctx.fillText(
-
-            'DESTINO',
-
-            destinoX + 19,
-
-            destinoY + 4
-
-        );
+        }
 
 
         /*
@@ -4307,7 +4345,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function carregarMedicoes() {
 
-        fetch('/monitoramento/dados')
+        /*
+        |--------------------------------------------------------------------------
+        | VERIFICA SE VEIO UMA ROTA PELO HISTÓRICO
+        |--------------------------------------------------------------------------
+        */
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const codigoRota =
+            parametros.get('rota');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | URL DOS DADOS
+        |--------------------------------------------------------------------------
+        */
+
+        let urlDados =
+            '/monitoramento/dados';
+
+
+        if (codigoRota) {
+
+            urlDados +=
+                '?rota=' +
+                encodeURIComponent(
+                    codigoRota
+                );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CARREGA
+        |--------------------------------------------------------------------------
+        */
+
+        fetch(urlDados)
 
         .then(
             function (response) {
@@ -4330,7 +4411,6 @@ document.addEventListener('DOMContentLoaded', function () {
             function (data) {
 
                 medicoes = data;
-
 
                 /*
                 |--------------------------------------------------------------------------
@@ -4376,17 +4456,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         function (ponto) {
 
                             return (
-
-                                !isNaN(
-                                    ponto.x
-                                )
-
+                                !isNaN(ponto.x)
                                 &&
-
-                                !isNaN(
-                                    ponto.y
-                                )
-
+                                !isNaN(ponto.y)
                             );
 
                         }
@@ -4403,17 +4475,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     function (a, b) {
 
                         return (
-
-                            new Date(
-                                a.recebidaEm
-                            )
-
+                            new Date(a.recebidaEm)
                             -
-
-                            new Date(
-                                b.recebidaEm
-                            )
-
+                            new Date(b.recebidaEm)
                         );
 
                     }
@@ -4478,10 +4542,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 robo.y =
                     rota[0].y;
 
-
                 robo.temperatura =
                     rota[0].temperatura;
-
 
                 robo.umidade =
                     rota[0].umidade;
@@ -4504,13 +4566,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 atualizarBotoes();
 
-
-                /*
-                |--------------------------------------------------------------------------
-                | COMEÇA PARADO — O USUÁRIO INICIA PELO BOTÃO
-                |--------------------------------------------------------------------------
-                */
-
             }
         )
 
@@ -4518,18 +4573,14 @@ document.addEventListener('DOMContentLoaded', function () {
             function (error) {
 
                 console.error(
-
                     'Erro ao carregar medições:',
-
                     error
-
                 );
 
             }
         );
 
     }
-
 
     /*
     |--------------------------------------------------------------------------

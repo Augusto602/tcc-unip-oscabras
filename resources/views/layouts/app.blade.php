@@ -56,7 +56,7 @@
                     <i class="fa-solid fa-satellite"></i>
                 </span>
 
-                <span>Rotas Entregas</span>
+                <span>Resumo de Rotas</span>
 
             </a>
 
