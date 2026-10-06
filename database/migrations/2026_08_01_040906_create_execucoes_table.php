@@ -21,7 +21,7 @@ class CreateExecucoesTable extends Migration
 
             $table->unsignedBigInteger('id_veiculo');
 
-            $table->dateTime('data_execucao');
+            $table->date('data_execucao');
 
             $table->string('local_execucao');
 
@@ -32,9 +32,11 @@ class CreateExecucoesTable extends Migration
                 'falha'
             ]);
 
+            $table->string('nome_execucao', 100)->unique();
+
             $table->foreign('id_usuario')
-                ->references('cad_usuario_id')
-                ->on('cad_usuarios');
+                ->references('id_usuario')
+                ->on('usuarios');
 
             $table->foreign('id_veiculo')
                 ->references('id_veiculo')

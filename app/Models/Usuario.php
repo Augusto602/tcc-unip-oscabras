@@ -7,23 +7,21 @@ use Illuminate\Support\Str;
 
 class Usuario extends Model
 {
-    protected $table = 'cad_usuarios';
+    protected $table = 'usuarios';
 
-    protected $primaryKey = 'cad_usuario_id';
+    protected $primaryKey = 'id_usuario';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'cad_usuario_nome',
-        'cad_usuario_email',
-        'cad_usuario_senha',
-        'cad_usuario_dt_cad',
-        'cad_usuario_tipo_login',
-        'cad_usuario_usu_cad',
+        'nome_usuario',
+        'email',
+        'senha_hash',
+        'data_cadastro',
     ];
 
     protected $hidden = [
-        'cad_usuario_senha',
+        'senha_hash',
     ];
 
     public function veiculos()
@@ -31,7 +29,7 @@ class Usuario extends Model
         return $this->hasMany(
             Veiculo::class,
             'id_usuario',
-            'cad_usuario_id'
+            'id_usuario'
         );
     }
 
@@ -40,26 +38,22 @@ class Usuario extends Model
         return $this->hasMany(
             Execucao::class,
             'id_usuario',
-            'cad_usuario_id'
+            'id_usuario'
         );
     }
 
     public function emitirToken(): string
     {
-        $token = Str::random(60);
-
-        // Só use se criar uma coluna api_token no banco
-        return $token;
+        return Str::random(60);
     }
 
     public function paraResposta(): array
     {
         return [
-            'id_usuario' => $this->cad_usuario_id,
-            'nome_usuario' => $this->cad_usuario_nome,
-            'email' => $this->cad_usuario_email,
-            'data_cadastro' => $this->cad_usuario_dt_cad,
-            'tipo_login' => $this->cad_usuario_tipo_login,
+            'id_usuario' => $this->id_usuario,
+            'nome_usuario' => $this->nome_usuario,
+            'email' => $this->email,
+            'data_cadastro' => $this->data_cadastro,
         ];
     }
 }

@@ -9,83 +9,68 @@ class MonitoramentoController extends Controller
 {
     public function dados(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | ROTA RECEBIDA PELO HISTÓRICO
-        |--------------------------------------------------------------------------
-        |
-        | Exemplo:
-        |
-        | /monitoramento?rota=mov-20260917
-        |
-        */
-
-        $codigoRota = $request->query('rota');
-
+        $idExecucao = $request->query('rota');
 
         /*
         |--------------------------------------------------------------------------
-        | SE NÃO RECEBEU ROTA, BUSCA A ROTA MAIS RECENTE
+        | SEM ROTA INFORMADA
         |--------------------------------------------------------------------------
+        |
+        | Busca a execução mais recente.
+        |
         */
 
-        if (empty($codigoRota)) {
+        if (empty($idExecucao)) {
 
-            $ultimaMedicao = DB::connection('mysql_monitoramento')
-                ->table('medicoes')
-                ->orderBy('recebida_em', 'desc')
+            $ultimaExecucao = DB::table('execucoes')
+                ->orderByDesc('data_execucao')
+                ->orderByDesc('id_execucao')
                 ->first();
 
-
-            if (!$ultimaMedicao) {
+            if (!$ultimaExecucao) {
 
                 return response()->json([]);
 
             }
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | REMOVE O NÚMERO FINAL
-            |--------------------------------------------------------------------------
-            |
-            | mov-20260918-005
-            |
-            | vira:
-            |
-            | mov-20260918
-            |
-            */
-
-            $codigoRota = preg_replace(
-                '/-\d+$/',
-                '',
-                $ultimaMedicao->idempotency_key
-            );
-
+            $idExecucao =
+                $ultimaExecucao->id_execucao;
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | BUSCA SOMENTE AS MEDIÇÕES DA ROTA
+        | DADOS DA EXECUÇÃO
         |--------------------------------------------------------------------------
+        |
+        | Mantemos os aliases x, y e recebida_em
+        | para não precisar refazer todo o JavaScript.
+        |
         */
 
-        $medicoes = DB::connection('mysql_monitoramento')
-            ->table('medicoes')
+        $medicoes = DB::table('dados_microclimaticos')
             ->where(
-                'idempotency_key',
-                'like',
-                $codigoRota . '-%'
+                'id_execucao',
+                $idExecucao
+            )
+            ->select(
+                'id_dado',
+                'id_execucao',
+                DB::raw('latitude_X as x'),
+                DB::raw('longitude_Y as y'),
+                'temperatura',
+                'umidade',
+                DB::raw('data_hora as recebida_em')
             )
             ->orderBy(
-                'recebida_em',
+                'data_hora',
                 'asc'
             )
             ->get();
 
 
-        return response()->json($medicoes);
+        return response()->json(
+            $medicoes
+        );
     }
 }

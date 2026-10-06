@@ -25,8 +25,8 @@ class CreateVeiculosTable extends Migration
             $table->text('especificacoes_hardware')->nullable();
 
             $table->foreign('id_usuario')
-                ->references('cad_usuario_id')
-                ->on('cad_usuarios');
+                ->references('id_usuario')
+                ->on('usuarios');
 
         });
     }

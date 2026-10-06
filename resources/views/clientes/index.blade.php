@@ -134,23 +134,23 @@
                             <tr>
 
                                 <td>
-                                    {{ $cliente->cad_usuario_id }}
+                                    {{ $cliente->id_usuario }}
                                 </td>
 
                                 <td>
-                                    {{ $cliente->cad_usuario_nome }}
+                                    {{ $cliente->nome_usuario }}
                                 </td>
 
                                 <td>
-                                    {{ $cliente->cad_usuario_email }}
+                                    {{ $cliente->email }}
                                 </td>
 
                                 <td>
-                                    {{ $cliente->cad_usuario_tipo_login }}
+                                    {{ $cliente->Cliente }}
                                 </td>
 
                                 <td>
-                                    {{ $cliente->cad_usuario_ativo_sn }}
+                                    {{ $cliente->Ativo }}
                                 </td>
 
                             </tr>

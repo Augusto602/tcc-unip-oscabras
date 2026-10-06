@@ -10,8 +10,8 @@ use App\Http\Controllers\MonitoramentoController;
 use App\Http\Controllers\InformacoesController;
 
 
-Route::get('/', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.enviar');
+Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'autenticar'])->name('login.enviar');
 
 Route::middleware(['autenticado'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

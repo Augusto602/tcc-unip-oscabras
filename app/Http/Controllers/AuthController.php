@@ -8,68 +8,86 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function login()
     {
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function autenticar(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'senha' => 'required|string',
+            'senha' => 'required',
         ]);
 
         $usuario = Usuario::where(
-            'cad_usuario_email',
+            'email',
             $request->email
         )->first();
 
         if (!$usuario) {
-            return redirect()
-                ->route('login')
-                ->with('erro_login', 'Usuário não encontrado.');
+
+            return back()
+                ->withErrors([
+                    'email' => 'Usuário não encontrado.'
+                ])
+                ->withInput();
+
         }
 
         $senhaInformada = $request->senha;
-        $senhaBanco = $usuario->cad_usuario_senha;
+        $senhaBanco = $usuario->senha_hash;
 
-        $senhaValida = Hash::check($senhaInformada, $senhaBanco)
-            || $senhaInformada === $senhaBanco;
+        $senhaValida = false;
+
+        if (
+            !empty($senhaBanco) &&
+            Hash::check($senhaInformada, $senhaBanco)
+        ) {
+
+            $senhaValida = true;
+
+        } elseif ($senhaInformada === $senhaBanco) {
+
+            $senhaValida = true;
+
+            $usuario->senha_hash = Hash::make(
+                $senhaInformada
+            );
+
+            $usuario->save();
+
+        }
 
         if (!$senhaValida) {
-            return redirect()
-                ->route('login')
-                ->with('erro_login', 'Senha incorreta.');
+
+            return back()
+                ->withErrors([
+                    'senha' => 'Senha inválida.'
+                ])
+                ->withInput();
+
         }
 
-        // Caso a senha esteja salva em texto puro, converte para hash
-        if ($senhaInformada === $senhaBanco) {
-            $usuario->cad_usuario_senha = Hash::make($senhaInformada);
-            $usuario->save();
-        }
+        session([
+            'usuario_id' =>
+                $usuario->id_usuario,
 
-        $request->session()->put(
-            'usuario_id',
-            $usuario->cad_usuario_id
-        );
+            'usuario_nome' =>
+                $usuario->nome_usuario,
 
-        $request->session()->put(
-            'usuario_nome',
-            $usuario->cad_usuario_nome
-        );
+            'tipo_login' =>
+                'Cliente'
+        ]);
 
-        $request->session()->put(
-            'tipo_login',
-            $usuario->cad_usuario_tipo_login ?? 'Cliente'
-        );
-
-        return redirect()->route('index.informacoes');
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)
     {
         $request->session()->flush();
+
+        $request->session()->regenerateToken();
 
         return redirect()->route('login');
     }

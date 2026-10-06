@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-       Schema::create('dados_microclimaticos', function(Blueprint $table){
+        Schema::create('dados_microclimaticos', function (Blueprint $table) {
 
             $table->id('id_dado');
 
@@ -16,13 +16,13 @@ return new class extends Migration
 
             $table->dateTime('data_hora');
 
-            $table->decimal('temperatura',5,2);
+            $table->float('temperatura');
 
-            $table->decimal('umidade',5,2);
+            $table->float('umidade');
 
-            $table->decimal('latitude',10,7);
+            $table->decimal('latitude_X', 10, 6);
 
-            $table->decimal('longitude',10,7);
+            $table->decimal('longitude_Y', 10, 6);
 
             $table->foreign('id_execucao')
                 ->references('id_execucao')

@@ -20,8 +20,7 @@ return new class extends Migration
 
             $table->string('tipo_obstaculo')->nullable();
 
-            $table->decimal('score_confianca', 5, 2)->nullable();
-
+            $table->float('score_confianca')->nullable();
 
             $table->foreign('id_execucao')
                 ->references('id_execucao')

@@ -9,33 +9,84 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $medicoes = DB::connection('mysql_monitoramento')
-            ->table('medicoes')
-            ->orderBy('recebida_em', 'asc')
+        $execucoes = DB::table('execucoes')
+            ->leftJoin(
+                'veiculos',
+                'execucoes.id_veiculo',
+                '=',
+                'veiculos.id_veiculo'
+            )
+            ->leftJoin(
+                'dados_microclimaticos',
+                'execucoes.id_execucao',
+                '=',
+                'dados_microclimaticos.id_execucao'
+            )
+            ->select(
+                'execucoes.id_execucao',
+                'execucoes.nome_execucao',
+                'execucoes.data_execucao',
+                'execucoes.local_execucao',
+                'execucoes.status_execucao',
+                'veiculos.nome_veiculo',
+                DB::raw('MIN(dados_microclimaticos.data_hora) as data_inicio'),
+                DB::raw('MAX(dados_microclimaticos.data_hora) as data_fim'),
+                DB::raw('COUNT(dados_microclimaticos.id_dado) as quantidade_medicoes')
+            )
+            ->groupBy(
+                'execucoes.id_execucao',
+                'execucoes.nome_execucao',
+                'execucoes.data_execucao',
+                'execucoes.local_execucao',
+                'execucoes.status_execucao',
+                'veiculos.nome_veiculo'
+            )
+            ->orderByDesc('execucoes.data_execucao')
+            ->orderByDesc('execucoes.id_execucao')
             ->get();
 
-        $rotas = $medicoes
-            ->groupBy(function ($medicao) {
+        $rotas = $execucoes
+            ->map(function ($execucao) {
 
-                return preg_replace(
-                    '/-\d+$/',
-                    '',
-                    $medicao->idempotency_key
-                );
+                /*
+                |--------------------------------------------------------------------------
+                | DATA DE INÍCIO / FIM
+                |--------------------------------------------------------------------------
+                */
 
-            })
-            ->map(function ($grupo, $codigoRota) {
+                if (!empty($execucao->data_inicio)) {
 
-                $primeiraMedicao = $grupo->first();
-                $ultimaMedicao = $grupo->last();
+                    $dataInicio = Carbon::parse(
+                        $execucao->data_inicio
+                    );
 
-                $dataInicio = Carbon::parse(
-                    $primeiraMedicao->recebida_em
-                );
+                } else {
 
-                $dataFim = Carbon::parse(
-                    $ultimaMedicao->recebida_em
-                );
+                    $dataInicio = Carbon::parse(
+                        $execucao->data_execucao
+                    );
+
+                }
+
+
+                if (!empty($execucao->data_fim)) {
+
+                    $dataFim = Carbon::parse(
+                        $execucao->data_fim
+                    );
+
+                } else {
+
+                    $dataFim = $dataInicio->copy();
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DURAÇÃO
+                |--------------------------------------------------------------------------
+                */
 
                 $duracaoMinutos = $dataInicio->diffInMinutes(
                     $dataFim
@@ -47,6 +98,7 @@ class DashboardController extends Controller
                 );
 
                 $minutos = $duracaoMinutos % 60;
+
 
                 if ($horas > 0) {
 
@@ -65,40 +117,82 @@ class DashboardController extends Controller
 
                 }
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | STATUS
+                |--------------------------------------------------------------------------
+                */
+
+                $status = $execucao->status_execucao;
+
+
+                if ($status == 'concluida') {
+
+                    $status = 'Finalizada';
+
+                } else if ($status == 'em_andamento') {
+
+                    $status = 'Em atividade';
+
+                } else if ($status == 'abortada') {
+
+                    $status = 'Finalizada';
+
+                } else if ($status == 'falha') {
+
+                    $status = 'Finalizada';
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | MONTA ROTA
+                |--------------------------------------------------------------------------
+                */
+
                 return (object) [
 
-                    'codigo' => $codigoRota,
+                    'codigo' =>
+                        $execucao->id_execucao,
 
-                    'nome' => 'Rota ' .
-                        str_replace(
-                            'mov-',
-                            '',
-                            $codigoRota
-                        ),
+                    'nome' =>
+                        $execucao->nome_execucao,
 
                     'data_inicio' =>
-                        $primeiraMedicao->recebida_em,
+                        $dataInicio->format(
+                            'Y-m-d H:i:s'
+                        ),
 
                     'data_fim' =>
-                        $ultimaMedicao->recebida_em,
+                        $dataFim->format(
+                            'Y-m-d H:i:s'
+                        ),
 
                     'veiculo' =>
-                        'Robô 01',
+                        !empty($execucao->nome_veiculo)
+                            ? $execucao->nome_veiculo
+                            : 'Não informado',
 
                     'duracao' =>
                         $duracao,
 
                     'status' =>
-                        'Finalizada',
+                        $status,
 
                     'quantidade_medicoes' =>
-                        $grupo->count(),
+                        $execucao->quantidade_medicoes,
+
+                    'local_execucao' =>
+                        $execucao->local_execucao,
 
                 ];
 
             })
             ->sortByDesc('data_inicio')
             ->values();
+
 
         return view(
             'dashboard.index',

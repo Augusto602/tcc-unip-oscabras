@@ -11,35 +11,54 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Usuario::orderBy('cad_usuario_id')->get();
+        $clientes = Usuario::orderBy(
+            'id_usuario'
+        )->get();
 
-        return view('clientes.index', compact('clientes'));
+        return view(
+            'clientes.index',
+            compact('clientes')
+        );
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|string|max:255',
+            'nome' => 'required|string|max:100',
+
             'email' => [
                 'required',
                 'email',
-                'max:255',
-                Rule::unique('cad_usuarios', 'cad_usuario_email')
+                'max:150',
+                Rule::unique(
+                    'usuarios',
+                    'email'
+                )
             ],
-            'senha' => 'required|string|min:4|max:255',
-            'tipo_login' => 'required|string|max:50',
+
+            'senha' =>
+                'required|string|min:4|max:255',
         ]);
 
         Usuario::create([
-            'cad_usuario_nome' => $request->nome,
-            'cad_usuario_email' => $request->email,
-            'cad_usuario_senha' => Hash::make($request->senha),
-            'cad_usuario_usu_cad' => now(),
-            'cad_usuario_tipo_login' => $request->tipo_login,
+            'nome_usuario' =>
+                $request->nome,
+
+            'email' =>
+                $request->email,
+
+            'senha_hash' =>
+                Hash::make($request->senha),
+
+            'data_cadastro' =>
+                now(),
         ]);
 
         return redirect()
             ->route('clientes.index')
-            ->with('sucesso', 'Usuário cadastrado com sucesso.');
+            ->with(
+                'sucesso',
+                'Usuário cadastrado com sucesso.'
+            );
     }
 }
