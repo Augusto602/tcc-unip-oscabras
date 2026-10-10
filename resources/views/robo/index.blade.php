@@ -44,6 +44,8 @@
                     <span>Parar</span>
                 </button>
 
+                <button type="button" class="robo-btn" id="btnVelocidade" title="Velocidade da reprodução: 1x. Clique para acelerar." aria-label="Velocidade da reprodução: 1x. Clique para acelerar."><i class="fa-solid fa-forward" aria-hidden="true"></i> <b id="valorVelocidade">1x</b></button>
+
                 <button type="button" class="robo-btn reset" id="btnReiniciar" title="Reiniciar">
                     <i class="fa-solid fa-rotate-left"></i>
                     <span>Reiniciar</span>
@@ -82,7 +84,7 @@
 
                 <span>Posição X</span>
 
-                <strong id="posicaoX">42.0</strong>
+                <strong id="posicaoX">0.000000</strong>
 
                 <small>metros</small>
 
@@ -102,7 +104,7 @@
 
                 <span>Posição Y</span>
 
-                <strong id="posicaoY">67.0</strong>
+                <strong id="posicaoY">0.000000</strong>
 
                 <small>metros</small>
 
@@ -840,271 +842,277 @@ body {
 
 /* Bateria */
 
-.stat-icon.battery {
-    background: #24331f;
-    color: #a4e07d;
-}
+    .stat-icon.battery {
+        background: #24331f;
+        color: #a4e07d;
+    }
 
 
 /* =========================================================
    TEXTO DOS INDICADORES (MAIS DESTACADO)
 ========================================================= */
 
-.stat-info {
-    min-width: 0;
-}
+    .stat-info {
+        min-width: 0;
+    }
 
-.stat-info span {
-    display: block;
+    .stat-info span {
+        display: block;
 
-    color: #9db3aa;
+        color: #9db3aa;
 
-    font-size: 11px;
+        font-size: 11px;
 
-    font-weight: 600;
+        font-weight: 600;
 
-    letter-spacing: .3px;
+        letter-spacing: .3px;
 
-    text-transform: uppercase;
+        text-transform: uppercase;
 
-    margin-bottom: 6px;
+        margin-bottom: 6px;
 
-    white-space: nowrap;
-}
+        white-space: nowrap;
+    }
 
-.stat-info strong {
-    display: inline-block;
+    .stat-info strong {
+        display: inline-block;
 
-    color: #ffffff;
+        color: #ffffff;
 
-    font-size: 25px;
+        font-size: 25px;
 
-    font-weight: 800;
+        font-weight: 800;
 
-    text-shadow: 0 0 18px rgba(105,193,116,.25);
+        text-shadow: 0 0 18px rgba(105,193,116,.25);
 
-    letter-spacing: .3px;
-}
+        letter-spacing: .3px;
+    }
 
-.stat-info small {
-    color: #86988f;
+    #posicaoX,
+    #posicaoY {
+        font-size: 18px;
+        letter-spacing: 0;
+    }
 
-    font-size: 10px;
+    .stat-info small {
+        color: #86988f;
 
-    font-weight: 600;
+        font-size: 10px;
 
-    margin-left: 4px;
-}
+        font-weight: 600;
+
+        margin-left: 4px;
+    }
 
 
 /* =========================================================
    MAPA + PAINEL LATERAL
 ========================================================= */
 
-.robo-content {
-    display: grid;
+    .robo-content {
+        display: grid;
 
-    grid-template-columns:
-        minmax(0, 3fr)
-        minmax(280px, 1fr);
+        grid-template-columns:
+            minmax(0, 3fr)
+            minmax(280px, 1fr);
 
-    gap: 18px;
+        gap: 18px;
 
-    width: 100%;
-}
+        width: 100%;
+    }
 
 
 /* =========================================================
    PAINEL DO MAPA
 ========================================================= */
 
-.map-panel {
-    min-width: 0;
+    .map-panel {
+        min-width: 0;
 
-    background: #17221f;
+        background: #17221f;
 
-    border: 1px solid #2c423a;
+        border: 1px solid #2c423a;
 
-    border-radius: 11px;
+        border-radius: 11px;
 
-    overflow: hidden;
+        overflow: hidden;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
-}
+        box-shadow: 0 5px 20px rgba(0,0,0,.15);
+    }
 
 
 /* =========================================================
    CABEÇALHO DO MAPA
 ========================================================= */
 
-.panel-header {
-    min-height: 62px;
+    .panel-header {
+        min-height: 62px;
 
-    display: flex;
+        display: flex;
 
-    align-items: center;
+        align-items: center;
 
-    justify-content: space-between;
+        justify-content: space-between;
 
-    padding: 12px 17px;
+        padding: 12px 17px;
 
-    background: #192622;
+        background: #192622;
 
-    border-bottom: 1px solid #293c35;
-}
+        border-bottom: 1px solid #293c35;
+    }
 
-.panel-header h3 {
-    margin: 0;
+    .panel-header h3 {
+        margin: 0;
 
-    color: #e9f1ed;
+        color: #e9f1ed;
 
-    font-size: 15px;
+        font-size: 15px;
 
-    font-weight: 600;
-}
+        font-weight: 600;
+    }
 
-.panel-header h3 i {
-    margin-right: 7px;
+    .panel-header h3 i {
+        margin-right: 7px;
 
-    color: #69c174;
-}
+        color: #69c174;
+    }
 
-.panel-header span {
-    display: block;
+    .panel-header span {
+        display: block;
 
-    margin-top: 5px;
+        margin-top: 5px;
 
-    color: #7e9389;
+        color: #7e9389;
 
-    font-size: 10px;
-}
+        font-size: 10px;
+    }
 
 
 /* =========================================================
    STATUS GPS
 ========================================================= */
 
-.map-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    .map-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
 
-    padding: 6px 10px;
+        padding: 6px 10px;
 
-    background: #172e24;
+        background: #172e24;
 
-    border: 1px solid #285239;
+        border: 1px solid #285239;
 
-    border-radius: 15px;
+        border-radius: 15px;
 
-    color: #6bc978;
+        color: #6bc978;
 
-    font-size: 9px;
+        font-size: 9px;
 
-    font-weight: 700;
-}
+        font-weight: 700;
+    }
 
-.gps-dot {
-    width: 7px;
-    height: 7px;
+    .gps-dot {
+        width: 7px;
+        height: 7px;
 
-    background: #55c965;
+        background: #55c965;
 
-    border-radius: 50%;
+        border-radius: 50%;
 
-    box-shadow: 0 0 7px rgba(85,201,101,.7);
-}
+        box-shadow: 0 0 7px rgba(85,201,101,.7);
+    }
 
 
 /* =========================================================
    ÁREA DO MAPA
 ========================================================= */
 
-.map-wrapper {
-    position: relative;
+    .map-wrapper {
+        position: relative;
 
-    width: 100%;
+        width: 100%;
 
-    height: 555px;
+        height: 555px;
 
-    background: #101a17;
+        background: #101a17;
 
-    overflow: hidden;
-}
+        overflow: hidden;
+    }
 
-#mapaRobo {
-    display: block;
+    #mapaRobo {
+        display: block;
 
-    width: 100%;
-    height: 100%;
-}
+        width: 100%;
+        height: 100%;
+    }
 
 
 /* =========================================================
    LEGENDA
 ========================================================= */
 
-.map-legend {
-    position: absolute;
+    .map-legend {
+        position: absolute;
 
-    left: 15px;
-    bottom: 15px;
+        left: 15px;
+        bottom: 15px;
 
-    display: flex;
-    flex-wrap: wrap;
+        display: flex;
+        flex-wrap: wrap;
 
-    gap: 10px;
+        gap: 10px;
 
-    padding: 9px 12px;
+        padding: 9px 12px;
 
-    background: rgba(16, 26, 23, .96);
+        background: rgba(16, 26, 23, .96);
 
-    border: 1px solid #30443c;
+        border: 1px solid #30443c;
 
-    border-radius: 8px;
+        border-radius: 8px;
 
-    color: #aabbb3;
+        color: #aabbb3;
 
-    font-size: 9px;
+        font-size: 9px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,.25);
-}
+        box-shadow: 0 4px 15px rgba(0,0,0,.25);
+    }
 
-.map-legend > div {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+    .map-legend > div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 
-.legend {
-    width: 8px;
-    height: 8px;
+    .legend {
+        width: 8px;
+        height: 8px;
 
-    display: inline-block;
+        display: inline-block;
 
-    border-radius: 50%;
-}
+        border-radius: 50%;
+    }
 
-.legend.robot {
-    background: #5bd36b;
-}
+    .legend.robot {
+        background: #5bd36b;
+    }
 
-.legend.route {
-    width: 15px;
-    height: 3px;
+    .legend.route {
+        width: 15px;
+        height: 3px;
 
-    background: #54a96a;
+        background: #54a96a;
 
-    border-radius: 0;
-}
+        border-radius: 0;
+    }
 
-.legend.obstacle {
-    background: #e05d5d;
-}
+    .legend.obstacle {
+        background: #e05d5d;
+    }
 
-.legend.start {
-    background: #8d9893;
-}
+    .legend.start {
+        background: #8d9893;
+    }
 
 
 /* =========================================================
@@ -1485,1479 +1493,1615 @@ body {
 
 <script>
 
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | CONFIGURAÇÃO DO ROBÔ
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | CONFIGURAÇÃO DO ROBÔ
+        |--------------------------------------------------------------------------
+        */
 
-    const robo = {
+        const robo = {
 
-        x: 0,
+            x: 0,
 
-        y: 0,
+            y: 0,
 
-        distancia: 0,
+            distancia: 0,
 
-        velocidade: 3.8,
+            velocidade: 3.8,
 
-        direcao: 0,
+            direcao: 0,
 
-        bateria: 87,
+            bateria: 87,
 
-        temperatura: 0,
+            temperatura: 0,
 
-        umidade: 0,
+            umidade: 0,
 
-        vento: 12.3,
+            vento: 12.3,
 
-        chuva: 0
+            chuva: 0
 
-    };
+        };
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | CANVAS
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | CANVAS
+        |--------------------------------------------------------------------------
+        */
 
-    const canvas =
-        document.getElementById('mapaRobo');
+        const canvas = document.getElementById('mapaRobo');
 
 
-    if (!canvas) {
+        if (!canvas) {
 
-        console.error(
-            'Canvas mapaRobo não encontrado.'
-        );
-
-        return;
-
-    }
-
-
-    const ctx =
-        canvas.getContext('2d');
-
-
-    if (!ctx) {
-
-        console.error(
-            'Canvas 2D não disponível.'
-        );
-
-        return;
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | BOTÕES DE CONTROLE
-    |--------------------------------------------------------------------------
-    */
-
-    const btnIniciar =
-        document.getElementById('btnIniciar');
-
-    const btnParar =
-        document.getElementById('btnParar');
-
-    const btnReiniciar =
-        document.getElementById('btnReiniciar');
-
-    const estadoRoboEl =
-        document.getElementById('estadoRobo');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DADOS DO BANCO
-    |--------------------------------------------------------------------------
-    */
-
-    let medicoes = [];
-
-    let rota = [];
-
-    let rotaVisual = [];
-
-    let pontosClima = [];
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | OBJETOS DO MAPA
-    |--------------------------------------------------------------------------
-    */
-
-    const objetos = [
-
-        {
-            tipo: 'Árvore',
-            x: 71,
-            y: 78,
-            icone: '🌳'
-        },
-
-        {
-            tipo: 'Obstáculo',
-            x: 55,
-            y: 49,
-            icone: '⚠'
-        },
-
-        {
-            tipo: 'Irrigação',
-            x: 28,
-            y: 61,
-            icone: '💧'
-        }
-
-    ];
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ESTADO DA ANIMAÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    let pontoAtual = 0;
-
-    let progresso = 0;
-
-    let distanciaPercorrida = 0;
-
-    let distanciaTotal = 0;
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ESTADO DE EXECUÇÃO (Iniciar / Parar / Reiniciar)
-    |--------------------------------------------------------------------------
-    */
-
-    let emExecucao = false;
-
-    let animacaoId = null;
-
-    let dadosCarregados = false;
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ATUALIZA BOTÕES
-    |--------------------------------------------------------------------------
-    */
-
-    function atualizarBotoes() {
-
-        if (btnIniciar) {
-
-            btnIniciar.disabled =
-                emExecucao ||
-                !dadosCarregados ||
-                rota.length < 2;
-
-        }
-
-
-        if (btnParar) {
-
-            btnParar.disabled =
-                !emExecucao;
-
-        }
-
-
-        if (btnReiniciar) {
-
-            btnReiniciar.disabled =
-                !dadosCarregados;
-
-        }
-
-
-        if (estadoRoboEl) {
-
-            if (emExecucao) {
-
-                estadoRoboEl.innerText =
-                    'Em movimento';
-
-                estadoRoboEl.className =
-                    'status-ok';
-
-            } else {
-
-                estadoRoboEl.innerText =
-                    'Parado';
-
-                estadoRoboEl.className =
-                    'status-paused';
-
-            }
-
-        }
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | INTERPOLAÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    function interpolar(a, b, valor) {
-
-        return a + (b - a) * valor;
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | SUAVIZAÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    function suavizar(valor) {
-
-        return valor * valor * (3 - 2 * valor);
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DISTÂNCIA
-    |--------------------------------------------------------------------------
-    */
-
-    function calcularDistancia(a, b) {
-
-        const dx =
-            b.x - a.x;
-
-        const dy =
-            b.y - a.y;
-
-
-        return Math.sqrt(
-            dx * dx +
-            dy * dy
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DISTÂNCIA TOTAL
-    |--------------------------------------------------------------------------
-    */
-
-    function calcularDistanciaTotal() {
-
-        distanciaTotal = 0;
-
-
-        for (
-            let i = 1;
-            i < rota.length;
-            i++
-        ) {
-
-            distanciaTotal +=
-                calcularDistancia(
-                    rota[i - 1],
-                    rota[i]
-                );
-
-        }
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CRIA ROTA VISUAL
-    |--------------------------------------------------------------------------
-    |
-    | Os valores reais continuam sendo usados
-    | nas informações.
-    |
-    | O mapa expande automaticamente a rota
-    | para que os pontos não fiquem grudados.
-    |
-    */
-
-    function criarRotaVisual() {
-
-        if (
-            rota.length === 0
-        ) {
-
-            rotaVisual = [];
-
-            pontosClima = [];
-
+            console.error('Canvas mapaRobo não encontrado.');
             return;
 
         }
 
 
-        let menorX =
-            rota[0].x;
-
-        let maiorX =
-            rota[0].x;
-
-        let menorY =
-            rota[0].y;
-
-        let maiorY =
-            rota[0].y;
+        const ctx = canvas.getContext('2d');
 
 
-        rota.forEach(function (ponto) {
+        if (!ctx) {
 
-            if (
-                ponto.x < menorX
-            ) {
-
-                menorX =
-                    ponto.x;
-
-            }
-
-
-            if (
-                ponto.x > maiorX
-            ) {
-
-                maiorX =
-                    ponto.x;
-
-            }
-
-
-            if (
-                ponto.y < menorY
-            ) {
-
-                menorY =
-                    ponto.y;
-
-            }
-
-
-            if (
-                ponto.y > maiorY
-            ) {
-
-                maiorY =
-                    ponto.y;
-
-            }
-
-        });
-
-
-        let intervaloX =
-            maiorX - menorX;
-
-        let intervaloY =
-            maiorY - menorY;
-
-
-        if (
-            intervaloX === 0
-        ) {
-
-            intervaloX = 1;
-
-        }
-
-
-        if (
-            intervaloY === 0
-        ) {
-
-            intervaloY = 1;
+            console.error('Canvas 2D não disponível.');
+            return;
 
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | ESPAÇO VISUAL
+        | BOTÕES DE CONTROLE
         |--------------------------------------------------------------------------
         */
 
-        const visualMinimo = 8;
-
-        const visualMaximo = 92;
-
-        const visualTamanho =
-            visualMaximo -
-            visualMinimo;
+        const btnIniciar   = document.getElementById('btnIniciar');
+        const btnParar     = document.getElementById('btnParar');
+        const btnReiniciar = document.getElementById('btnReiniciar');
+        const btnVelocidade = document.getElementById('btnVelocidade');
+        const velocidadesReproducao = [1, 2, 4, 8]; let indiceVelocidade = 0; let velocidadeReproducao = 1;
+        const estadoRoboEl = document.getElementById('estadoRobo');
 
 
         /*
         |--------------------------------------------------------------------------
-        | CONVERTE A ROTA
+        | DADOS DO BANCO
         |--------------------------------------------------------------------------
         */
 
-        rotaVisual =
-            rota.map(function (ponto) {
-
-                const visualX =
-                    visualMinimo +
-                    (
-                        (
-                            ponto.x -
-                            menorX
-                        ) /
-                        intervaloX
-                    ) *
-                    visualTamanho;
+        let medicoes    = [];
+        let rota        = [];
+        let rotaVisual  = [];
+        let pontosClima = [];
 
 
-                const visualY =
-                    visualMinimo +
-                    (
-                        (
-                            ponto.y -
-                            menorY
-                        ) /
-                        intervaloY
-                    ) *
-                    visualTamanho;
+        /*
+        |--------------------------------------------------------------------------
+        | OBJETOS DO MAPA
+        |--------------------------------------------------------------------------
+        */
+
+        const objetos = [
+
+            {
+                tipo: 'Árvore',
+                x: 71,
+                y: 78,
+                icone: '🌳'
+            },
+
+            {
+                tipo: 'Obstáculo',
+                x: 55,
+                y: 49,
+                icone: '⚠'
+            },
+
+            {
+                tipo: 'Irrigação',
+                x: 28,
+                y: 61,
+                icone: '💧'
+            }
+
+        ];
 
 
-                return {
+        /*
+        |--------------------------------------------------------------------------
+        | ESTADO DA ANIMAÇÃO
+        |--------------------------------------------------------------------------
+        */
 
-                    x: visualX,
+        let pontoAtual          = 0;
+        let progresso           = 0;
+        let distanciaPercorrida = 0;
+        let distanciaTotal      = 0;
 
-                    y: visualY,
 
-                    realX:
-                        ponto.x,
+        /*
+        |--------------------------------------------------------------------------
+        | ESTADO DE EXECUÇÃO (Iniciar / Parar / Reiniciar)
+        |--------------------------------------------------------------------------
+        */
 
-                    realY:
-                        ponto.y,
+        let emExecucao      = false;
+        let animacaoId      = null;
+        let dadosCarregados = false;
 
-                    temperatura:
-                        ponto.temperatura,
 
-                    umidade:
-                        ponto.umidade,
+        /*
+        |--------------------------------------------------------------------------
+        | ATUALIZA BOTÕES
+        |--------------------------------------------------------------------------
+        */
 
-                    recebidaEm:
-                        ponto.recebidaEm
+        function atualizarBotoes() {
 
-                };
+            if (btnIniciar) {
+
+                btnIniciar.disabled = emExecucao || !dadosCarregados || rota.length < 2;
+
+            }
+
+
+            if (btnParar) {
+
+                btnParar.disabled = !emExecucao;
+
+            }
+
+
+            if (btnReiniciar) {
+
+                btnReiniciar.disabled = !dadosCarregados;
+
+            }
+
+
+            if (estadoRoboEl) {
+
+                if (emExecucao) {
+
+                    estadoRoboEl.innerText ='Em movimento';
+
+                    estadoRoboEl.className = 'status-ok';
+
+                }else{
+
+                    estadoRoboEl.innerText = 'Parado';
+
+                    estadoRoboEl.className = 'status-paused';
+
+                }
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INTERPOLAÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        function interpolar(a, b, valor) {
+
+            return a + (b - a) * valor;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SUAVIZAÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        function suavizar(valor) {
+
+            return valor * valor * (3 - 2 * valor);
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DISTÂNCIA
+        |--------------------------------------------------------------------------
+        */
+
+        function calcularDistancia(a, b) {
+
+            const dx =
+                b.x - a.x;
+
+            const dy =
+                b.y - a.y;
+
+
+            return Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DISTÂNCIA TOTAL
+        |--------------------------------------------------------------------------
+        */
+
+        function calcularDistanciaTotal() {
+
+            distanciaTotal = 0;
+
+
+            for (let i = 1; i < rota.length; i++){
+
+                distanciaTotal += calcularDistancia(rota[i - 1], rota[i]);
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRIA ROTA VISUAL
+        |--------------------------------------------------------------------------
+        |
+        | Os valores reais continuam sendo usados
+        | nas informações.
+        |
+        | O mapa expande automaticamente a rota
+        | para que os pontos não fiquem grudados.
+        |
+        */
+
+        function criarRotaVisual() {
+
+            if (rota.length === 0){
+
+                rotaVisual = [];
+
+                pontosClima = [];
+
+                return;
+
+            }
+
+
+            let menorX = rota[0].x;
+
+            let maiorX = rota[0].x;
+
+            let menorY = rota[0].y;
+
+            let maiorY = rota[0].y;
+
+
+            rota.forEach(function (ponto) {
+
+                if (ponto.x < menorX){
+
+                    menorX = ponto.x;
+
+                }
+
+
+                if (
+                    ponto.x > maiorX
+                ) {
+
+                    maiorX =
+                        ponto.x;
+
+                }
+
+
+                if (
+                    ponto.y < menorY
+                ) {
+
+                    menorY =
+                        ponto.y;
+
+                }
+
+
+                if (ponto.y > maiorY){
+
+                    maiorY = ponto.y;
+
+                }
 
             });
 
 
+            let intervaloX = maiorX - menorX;
+
+            let intervaloY = maiorY - menorY;
+
+
+            if (intervaloX === 0){
+
+                intervaloX = 1;
+
+            }
+
+
+            if (intervaloY === 0) {
+
+                intervaloY = 1;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ESPAÇO VISUAL
+            |--------------------------------------------------------------------------
+            */
+
+            const visualMinimo = 8;
+            const visualMaximo = 92;
+            const visualTamanho = visualMaximo - visualMinimo;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CONVERTE A ROTA
+            |--------------------------------------------------------------------------
+            */
+
+            rotaVisual =
+                rota.map(function (ponto) {
+
+                    const visualX =
+                        visualMinimo +
+                        (
+                            (
+                                ponto.x -
+                                menorX
+                            ) /
+                            intervaloX
+                        ) *
+                        visualTamanho;
+
+
+                    const visualY =
+                        visualMinimo +
+                        (
+                            (
+                                ponto.y -
+                                menorY
+                            ) /
+                            intervaloY
+                        ) *
+                        visualTamanho;
+
+
+                    return {
+
+                        x: visualX,
+
+                        y: visualY,
+
+                        realX:
+                            ponto.x,
+
+                        realY:
+                            ponto.y,
+
+                        temperatura:
+                            ponto.temperatura,
+
+                        umidade:
+                            ponto.umidade,
+
+                        recebidaEm:
+                            ponto.recebidaEm
+
+                    };
+
+                });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PONTOS CLIMÁTICOS
+            |--------------------------------------------------------------------------
+            */
+
+            pontosClima =
+                rotaVisual.map(function (ponto) {
+
+                    return {
+
+                        x:
+                            ponto.x,
+
+                        y:
+                            ponto.y,
+
+                        temperatura:
+                            ponto.temperatura,
+
+                        umidade:
+                            ponto.umidade
+
+                    };
+
+                });
+
+        }
+
+
         /*
         |--------------------------------------------------------------------------
-        | PONTOS CLIMÁTICOS
+        | POSIÇÃO VISUAL
         |--------------------------------------------------------------------------
         */
 
-        pontosClima =
-            rotaVisual.map(function (ponto) {
+        function obterPosicaoVisual() {
+
+            if (
+                rotaVisual.length === 0
+            ) {
+
+                return {
+                    x: 0,
+                    y: 0
+                };
+
+            }
+
+
+            if (
+                pontoAtual >=
+                rotaVisual.length - 1
+            ) {
 
                 return {
 
                     x:
-                        ponto.x,
+                        rotaVisual[
+                            rotaVisual.length - 1
+                        ].x,
 
                     y:
-                        ponto.y,
-
-                    temperatura:
-                        ponto.temperatura,
-
-                    umidade:
-                        ponto.umidade
+                        rotaVisual[
+                            rotaVisual.length - 1
+                        ].y
 
                 };
 
-            });
+            }
 
-    }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | POSIÇÃO VISUAL
-    |--------------------------------------------------------------------------
-    */
-
-    function obterPosicaoVisual() {
-
-        if (
-            rotaVisual.length === 0
-        ) {
-
-            return {
-                x: 0,
-                y: 0
-            };
-
-        }
-
-
-        if (
-            pontoAtual >=
-            rotaVisual.length - 1
-        ) {
-
-            return {
-
-                x:
-                    rotaVisual[
-                        rotaVisual.length - 1
-                    ].x,
-
-                y:
-                    rotaVisual[
-                        rotaVisual.length - 1
-                    ].y
-
-            };
-
-        }
-
-
-        const movimento =
-            suavizar(
-                progresso
-            );
-
-
-        return {
-
-            x:
-                interpolar(
-
-                    rotaVisual[
-                        pontoAtual
-                    ].x,
-
-                    rotaVisual[
-                        pontoAtual + 1
-                    ].x,
-
-                    movimento
-
-                ),
-
-            y:
-                interpolar(
-
-                    rotaVisual[
-                        pontoAtual
-                    ].y,
-
-                    rotaVisual[
-                        pontoAtual + 1
-                    ].y,
-
-                    movimento
-
-                )
-
-        };
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | POSIÇÃO REAL
-    |--------------------------------------------------------------------------
-    */
-
-    function obterPosicaoReal() {
-
-        if (
-            rota.length === 0
-        ) {
-
-            return {
-                x: 0,
-                y: 0
-            };
-
-        }
-
-
-        if (
-            pontoAtual >=
-            rota.length - 1
-        ) {
-
-            return {
-
-                x:
-                    rota[
-                        rota.length - 1
-                    ].x,
-
-                y:
-                    rota[
-                        rota.length - 1
-                    ].y
-
-            };
-
-        }
-
-
-        const movimento =
-            suavizar(
-                progresso
-            );
-
-
-        return {
-
-            x:
-                interpolar(
-
-                    rota[
-                        pontoAtual
-                    ].x,
-
-                    rota[
-                        pontoAtual + 1
-                    ].x,
-
-                    movimento
-
-                ),
-
-            y:
-                interpolar(
-
-                    rota[
-                        pontoAtual
-                    ].y,
-
-                    rota[
-                        pontoAtual + 1
-                    ].y,
-
-                    movimento
-
-                )
-
-        };
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DIREÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    function calcularDirecao(a, b) {
-
-        const dx =
-            b.x - a.x;
-
-        const dy =
-            b.y - a.y;
-
-
-        let graus =
-            Math.atan2(
-                dy,
-                dx
-            ) *
-            180 /
-            Math.PI;
-
-
-        if (
-            graus < 0
-        ) {
-
-            graus += 360;
-
-        }
-
-
-        return graus;
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CLIMA
-    |--------------------------------------------------------------------------
-    */
-
-    function obterClima(x, y) {
-
-        if (
-            rota.length === 0
-        ) {
-
-            return {
-
-                temperatura: 0,
-
-                umidade: 0
-
-            };
-
-        }
-
-
-        let menorDistancia =
-            Infinity;
-
-        let pontoMaisProximo =
-            rota[0];
-
-
-        rota.forEach(function (ponto) {
-
-            const distancia =
-                calcularDistancia(
-
-                    {
-                        x: x,
-                        y: y
-                    },
-
-                    ponto
-
+            const movimento =
+                suavizar(
+                    progresso
                 );
 
 
+            return {
+
+                x:
+                    interpolar(
+
+                        rotaVisual[
+                            pontoAtual
+                        ].x,
+
+                        rotaVisual[
+                            pontoAtual + 1
+                        ].x,
+
+                        movimento
+
+                    ),
+
+                y:
+                    interpolar(
+
+                        rotaVisual[
+                            pontoAtual
+                        ].y,
+
+                        rotaVisual[
+                            pontoAtual + 1
+                        ].y,
+
+                        movimento
+
+                    )
+
+            };
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | POSIÇÃO REAL
+        |--------------------------------------------------------------------------
+        */
+
+        function obterPosicaoReal() {
+
             if (
-                distancia <
-                menorDistancia
+                rota.length === 0
             ) {
 
-                menorDistancia =
-                    distancia;
-
-                pontoMaisProximo =
-                    ponto;
-
-            }
-
-        });
-
-
-        return {
-
-            temperatura:
-                pontoMaisProximo.temperatura,
-
-            umidade:
-                pontoMaisProximo.umidade
-
-        };
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | AJUSTA CANVAS
-    |--------------------------------------------------------------------------
-    */
-
-    function ajustarCanvas() {
-
-        const width =
-            canvas.clientWidth;
-
-        const height =
-            canvas.clientHeight;
-
-
-        if (
-            width <= 0 ||
-            height <= 0
-        ) {
-
-            return;
-
-        }
-
-
-        const dpr =
-            window.devicePixelRatio || 1;
-
-
-        canvas.width =
-            width * dpr;
-
-        canvas.height =
-            height * dpr;
-
-
-        canvas.style.width =
-            width + 'px';
-
-        canvas.style.height =
-            height + 'px';
-
-
-        ctx.setTransform(
-
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CONVERSÃO DO MAPA
-    |--------------------------------------------------------------------------
-    */
-
-    function criarConversao(
-        width,
-        height
-    ) {
-
-        const margem = 55;
-
-
-        const larguraMapa =
-            width -
-            margem * 2;
-
-
-        const alturaMapa =
-            height -
-            margem * 2;
-
-
-        return {
-
-            margem: margem,
-
-            largura:
-                larguraMapa,
-
-            altura:
-                alturaMapa,
-
-
-            x: function (valor) {
-
-                return margem +
-                    (
-                        valor / 100
-                    ) *
-                    larguraMapa;
-
-            },
-
-
-            y: function (valor) {
-
-                return height -
-                    margem -
-                    (
-                        valor / 100
-                    ) *
-                    alturaMapa;
+                return {
+                    x: 0,
+                    y: 0
+                };
 
             }
 
-        };
 
-    }
+            if (
+                pontoAtual >=
+                rota.length - 1
+            ) {
+
+                return {
+
+                    x:
+                        rota[
+                            rota.length - 1
+                        ].x,
+
+                    y:
+                        rota[
+                            rota.length - 1
+                        ].y
+
+                };
+
+            }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | COR DA TEMPERATURA
-    |--------------------------------------------------------------------------
-    */
+            const movimento =
+                suavizar(
+                    progresso
+                );
 
-    function corTemperatura(temp) {
-
-        if (
-            temp < 22
-        ) {
 
             return {
-                r: 59,
-                g: 130,
-                b: 246
+
+                x:
+                    interpolar(
+
+                        rota[
+                            pontoAtual
+                        ].x,
+
+                        rota[
+                            pontoAtual + 1
+                        ].x,
+
+                        movimento
+
+                    ),
+
+                y:
+                    interpolar(
+
+                        rota[
+                            pontoAtual
+                        ].y,
+
+                        rota[
+                            pontoAtual + 1
+                        ].y,
+
+                        movimento
+
+                    )
+
             };
 
         }
 
 
-        if (
-            temp < 24
-        ) {
+        /*
+        |--------------------------------------------------------------------------
+        | DIREÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        function calcularDirecao(a, b) {
+
+            const dx =
+                b.x - a.x;
+
+            const dy =
+                b.y - a.y;
+
+
+            let graus =
+                Math.atan2(
+                    dy,
+                    dx
+                ) *
+                180 /
+                Math.PI;
+
+
+            if (
+                graus < 0
+            ) {
+
+                graus += 360;
+
+            }
+
+
+            return graus;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CLIMA
+        |--------------------------------------------------------------------------
+        */
+
+        function obterClima(x, y) {
+
+            if (
+                rota.length === 0
+            ) {
+
+                return {
+
+                    temperatura: 0,
+
+                    umidade: 0
+
+                };
+
+            }
+
+
+            let menorDistancia =
+                Infinity;
+
+            let pontoMaisProximo =
+                rota[0];
+
+
+            rota.forEach(function (ponto) {
+
+                const distancia =
+                    calcularDistancia(
+
+                        {
+                            x: x,
+                            y: y
+                        },
+
+                        ponto
+
+                    );
+
+
+                if (
+                    distancia <
+                    menorDistancia
+                ) {
+
+                    menorDistancia =
+                        distancia;
+
+                    pontoMaisProximo =
+                        ponto;
+
+                }
+
+            });
+
 
             return {
-                r: 56,
-                g: 189,
-                b: 248
+
+                temperatura:
+                    pontoMaisProximo.temperatura,
+
+                umidade:
+                    pontoMaisProximo.umidade
+
             };
 
         }
 
 
-        if (
-            temp < 26
-        ) {
+        /*
+        |--------------------------------------------------------------------------
+        | AJUSTA CANVAS
+        |--------------------------------------------------------------------------
+        */
 
-            return {
-                r: 74,
-                g: 222,
-                b: 128
-            };
+        function ajustarCanvas() {
 
-        }
+            const width =
+                canvas.clientWidth;
 
-
-        if (
-            temp < 28
-        ) {
-
-            return {
-                r: 250,
-                g: 204,
-                b: 21
-            };
-
-        }
+            const height =
+                canvas.clientHeight;
 
 
-        if (
-            temp < 30
-        ) {
+            if (
+                width <= 0 ||
+                height <= 0
+            ) {
 
-            return {
-                r: 249,
-                g: 115,
-                b: 22
-            };
+                return;
 
-        }
+            }
 
 
-        return {
-            r: 239,
-            g: 68,
-            b: 68
-        };
-
-    }
+            const dpr =
+                window.devicePixelRatio || 1;
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | DESENHA MAPA
-    |--------------------------------------------------------------------------
-    */
+            canvas.width =
+                width * dpr;
 
-    function desenharMapa() {
-
-        const width =
-            canvas.clientWidth;
-
-        const height =
-            canvas.clientHeight;
+            canvas.height =
+                height * dpr;
 
 
-        if (
-            !width ||
-            !height
-        ) {
+            canvas.style.width =
+                width + 'px';
 
-            return;
+            canvas.style.height =
+                height + 'px';
+
+
+            ctx.setTransform(
+
+                dpr,
+                0,
+                0,
+                dpr,
+                0,
+                0
+
+            );
 
         }
 
 
-        ctx.clearRect(
-            0,
-            0,
+        /*
+        |--------------------------------------------------------------------------
+        | CONVERSÃO DO MAPA
+        |--------------------------------------------------------------------------
+        */
+
+        function criarConversao(
             width,
             height
-        );
+        ) {
+
+            const margem = 55;
 
 
-        const mapa =
-            criarConversao(
+            const larguraMapa =
+                width -
+                margem * 2;
+
+
+            const alturaMapa =
+                height -
+                margem * 2;
+
+
+            return {
+
+                margem: margem,
+
+                largura:
+                    larguraMapa,
+
+                altura:
+                    alturaMapa,
+
+
+                x: function (valor) {
+
+                    return margem +
+                        (
+                            valor / 100
+                        ) *
+                        larguraMapa;
+
+                },
+
+
+                y: function (valor) {
+
+                    return height -
+                        margem -
+                        (
+                            valor / 100
+                        ) *
+                        alturaMapa;
+
+                }
+
+            };
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | COR DA TEMPERATURA
+        |--------------------------------------------------------------------------
+        */
+
+        function corTemperatura(temp) {
+
+            if (
+                temp < 22
+            ) {
+
+                return {
+                    r: 59,
+                    g: 130,
+                    b: 246
+                };
+
+            }
+
+
+            if (
+                temp < 24
+            ) {
+
+                return {
+                    r: 56,
+                    g: 189,
+                    b: 248
+                };
+
+            }
+
+
+            if (
+                temp < 26
+            ) {
+
+                return {
+                    r: 74,
+                    g: 222,
+                    b: 128
+                };
+
+            }
+
+
+            if (
+                temp < 28
+            ) {
+
+                return {
+                    r: 250,
+                    g: 204,
+                    b: 21
+                };
+
+            }
+
+
+            if (
+                temp < 30
+            ) {
+
+                return {
+                    r: 249,
+                    g: 115,
+                    b: 22
+                };
+
+            }
+
+
+            return {
+                r: 239,
+                g: 68,
+                b: 68
+            };
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DESENHA MAPA
+        |--------------------------------------------------------------------------
+        */
+
+        function desenharMapa() {
+
+            const width =
+                canvas.clientWidth;
+
+            const height =
+                canvas.clientHeight;
+
+
+            if (
+                !width ||
+                !height
+            ) {
+
+                return;
+
+            }
+
+
+            ctx.clearRect(
+                0,
+                0,
                 width,
                 height
             );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | FUNDO
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            '#101a17';
-
-        ctx.fillRect(
-            0,
-            0,
-            width,
-            height
-        );
+            const mapa =
+                criarConversao(
+                    width,
+                    height
+                );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | ÁREA AGRÍCOLA
-        |--------------------------------------------------------------------------
-        */
+            /*
+            |--------------------------------------------------------------------------
+            | FUNDO
+            |--------------------------------------------------------------------------
+            */
 
-        ctx.fillStyle =
-            '#16251d';
+            ctx.fillStyle =
+                '#101a17';
 
-        ctx.fillRect(
-
-            mapa.margem,
-
-            mapa.margem,
-
-            mapa.largura,
-
-            mapa.altura
-
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GRID
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.strokeStyle =
-            'rgba(130,170,130,0.12)';
-
-        ctx.lineWidth = 1;
-
-
-        for (
-            let i = 0;
-            i <= 10;
-            i++
-        ) {
-
-            const x =
-                mapa.margem +
-                (
-                    i / 10
-                ) *
-                mapa.largura;
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                x,
-                mapa.margem
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
             );
 
-            ctx.lineTo(
-                x,
-                height - mapa.margem
-            );
 
-            ctx.stroke();
+            /*
+            |--------------------------------------------------------------------------
+            | ÁREA AGRÍCOLA
+            |--------------------------------------------------------------------------
+            */
 
+            ctx.fillStyle =
+                '#16251d';
 
-            const y =
-                height -
-                mapa.margem -
-                (
-                    i / 10
-                ) *
-                mapa.altura;
+            ctx.fillRect(
 
-
-            ctx.beginPath();
-
-            ctx.moveTo(
                 mapa.margem,
-                y
-            );
 
-            ctx.lineTo(
-                width - mapa.margem,
-                y
-            );
+                mapa.margem,
 
-            ctx.stroke();
+                mapa.largura,
 
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | LINHAS DE PLANTIO
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.strokeStyle =
-            'rgba(72,187,120,0.06)';
-
-        ctx.lineWidth = 2;
-
-
-        for (
-            let x =
-                mapa.margem + 20;
-
-            x <
-                width - mapa.margem;
-
-            x += 35
-        ) {
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                x,
-                mapa.margem
-            );
-
-            ctx.lineTo(
-                x,
-                height - mapa.margem
-            );
-
-            ctx.stroke();
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | MAPA TÉRMICO
-        |--------------------------------------------------------------------------
-        */
-
-        pontosClima.forEach(
-            function (ponto) {
-
-                const px =
-                    mapa.x(
-                        ponto.x
-                    );
-
-                const py =
-                    mapa.y(
-                        ponto.y
-                    );
-
-
-                const cor =
-                    corTemperatura(
-                        ponto.temperatura
-                    );
-
-
-                /*
-                |----------------------------------------------------------------------
-                | RAIO MENOR PARA NÃO ESCONDER A ROTA
-                |----------------------------------------------------------------------
-                */
-
-                const raio =
-                    Math.min(
-                        mapa.largura,
-                        mapa.altura
-                    ) * 0.075;
-
-
-                const gradiente =
-                    ctx.createRadialGradient(
-
-                        px,
-                        py,
-                        0,
-
-                        px,
-                        py,
-                        raio
-
-                    );
-
-
-                gradiente.addColorStop(
-
-                    0,
-
-                    `rgba(
-                        ${cor.r},
-                        ${cor.g},
-                        ${cor.b},
-                        0.16
-                    )`
-
-                );
-
-
-                gradiente.addColorStop(
-
-                    1,
-
-                    `rgba(
-                        ${cor.r},
-                        ${cor.g},
-                        ${cor.b},
-                        0
-                    )`
-
-                );
-
-
-                ctx.fillStyle =
-                    gradiente;
-
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    px,
-                    py,
-                    raio,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-
-            }
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | VALORES DOS EIXOS
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            'rgba(255,255,255,0.55)';
-
-        ctx.font =
-            '11px Arial';
-
-        ctx.textAlign =
-            'center';
-
-
-        for (
-            let i = 0;
-            i <= 10;
-            i++
-        ) {
-
-            const valor =
-                i * 10;
-
-
-            /*
-            |----------------------------------------------------------------------
-            | EIXO X
-            |----------------------------------------------------------------------
-            */
-
-            const x =
-                mapa.margem +
-                (
-                    i / 10
-                ) *
-                mapa.largura;
-
-
-            ctx.fillText(
-
-                valor,
-
-                x,
-
-                height - 12
+                mapa.altura
 
             );
 
 
             /*
-            |----------------------------------------------------------------------
-            | EIXO Y
-            |----------------------------------------------------------------------
+            |--------------------------------------------------------------------------
+            | GRID
+            |--------------------------------------------------------------------------
             */
 
-            const y =
-                height -
-                mapa.margem -
-                (
-                    i / 10
-                ) *
-                mapa.altura;
+            ctx.strokeStyle =
+                'rgba(130,170,130,0.12)';
+
+            ctx.lineWidth = 1;
 
 
-            ctx.textAlign =
-                'right';
-
-
-            ctx.fillText(
-
-                valor,
-
-                mapa.margem - 17,
-
-                y + 4
-
-            );
-
-
-            ctx.textAlign =
-                'center';
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PONTOS DE TEMPERATURA
-        |--------------------------------------------------------------------------
-        */
-
-        pontosClima.forEach(
-            function (ponto, index) {
+            for (
+                let i = 0;
+                i <= 10;
+                i++
+            ) {
 
                 const x =
-                    mapa.x(
-                        ponto.x
-                    );
+                    mapa.margem +
+                    (
+                        i / 10
+                    ) *
+                    mapa.largura;
 
-                const y =
-                    mapa.y(
-                        ponto.y
-                    );
-
-
-                const cor =
-                    corTemperatura(
-                        ponto.temperatura
-                    );
-
-
-                /*
-                |----------------------------------------------------------------------
-                | CÍRCULO EXTERNO
-                |----------------------------------------------------------------------
-                */
 
                 ctx.beginPath();
 
-                ctx.arc(
+                ctx.moveTo(
                     x,
-                    y,
-                    6,
-                    0,
-                    Math.PI * 2
+                    mapa.margem
                 );
 
-
-                ctx.fillStyle =
-                    `rgb(
-                        ${cor.r},
-                        ${cor.g},
-                        ${cor.b}
-                    )`;
-
-                ctx.fill();
-
-
-                ctx.strokeStyle =
-                    'rgba(255,255,255,0.75)';
-
-                ctx.lineWidth = 1.5;
+                ctx.lineTo(
+                    x,
+                    height - mapa.margem
+                );
 
                 ctx.stroke();
 
 
+                const y =
+                    height -
+                    mapa.margem -
+                    (
+                        i / 10
+                    ) *
+                    mapa.altura;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    mapa.margem,
+                    y
+                );
+
+                ctx.lineTo(
+                    width - mapa.margem,
+                    y
+                );
+
+                ctx.stroke();
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LINHAS DE PLANTIO
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.strokeStyle =
+                'rgba(72,187,120,0.06)';
+
+            ctx.lineWidth = 2;
+
+
+            for (
+                let x =
+                    mapa.margem + 20;
+
+                x <
+                    width - mapa.margem;
+
+                x += 35
+            ) {
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    x,
+                    mapa.margem
+                );
+
+                ctx.lineTo(
+                    x,
+                    height - mapa.margem
+                );
+
+                ctx.stroke();
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | MAPA TÉRMICO
+            |--------------------------------------------------------------------------
+            */
+
+            // Calor localizado nos pontos, com bordas transparentes; não altera medições ou rota.
+            if (mapa.largura > 0 && mapa.altura > 0) {
+                let termico = desenharMapa.cacheTermico;
+                if (!termico || termico.pontos !== pontosClima || termico.largura !== mapa.largura || termico.altura !== mapa.altura) {
+                    const pontos = pontosClima.filter(function (p) { return Number.isFinite(p.x) && Number.isFinite(p.y) && Number.isFinite(p.temperatura); });
+                    const camada = document.createElement('canvas');
+                    camada.width = Math.max(2, Math.ceil(mapa.largura)); camada.height = Math.max(2, Math.ceil(mapa.altura));
+                    const pintura = camada.getContext('2d');
+                    const colunas = Math.min(220, Math.max(2, Math.ceil(mapa.largura / 3)));
+                    const linhas = Math.min(160, Math.max(2, Math.ceil(mapa.altura / 3)));
+                    const campo = new Float64Array(colunas * linhas);
+                    const raster = document.createElement('canvas'); raster.width = colunas; raster.height = linhas;
+                    const rasterCtx = raster.getContext('2d'); const pixels = rasterCtx.createImageData(colunas, linhas);
+                    const amostras = new Map();
+                    pontos.forEach(function (p) { const chave = p.x + ':' + p.y; const a = amostras.get(chave) || { x: p.x, y: p.y, soma: 0, n: 0 }; a.soma += p.temperatura; a.n++; amostras.set(chave, a); });
+                    const dados = Array.from(amostras.values()).map(function (a) { return { x: a.x, y: a.y, temperatura: a.soma / a.n }; });
+                    const paleta = [21, 23, 25, 27, 29, 31].map(function (t) { return corTemperatura(t); });
+                    for (let y = 0; y < linhas && dados.length; y++) {
+                        for (let x = 0; x < colunas; x++) {
+                            const vx = x * 100 / (colunas - 1); const vy = 100 - y * 100 / (linhas - 1);
+                            let soma = 0; let pesos = 0; let distanciaMinima = Infinity;
+                            dados.forEach(function (p) { const d2 = (vx - p.x) * (vx - p.x) + (vy - p.y) * (vy - p.y); distanciaMinima = Math.min(distanciaMinima, d2); const peso = 1 / Math.pow(Math.max(d2, 0.000001), 1.5); soma += p.temperatura * peso; pesos += peso; });
+                            const temperatura = soma / pesos; campo[y * colunas + x] = temperatura;
+                            const nivel = Math.max(0, Math.min(5, (temperatura - 21) / 2)); const inferior = Math.min(4, Math.floor(nivel)); const fracao = nivel - inferior;
+                            const a = paleta[inferior]; const b = paleta[inferior + 1]; const i = (y * colunas + x) * 4;
+                            pixels.data[i] = Math.round(a.r + (b.r - a.r) * fracao); pixels.data[i + 1] = Math.round(a.g + (b.g - a.g) * fracao); pixels.data[i + 2] = Math.round(a.b + (b.b - a.b) * fracao); const distancia = Math.sqrt(distanciaMinima); const alcance = Math.max(0, Math.min(1, (16 - distancia) / 12)); pixels.data[i + 3] = Math.round(235 * alcance * alcance * (3 - 2 * alcance));
+                        }
+                    }
+                    rasterCtx.putImageData(pixels, 0, 0);
+                    pintura.imageSmoothingEnabled = true; pintura.imageSmoothingQuality = 'high';
+                    pintura.drawImage(raster, 0, 0, camada.width, camada.height);
+                    // Isotermas a partir de 0,5 °C sobre o mesmo campo interpolado; triangulação evita cruzamentos ambíguos.
+                    if (dados.length > 1) {
+                        let minimo = Infinity; let maximo = -Infinity;
+                        dados.forEach(function (p) { minimo = Math.min(minimo, p.temperatura); maximo = Math.max(maximo, p.temperatura); });
+                        const passo = Math.max(0.5, Math.ceil((maximo - minimo) / 12) / 2);
+                        pintura.strokeStyle = 'rgba(255,255,255,0.42)'; pintura.lineWidth = 0.8; pintura.lineJoin = 'round'; pintura.lineCap = 'round';
+                        for (let nivel = Math.ceil(minimo / passo) * passo; nivel < maximo; nivel += passo) {
+                            pintura.beginPath();
+                            for (let y = 0; y < linhas - 1; y++) {
+                                for (let x = 0; x < colunas - 1; x++) {
+                                    const a = [x, y, campo[y * colunas + x]]; const b = [x + 1, y, campo[y * colunas + x + 1]];
+                                    const c = [x + 1, y + 1, campo[(y + 1) * colunas + x + 1]]; const d = [x, y + 1, campo[(y + 1) * colunas + x]];
+                                    [[a, b, c], [a, c, d]].forEach(function (triangulo) {
+                                        const cortes = [];
+                                        for (let e = 0; e < 3; e++) {
+                                            const p = triangulo[e]; const q = triangulo[(e + 1) % 3];
+                                            if ((p[2] < nivel) !== (q[2] < nivel)) { const f = (nivel - p[2]) / (q[2] - p[2]); cortes.push([(p[0] + (q[0] - p[0]) * f) * camada.width / (colunas - 1), (p[1] + (q[1] - p[1]) * f) * camada.height / (linhas - 1)]); }
+                                        }
+                                        if (cortes.length === 2) { pintura.moveTo(cortes[0][0], cortes[0][1]); pintura.lineTo(cortes[1][0], cortes[1][1]); }
+                                    });
+                                }
+                            }
+                            pintura.stroke();
+                        }
+                    }
+                    pintura.globalCompositeOperation = 'destination-in'; pintura.drawImage(raster, 0, 0, camada.width, camada.height); pintura.globalCompositeOperation = 'source-over'; termico = { pontos: pontosClima, largura: mapa.largura, altura: mapa.altura, camada: camada, ativo: dados.length > 0 };
+                    desenharMapa.cacheTermico = termico;
+                }
+                if (termico.ativo) {
+                    ctx.save(); ctx.beginPath(); ctx.rect(mapa.margem, mapa.margem, mapa.largura, mapa.altura); ctx.clip();
+                    ctx.drawImage(termico.camada, mapa.margem, mapa.margem, mapa.largura, mapa.altura); ctx.restore();
+                    ctx.save(); ctx.font = '10px Arial'; ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.fillText('Temperatura estimada (°C)', mapa.margem, mapa.margem - 29, mapa.largura);
+                    const larguraEscala = Math.min(140, mapa.largura); const escala = ctx.createLinearGradient(mapa.margem, 0, mapa.margem + larguraEscala, 0);
+                    [21, 23, 25, 27, 29, 31].forEach(function (t, i) { const c = corTemperatura(t); escala.addColorStop(i / 5, 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')'); });
+                    ctx.fillStyle = escala; ctx.fillRect(mapa.margem, mapa.margem - 22, larguraEscala, 5);
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fillText('≤21', mapa.margem, mapa.margem - 5); ctx.textAlign = 'right'; ctx.fillText('≥31 °C', mapa.margem + larguraEscala, mapa.margem - 5); ctx.restore();
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | VALORES DOS EIXOS
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.fillStyle =
+                'rgba(255,255,255,0.55)';
+
+            ctx.font =
+                '11px Arial';
+
+            ctx.textAlign =
+                'center';
+
+
+            for (
+                let i = 0;
+                i <= 10;
+                i++
+            ) {
+
+                const valor =
+                    i * 10;
+
+
                 /*
                 |----------------------------------------------------------------------
-                | NÚMERO DO PONTO
+                | EIXO X
                 |----------------------------------------------------------------------
                 */
 
-                ctx.fillStyle =
-                    'rgba(255,255,255,0.75)';
-
-                ctx.font =
-                    '9px Arial';
-
-                ctx.textAlign =
-                    'center';
+                const x =
+                    mapa.margem +
+                    (
+                        i / 10
+                    ) *
+                    mapa.largura;
 
 
                 ctx.fillText(
 
-                    index + 1,
+                    valor,
 
                     x,
 
-                    y - 10
+                    height - 12
 
                 );
 
+
+                /*
+                |----------------------------------------------------------------------
+                | EIXO Y
+                |----------------------------------------------------------------------
+                */
+
+                const y =
+                    height -
+                    mapa.margem -
+                    (
+                        i / 10
+                    ) *
+                    mapa.altura;
+
+
+                ctx.textAlign =
+                    'right';
+
+
+                ctx.fillText(
+
+                    valor,
+
+                    mapa.margem - 17,
+
+                    y + 4
+
+                );
+
+
+                ctx.textAlign =
+                    'center';
+
             }
-        );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | ROTA COMPLETA
-        |--------------------------------------------------------------------------
-        */
+            /*
+            |--------------------------------------------------------------------------
+            | PONTOS DE TEMPERATURA
+            |--------------------------------------------------------------------------
+            */
 
-        if (
-            rotaVisual.length > 0
-        ) {
+            pontosClima.forEach(
+                function (ponto, index) {
 
-            ctx.beginPath();
+                    const x =
+                        mapa.x(
+                            ponto.x
+                        );
 
+                    const y =
+                        mapa.y(
+                            ponto.y
+                        );
+
+
+                    const cor =
+                        corTemperatura(
+                            ponto.temperatura
+                        );
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | CÍRCULO EXTERNO
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        x,
+                        y,
+                        6,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        `rgb(
+                            ${cor.r},
+                            ${cor.g},
+                            ${cor.b}
+                        )`;
+
+                    ctx.fill();
+
+
+                    ctx.strokeStyle =
+                        'rgba(255,255,255,0.75)';
+
+                    ctx.lineWidth = 1.5;
+
+                    ctx.stroke();
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | NÚMERO DO PONTO
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.fillStyle =
+                        'rgba(255,255,255,0.75)';
+
+                    ctx.font =
+                        '9px Arial';
+
+                    ctx.textAlign =
+                        'center';
+
+
+                    ctx.fillText(
+
+                        index + 1,
+
+                        x,
+
+                        y - 10
+
+                    );
+
+                }
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ROTA COMPLETA
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                rotaVisual.length > 0
+            ) {
+
+                ctx.beginPath();
+
+
+                rotaVisual.forEach(
+                    function (
+                        ponto,
+                        index
+                    ) {
+
+                        const x =
+                            mapa.x(
+                                ponto.x
+                            );
+
+                        const y =
+                            mapa.y(
+                                ponto.y
+                            );
+
+
+                        if (
+                            index === 0
+                        ) {
+
+                            ctx.moveTo(
+                                x,
+                                y
+                            );
+
+                        } else {
+
+                            ctx.lineTo(
+                                x,
+                                y
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                ctx.strokeStyle =
+                    'rgba(255,255,255,0.18)';
+
+                ctx.lineWidth = 2;
+
+                ctx.setLineDash([
+                    7,
+                    7
+                ]);
+
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | TRAJETO PERCORRIDO
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                rotaVisual.length > 0
+            ) {
+
+                ctx.beginPath();
+
+
+                for (
+                    let i = 0;
+                    i <= pontoAtual;
+                    i++
+                ) {
+
+                    const ponto =
+                        rotaVisual[i];
+
+
+                    const x =
+                        mapa.x(
+                            ponto.x
+                        );
+
+                    const y =
+                        mapa.y(
+                            ponto.y
+                        );
+
+
+                    if (
+                        i === 0
+                    ) {
+
+                        ctx.moveTo(
+                            x,
+                            y
+                        );
+
+                    } else {
+
+                        ctx.lineTo(
+                            x,
+                            y
+                        );
+
+                    }
+
+                }
+
+
+                /*
+                |----------------------------------------------------------------------
+                | TRECHO ATUAL
+                |----------------------------------------------------------------------
+                */
+
+                if (
+                    pontoAtual <
+                    rotaVisual.length - 1
+                ) {
+
+                    const inicio =
+                        rotaVisual[
+                            pontoAtual
+                        ];
+
+                    const fim =
+                        rotaVisual[
+                            pontoAtual + 1
+                        ];
+
+
+                    const movimento =
+                        suavizar(
+                            progresso
+                        );
+
+
+                    const x =
+                        interpolar(
+
+                            inicio.x,
+
+                            fim.x,
+
+                            movimento
+
+                        );
+
+
+                    const y =
+                        interpolar(
+
+                            inicio.y,
+
+                            fim.y,
+
+                            movimento
+
+                        );
+
+
+                    ctx.lineTo(
+
+                        mapa.x(x),
+
+                        mapa.y(y)
+
+                    );
+
+                }
+
+
+                ctx.strokeStyle =
+                    '#4ade80';
+
+                ctx.lineWidth = 5;
+
+                ctx.lineJoin =
+                    'round';
+
+                ctx.lineCap =
+                    'round';
+
+                ctx.stroke();
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PONTOS DA ROTA
+            |--------------------------------------------------------------------------
+            */
 
             rotaVisual.forEach(
                 function (
@@ -2976,109 +3120,463 @@ document.addEventListener('DOMContentLoaded', function () {
                         );
 
 
-                    if (
-                        index === 0
-                    ) {
+                    /*
+                    |----------------------------------------------------------------------
+                    | ANEL
+                    |----------------------------------------------------------------------
+                    */
 
-                        ctx.moveTo(
-                            x,
-                            y
-                        );
+                    ctx.beginPath();
 
-                    } else {
+                    ctx.arc(
+                        x,
+                        y,
+                        6,
+                        0,
+                        Math.PI * 2
+                    );
 
-                        ctx.lineTo(
-                            x,
-                            y
-                        );
 
-                    }
+                    ctx.strokeStyle =
+                        index <= pontoAtual
+                            ? 'rgba(74,222,128,0.35)'
+                            : 'rgba(255,255,255,0.18)';
+
+                    ctx.lineWidth = 2;
+
+                    ctx.stroke();
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | PONTO
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        x,
+                        y,
+                        3.5,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        index <= pontoAtual
+                            ? '#4ade80'
+                            : '#94a3a0';
+
+
+                    ctx.fill();
 
                 }
             );
 
 
-            ctx.strokeStyle =
-                'rgba(255,255,255,0.18)';
+            /*
+            |--------------------------------------------------------------------------
+            | ORIGEM
+            |--------------------------------------------------------------------------
+            */
 
-            ctx.lineWidth = 2;
-
-            ctx.setLineDash([
-                7,
-                7
-            ]);
-
-            ctx.stroke();
-
-            ctx.setLineDash([]);
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | TRAJETO PERCORRIDO
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            rotaVisual.length > 0
-        ) {
-
-            ctx.beginPath();
-
-
-            for (
-                let i = 0;
-                i <= pontoAtual;
-                i++
+            if (
+                rotaVisual.length > 0
             ) {
 
-                const ponto =
-                    rotaVisual[i];
+                const inicio =
+                    rotaVisual[0];
 
 
-                const x =
+                const inicioX =
                     mapa.x(
-                        ponto.x
+                        inicio.x
                     );
 
-                const y =
+                const inicioY =
                     mapa.y(
-                        ponto.y
+                        inicio.y
                     );
 
 
-                if (
-                    i === 0
-                ) {
+                ctx.beginPath();
 
-                    ctx.moveTo(
-                        x,
-                        y
-                    );
+                ctx.arc(
+                    inicioX,
+                    inicioY,
+                    11,
+                    0,
+                    Math.PI * 2
+                );
 
-                } else {
 
-                    ctx.lineTo(
-                        x,
-                        y
-                    );
+                ctx.strokeStyle =
+                    '#94a3b8';
 
-                }
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                ctx.fillStyle =
+                    '#cbd5e1';
+
+                ctx.font =
+                    'bold 10px Arial';
+
+                ctx.textAlign =
+                    'left';
+
+
+                ctx.fillText(
+
+                    'ORIGEM',
+
+                    inicioX + 15,
+
+                    inicioY + 4
+
+                );
 
             }
 
 
             /*
-            |----------------------------------------------------------------------
-            | TRECHO ATUAL
-            |----------------------------------------------------------------------
+            |--------------------------------------------------------------------------
+            | DESTINO
+            |--------------------------------------------------------------------------
+            |
+            | O destino é sempre o último ponto da rota carregada do banco.
+            |
+            */
+
+            if (rotaVisual.length > 0){
+
+                const destino =rotaVisual[rotaVisual.length - 1];
+
+
+                const destinoX = mapa.x(destino.x);
+
+
+                const destinoY = mapa.y(destino.y);
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CÍRCULO EXTERNO
+                |--------------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    destinoX,
+                    destinoY,
+                    15,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.strokeStyle =
+                    '#f59e0b';
+
+                ctx.lineWidth = 3;
+
+                ctx.stroke();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PONTO CENTRAL
+                |--------------------------------------------------------------------------
+                */
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    destinoX,
+                    destinoY,
+                    5,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle =
+                    '#f59e0b';
+
+                ctx.fill();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | TEXTO
+                |--------------------------------------------------------------------------
+                */
+
+                ctx.fillStyle =
+                    '#f8fafc';
+
+                ctx.font =
+                    'bold 10px Arial';
+
+                ctx.textAlign =
+                    'left';
+
+
+                ctx.fillText(
+
+                    'DESTINO',
+
+                    destinoX + 19,
+
+                    destinoY + 4
+
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | OBJETOS DETECTADOS
+            |--------------------------------------------------------------------------
+            */
+
+            objetos.forEach(
+                function (objeto) {
+
+                    const x =
+                        mapa.x(
+                            objeto.x
+                        );
+
+                    const y =
+                        mapa.y(
+                            objeto.y
+                        );
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | ÁREA DE DETECÇÃO
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        x,
+                        y,
+                        22,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        'rgba(245,158,11,0.08)';
+
+                    ctx.fill();
+
+
+                    ctx.strokeStyle =
+                        'rgba(245,158,11,0.35)';
+
+                    ctx.lineWidth = 1;
+
+                    ctx.stroke();
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | OBJETO
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        x,
+                        y,
+                        8,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fillStyle =
+                        '#f59e0b';
+
+                    ctx.fill();
+
+
+                    ctx.strokeStyle =
+                        '#fff';
+
+                    ctx.lineWidth = 2;
+
+                    ctx.stroke();
+
+
+                    /*
+                    |----------------------------------------------------------------------
+                    | NOME
+                    |----------------------------------------------------------------------
+                    */
+
+                    ctx.fillStyle =
+                        '#f8fafc';
+
+                    ctx.font =
+                        'bold 11px Arial';
+
+                    ctx.textAlign =
+                        'left';
+
+
+                    ctx.fillText(
+
+                        objeto.tipo,
+
+                        x + 15,
+
+                        y - 10
+
+                    );
+
+                }
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | POSIÇÃO VISUAL DO ROBÔ
+            |--------------------------------------------------------------------------
+            */
+
+            const posicaoVisual =
+                obterPosicaoVisual();
+
+
+            const roboX =
+                mapa.x(
+                    posicaoVisual.x
+                );
+
+
+            const roboY =
+                mapa.y(
+                    posicaoVisual.y
+                );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | POSIÇÃO REAL
+            |--------------------------------------------------------------------------
+            */
+
+            const posicaoReal =
+                obterPosicaoReal();
+
+
+            robo.x =
+                posicaoReal.x;
+
+            robo.y =
+                posicaoReal.y;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CLIMA
+            |--------------------------------------------------------------------------
+            */
+
+            const clima =
+                obterClima(
+
+                    robo.x,
+
+                    robo.y
+
+                );
+
+
+            robo.temperatura =
+                clima.temperatura;
+
+            robo.umidade =
+                clima.umidade;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DIREÇÃO
+            |--------------------------------------------------------------------------
             */
 
             if (
                 pontoAtual <
-                rotaVisual.length - 1
+                rota.length - 1
+            ) {
+
+                robo.direcao =
+                    calcularDirecao(
+
+                        rota[pontoAtual],
+
+                        rota[pontoAtual + 1]
+
+                    );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CÍRCULO DE DETECÇÃO
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.beginPath();
+
+            ctx.arc(
+                roboX,
+                roboY,
+                32,
+                0,
+                Math.PI * 2
+            );
+
+
+            ctx.fillStyle =
+                'rgba(74,222,128,0.07)';
+
+            ctx.fill();
+
+
+            ctx.strokeStyle =
+                'rgba(74,222,128,0.30)';
+
+            ctx.lineWidth = 1.5;
+
+            ctx.stroke();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SETA DE DIREÇÃO
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                pontoAtual <
+                rota.length - 1
             ) {
 
                 const inicio =
@@ -3092,188 +3590,303 @@ document.addEventListener('DOMContentLoaded', function () {
                     ];
 
 
-                const movimento =
-                    suavizar(
-                        progresso
+                const dx =
+                    fim.x -
+                    inicio.x;
+
+
+                const dy =
+                    fim.y -
+                    inicio.y;
+
+
+                const angulo =
+                    Math.atan2(
+                        -dy,
+                        dx
                     );
 
 
-                const x =
-                    interpolar(
-
-                        inicio.x,
-
-                        fim.x,
-
-                        movimento
-
-                    );
+                const tamanho = 34;
 
 
-                const y =
-                    interpolar(
+                const setaX =
+                    roboX +
+                    Math.cos(
+                        angulo
+                    ) *
+                    tamanho;
 
-                        inicio.y,
 
-                        fim.y,
+                const setaY =
+                    roboY +
+                    Math.sin(
+                        angulo
+                    ) *
+                    tamanho;
 
-                        movimento
 
-                    );
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    roboX,
+                    roboY
+                );
+
+                ctx.lineTo(
+                    setaX,
+                    setaY
+                );
+
+
+                ctx.strokeStyle =
+                    '#22c55e';
+
+                ctx.lineWidth = 3;
+
+                ctx.lineCap =
+                    'round';
+
+                ctx.stroke();
+
+
+                const ponta = 8;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    setaX,
+                    setaY
+                );
 
 
                 ctx.lineTo(
 
-                    mapa.x(x),
+                    setaX -
+                    Math.cos(
+                        angulo - 0.5
+                    ) *
+                    ponta,
 
-                    mapa.y(y)
+                    setaY -
+                    Math.sin(
+                        angulo - 0.5
+                    ) *
+                    ponta
 
                 );
+
+
+                ctx.lineTo(
+
+                    setaX -
+                    Math.cos(
+                        angulo + 0.5
+                    ) *
+                    ponta,
+
+                    setaY -
+                    Math.sin(
+                        angulo + 0.5
+                    ) *
+                    ponta
+
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle =
+                    '#22c55e';
+
+                ctx.fill();
 
             }
 
 
+            /*
+            |--------------------------------------------------------------------------
+            | ROBÔ
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.beginPath();
+
+            ctx.arc(
+                roboX,
+                roboY,
+                12,
+                0,
+                Math.PI * 2
+            );
+
+
+            ctx.fillStyle =
+                '#22c55e';
+
+            ctx.fill();
+
+
             ctx.strokeStyle =
-                '#4ade80';
+                '#ffffff';
 
-            ctx.lineWidth = 5;
-
-            ctx.lineJoin =
-                'round';
-
-            ctx.lineCap =
-                'round';
+            ctx.lineWidth = 3;
 
             ctx.stroke();
 
-        }
+
+            /*
+            |--------------------------------------------------------------------------
+            | NOME DO ROBÔ
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.fillStyle =
+                '#ffffff';
+
+            ctx.font =
+                'bold 12px Arial';
+
+            ctx.textAlign =
+                'left';
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | PONTOS DA ROTA
-        |--------------------------------------------------------------------------
-        */
+            ctx.fillText(
 
-        rotaVisual.forEach(
-            function (
-                ponto,
-                index
+                'ROBÔ',
+
+                roboX + 19,
+
+                roboY - 21
+
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | COORDENADAS
+            |--------------------------------------------------------------------------
+            */
+
+            const textoX =
+                'X: ' +
+                robo.x.toFixed(6);
+
+
+            const textoY =
+                'Y: ' +
+                robo.y.toFixed(6);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FUNDO DAS COORDENADAS
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.fillStyle =
+                'rgba(10,20,16,0.94)';
+
+
+            ctx.beginPath();
+
+
+            if (
+                ctx.roundRect
             ) {
 
-                const x =
-                    mapa.x(
-                        ponto.x
-                    );
+                ctx.roundRect(
 
-                const y =
-                    mapa.y(
-                        ponto.y
-                    );
+                    roboX + 15,
 
+                    roboY + 7,
 
-                /*
-                |----------------------------------------------------------------------
-                | ANEL
-                |----------------------------------------------------------------------
-                */
+                    190,
 
-                ctx.beginPath();
+                    27,
 
-                ctx.arc(
-                    x,
-                    y,
-                    6,
-                    0,
-                    Math.PI * 2
+                    6
+
                 );
 
+            } else {
 
-                ctx.strokeStyle =
-                    index <= pontoAtual
-                        ? 'rgba(74,222,128,0.35)'
-                        : 'rgba(255,255,255,0.18)';
+                ctx.rect(
 
-                ctx.lineWidth = 2;
+                    roboX + 15,
 
-                ctx.stroke();
+                    roboY + 7,
 
+                    190,
 
-                /*
-                |----------------------------------------------------------------------
-                | PONTO
-                |----------------------------------------------------------------------
-                */
+                    27
 
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    3.5,
-                    0,
-                    Math.PI * 2
                 );
-
-
-                ctx.fillStyle =
-                    index <= pontoAtual
-                        ? '#4ade80'
-                        : '#94a3a0';
-
-
-                ctx.fill();
 
             }
-        );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | ORIGEM
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            rotaVisual.length > 0
-        ) {
-
-            const inicio =
-                rotaVisual[0];
+            ctx.fill();
 
 
-            const inicioX =
-                mapa.x(
-                    inicio.x
-                );
+            /*
+            |--------------------------------------------------------------------------
+            | X
+            |--------------------------------------------------------------------------
+            */
 
-            const inicioY =
-                mapa.y(
-                    inicio.y
-                );
+            ctx.font =
+                'bold 11px Arial';
+
+            ctx.fillStyle =
+                '#69c174';
+
+            ctx.textAlign =
+                'left';
 
 
-            ctx.beginPath();
+            ctx.fillText(
 
-            ctx.arc(
-                inicioX,
-                inicioY,
-                11,
-                0,
-                Math.PI * 2
+                textoX,
+
+                roboX + 22,
+
+                roboY + 25
+
             );
 
 
-            ctx.strokeStyle =
-                '#94a3b8';
-
-            ctx.lineWidth = 2;
-
-            ctx.stroke();
-
+            /*
+            |--------------------------------------------------------------------------
+            | Y
+            |--------------------------------------------------------------------------
+            */
 
             ctx.fillStyle =
-                '#cbd5e1';
+                '#55b9d9';
+
+
+            ctx.fillText(
+
+                textoY,
+
+                roboX + 112,
+
+                roboY + 25
+
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | TEMPERATURA
+            |--------------------------------------------------------------------------
+            */
+
+            ctx.fillStyle =
+                '#fbbf24';
 
             ctx.font =
                 'bold 10px Arial';
@@ -3284,108 +3897,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             ctx.fillText(
 
-                'ORIGEM',
+                robo.temperatura.toFixed(1) +
+                '°C',
 
-                inicioX + 15,
+                roboX + 18,
 
-                inicioY + 4
-
-            );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DESTINO
-        |--------------------------------------------------------------------------
-        |
-        | O destino é sempre o último ponto da rota carregada do banco.
-        |
-        */
-
-        if (rotaVisual.length > 0){
-
-            const destino =rotaVisual[rotaVisual.length - 1];
-
-
-            const destinoX = mapa.x(destino.x);
-
-
-            const destinoY = mapa.y(destino.y);
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | CÍRCULO EXTERNO
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.beginPath();
-
-            ctx.arc(
-                destinoX,
-                destinoY,
-                15,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.strokeStyle =
-                '#f59e0b';
-
-            ctx.lineWidth = 3;
-
-            ctx.stroke();
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | PONTO CENTRAL
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.beginPath();
-
-            ctx.arc(
-                destinoX,
-                destinoY,
-                5,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                '#f59e0b';
-
-            ctx.fill();
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | TEXTO
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.fillStyle =
-                '#f8fafc';
-
-            ctx.font =
-                'bold 10px Arial';
-
-            ctx.textAlign =
-                'left';
-
-
-            ctx.fillText(
-
-                'DESTINO',
-
-                destinoX + 19,
-
-                destinoY + 4
+                roboY + 43
 
             );
 
@@ -3394,1245 +3911,678 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | OBJETOS DETECTADOS
+        | ATUALIZA INFORMAÇÕES
         |--------------------------------------------------------------------------
         */
 
-        objetos.forEach(
-            function (objeto) {
+        function atualizarInformacoes() {
 
-                const x =
-                    mapa.x(
-                        objeto.x
-                    );
+            const posicaoX = document.getElementById('posicaoX');
 
-                const y =
-                    mapa.y(
-                        objeto.y
-                    );
+            const posicaoY = document.getElementById('posicaoY');
 
+            const distancia = document.getElementById('distancia');
 
-                /*
-                |----------------------------------------------------------------------
-                | ÁREA DE DETECÇÃO
-                |----------------------------------------------------------------------
-                */
+            const direcao = document.getElementById('direcao');
 
-                ctx.beginPath();
+            const velocidade = document.getElementById('velocidade');
 
-                ctx.arc(
-                    x,
-                    y,
-                    22,
-                    0,
-                    Math.PI * 2
-                );
+            const bateria = document.getElementById('bateria');
+
+            const temperatura = document.getElementById('temperatura');
+
+            const umidade = document.getElementById('umidade');
 
 
-                ctx.fillStyle =
-                    'rgba(245,158,11,0.08)';
+            if (posicaoX) {
 
-                ctx.fill();
-
-
-                ctx.strokeStyle =
-                    'rgba(245,158,11,0.35)';
-
-                ctx.lineWidth = 1;
-
-                ctx.stroke();
-
-
-                /*
-                |----------------------------------------------------------------------
-                | OBJETO
-                |----------------------------------------------------------------------
-                */
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    x,
-                    y,
-                    8,
-                    0,
-                    Math.PI * 2
-                );
-
-
-                ctx.fillStyle =
-                    '#f59e0b';
-
-                ctx.fill();
-
-
-                ctx.strokeStyle =
-                    '#fff';
-
-                ctx.lineWidth = 2;
-
-                ctx.stroke();
-
-
-                /*
-                |----------------------------------------------------------------------
-                | NOME
-                |----------------------------------------------------------------------
-                */
-
-                ctx.fillStyle =
-                    '#f8fafc';
-
-                ctx.font =
-                    'bold 11px Arial';
-
-                ctx.textAlign =
-                    'left';
-
-
-                ctx.fillText(
-
-                    objeto.tipo,
-
-                    x + 15,
-
-                    y - 10
-
-                );
+                posicaoX.innerText = robo.x.toFixed(6);
 
             }
-        );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | POSIÇÃO VISUAL DO ROBÔ
-        |--------------------------------------------------------------------------
-        */
+            if (posicaoY) {
 
-        const posicaoVisual =
-            obterPosicaoVisual();
-
-
-        const roboX =
-            mapa.x(
-                posicaoVisual.x
-            );
-
-
-        const roboY =
-            mapa.y(
-                posicaoVisual.y
-            );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | POSIÇÃO REAL
-        |--------------------------------------------------------------------------
-        */
-
-        const posicaoReal =
-            obterPosicaoReal();
-
-
-        robo.x =
-            posicaoReal.x;
-
-        robo.y =
-            posicaoReal.y;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CLIMA
-        |--------------------------------------------------------------------------
-        */
-
-        const clima =
-            obterClima(
-
-                robo.x,
-
-                robo.y
-
-            );
-
-
-        robo.temperatura =
-            clima.temperatura;
-
-        robo.umidade =
-            clima.umidade;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DIREÇÃO
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            pontoAtual <
-            rota.length - 1
-        ) {
-
-            robo.direcao =
-                calcularDirecao(
-
-                    rota[pontoAtual],
-
-                    rota[pontoAtual + 1]
-
-                );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CÍRCULO DE DETECÇÃO
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.beginPath();
-
-        ctx.arc(
-            roboX,
-            roboY,
-            32,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle =
-            'rgba(74,222,128,0.07)';
-
-        ctx.fill();
-
-
-        ctx.strokeStyle =
-            'rgba(74,222,128,0.30)';
-
-        ctx.lineWidth = 1.5;
-
-        ctx.stroke();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SETA DE DIREÇÃO
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            pontoAtual <
-            rota.length - 1
-        ) {
-
-            const inicio =
-                rotaVisual[
-                    pontoAtual
-                ];
-
-            const fim =
-                rotaVisual[
-                    pontoAtual + 1
-                ];
-
-
-            const dx =
-                fim.x -
-                inicio.x;
-
-
-            const dy =
-                fim.y -
-                inicio.y;
-
-
-            const angulo =
-                Math.atan2(
-                    -dy,
-                    dx
-                );
-
-
-            const tamanho = 34;
-
-
-            const setaX =
-                roboX +
-                Math.cos(
-                    angulo
-                ) *
-                tamanho;
-
-
-            const setaY =
-                roboY +
-                Math.sin(
-                    angulo
-                ) *
-                tamanho;
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                roboX,
-                roboY
-            );
-
-            ctx.lineTo(
-                setaX,
-                setaY
-            );
-
-
-            ctx.strokeStyle =
-                '#22c55e';
-
-            ctx.lineWidth = 3;
-
-            ctx.lineCap =
-                'round';
-
-            ctx.stroke();
-
-
-            const ponta = 8;
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                setaX,
-                setaY
-            );
-
-
-            ctx.lineTo(
-
-                setaX -
-                Math.cos(
-                    angulo - 0.5
-                ) *
-                ponta,
-
-                setaY -
-                Math.sin(
-                    angulo - 0.5
-                ) *
-                ponta
-
-            );
-
-
-            ctx.lineTo(
-
-                setaX -
-                Math.cos(
-                    angulo + 0.5
-                ) *
-                ponta,
-
-                setaY -
-                Math.sin(
-                    angulo + 0.5
-                ) *
-                ponta
-
-            );
-
-
-            ctx.closePath();
-
-
-            ctx.fillStyle =
-                '#22c55e';
-
-            ctx.fill();
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ROBÔ
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.beginPath();
-
-        ctx.arc(
-            roboX,
-            roboY,
-            12,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle =
-            '#22c55e';
-
-        ctx.fill();
-
-
-        ctx.strokeStyle =
-            '#ffffff';
-
-        ctx.lineWidth = 3;
-
-        ctx.stroke();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | NOME DO ROBÔ
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            '#ffffff';
-
-        ctx.font =
-            'bold 12px Arial';
-
-        ctx.textAlign =
-            'left';
-
-
-        ctx.fillText(
-
-            'ROBÔ',
-
-            roboX + 19,
-
-            roboY - 21
-
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | COORDENADAS
-        |--------------------------------------------------------------------------
-        */
-
-        const textoX =
-            'X: ' +
-            robo.x.toFixed(1);
-
-
-        const textoY =
-            'Y: ' +
-            robo.y.toFixed(1);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | FUNDO DAS COORDENADAS
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            'rgba(10,20,16,0.94)';
-
-
-        ctx.beginPath();
-
-
-        if (
-            ctx.roundRect
-        ) {
-
-            ctx.roundRect(
-
-                roboX + 15,
-
-                roboY + 7,
-
-                104,
-
-                27,
-
-                6
-
-            );
-
-        } else {
-
-            ctx.rect(
-
-                roboX + 15,
-
-                roboY + 7,
-
-                104,
-
-                27
-
-            );
-
-        }
-
-
-        ctx.fill();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | X
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.font =
-            'bold 11px Arial';
-
-        ctx.fillStyle =
-            '#69c174';
-
-        ctx.textAlign =
-            'left';
-
-
-        ctx.fillText(
-
-            textoX,
-
-            roboX + 22,
-
-            roboY + 25
-
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Y
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            '#55b9d9';
-
-
-        ctx.fillText(
-
-            textoY,
-
-            roboX + 72,
-
-            roboY + 25
-
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | TEMPERATURA
-        |--------------------------------------------------------------------------
-        */
-
-        ctx.fillStyle =
-            '#fbbf24';
-
-        ctx.font =
-            'bold 10px Arial';
-
-        ctx.textAlign =
-            'left';
-
-
-        ctx.fillText(
-
-            robo.temperatura.toFixed(1) +
-            '°C',
-
-            roboX + 18,
-
-            roboY + 43
-
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ATUALIZA INFORMAÇÕES
-    |--------------------------------------------------------------------------
-    */
-
-    function atualizarInformacoes() {
-
-        const posicaoX = document.getElementById('posicaoX');
-
-        const posicaoY = document.getElementById('posicaoY');
-
-        const distancia = document.getElementById('distancia');
-
-        const direcao = document.getElementById('direcao');
-
-        const velocidade = document.getElementById('velocidade');
-
-        const bateria = document.getElementById('bateria');
-
-        const temperatura = document.getElementById('temperatura');
-
-        const umidade = document.getElementById('umidade');
-
-
-        if (posicaoX) {
-
-            posicaoX.innerText = robo.x.toFixed(1);
-
-        }
-
-
-        if (posicaoY) {
-
-            posicaoY.innerText = robo.y.toFixed(1);
-
-        }
-
-
-        if (distancia) {
-
-            distancia.innerText = distanciaPercorrida.toFixed(1);
-
-        }
-
-
-        if (direcao) {
-
-            direcao.innerText = Math.round(robo.direcao) + '°';
-
-        }
-
-
-        if (velocidade) {
-
-            velocidade.innerText = robo.velocidade.toFixed(1);
-
-        }
-
-
-        if (bateria) {
-
-            bateria.innerText = Math.round(robo.bateria) + '%';
-
-        }
-
-
-        if (temperatura) {
-
-            temperatura.innerText = robo.temperatura.toFixed(1) + '°C';
-
-        }
-
-
-        if (umidade) {
-
-            umidade.innerText = Math.round(robo.umidade) + '%';
-
-        }
-
-        const ultimaAtualizacao = document.getElementById('ultimaAtualizacao');
-
-
-        if (ultimaAtualizacao) {
-
-            ultimaAtualizacao.innerText = new Date().toLocaleTimeString('pt-BR');
-
-        }
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ANIMAÇÃO
-    |--------------------------------------------------------------------------
-    */
-
-    function animar() {
-
-        if (!emExecucao){
-
-            return;
-
-        }
-
-
-        if (rota.length < 2) {
-
-            emExecucao = false;
-
-            atualizarBotoes();
-
-            return;
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | VELOCIDADE
-        |--------------------------------------------------------------------------
-        */
-
-        progresso += 0.006;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | AVANÇA PONTO
-        |--------------------------------------------------------------------------
-        */
-
-        if (progresso >= 1) {
-
-            progresso = 0;
-
-            pontoAtual++;
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | FINAL DA ROTA
-        |--------------------------------------------------------------------------
-        */
-
-        if (pontoAtual >= rota.length - 1) {
-
-            pontoAtual = rota.length - 1;
-
-            progresso = 0;
-
-
-            distanciaPercorrida = distanciaTotal;
-
-
-            robo.bateria = 67;
-
-
-            desenharMapa();
-
-            atualizarInformacoes();
-
-            emExecucao = false;
-
-            atualizarBotoes();
-
-            return;
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DISTÂNCIA PERCORRIDA
-        |--------------------------------------------------------------------------
-        */
-
-        let distancia = 0;
-
-
-        for (let i = 1; i <= pontoAtual;i++) {
-
-            distancia += calcularDistancia(
-                            rota[i - 1],
-
-                            rota[i]
-
-                        );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | TRECHO ATUAL
-        |--------------------------------------------------------------------------
-        */
-
-        const trechoAtual = calcularDistancia(
-                                rota[pontoAtual],
-
-                                rota[pontoAtual + 1]
-
-                            );
-
-
-        distancia += trechoAtual * progresso;
-
-
-        distanciaPercorrida = distancia;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | BATERIA
-        |--------------------------------------------------------------------------
-        */
-
-        if (distanciaTotal > 0){
-
-            robo.bateria = Math.max(15,87 - (distanciaPercorrida /distanciaTotal) * 20);
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DESENHA
-        |--------------------------------------------------------------------------
-        */
-
-        desenharMapa();
-
-        atualizarInformacoes();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PRÓXIMO FRAME
-        |--------------------------------------------------------------------------
-        */
-
-        animacaoId = requestAnimationFrame(animar);
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | INICIAR
-    |--------------------------------------------------------------------------
-    */
-
-    function iniciarAnimacao() {
-
-        if (emExecucao || rota.length < 2){
-
-            return;
-
-        }
-
-        emExecucao = true;
-
-        atualizarBotoes();
-
-        animacaoId = requestAnimationFrame(animar);
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | PARAR
-    |--------------------------------------------------------------------------
-    */
-
-    function pararAnimacao() {
-
-        emExecucao = false;
-
-
-        if (animacaoId){
-
-            cancelAnimationFrame(animacaoId);
-            animacaoId = null;
-
-        }
-
-
-        atualizarBotoes();
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | REINICIAR
-    |--------------------------------------------------------------------------
-    */
-
-    function reiniciarAnimacao() {
-
-        pararAnimacao();
-
-        pontoAtual = 0;
-
-        progresso = 0;
-
-        distanciaPercorrida = 0;
-
-
-        robo.bateria = 87;
-
-
-        if (rota.length > 0) {
-
-            robo.x = rota[0].x;
-
-            robo.y = rota[0].y;
-
-
-            robo.temperatura = rota[0].temperatura;
-
-
-            robo.umidade = rota[0].umidade;
-
-        }
-
-        desenharMapa();
-
-        atualizarInformacoes();
-
-        atualizarBotoes();
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | EVENTOS DOS BOTÕES
-    |--------------------------------------------------------------------------
-    */
-
-    if (btnIniciar) {
-
-        btnIniciar.addEventListener(
-            'click',
-            iniciarAnimacao
-        );
-
-    }
-
-
-    if (btnParar) {
-
-        btnParar.addEventListener(
-            'click',
-            pararAnimacao
-        );
-
-    }
-
-
-    if (btnReiniciar) {
-
-        btnReiniciar.addEventListener(
-            'click',
-            reiniciarAnimacao
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CARREGA DADOS DO BANCO
-    |--------------------------------------------------------------------------
-    */
-
-    function carregarMedicoes() {
-
-        /*
-        |--------------------------------------------------------------------------
-        | VERIFICA SE VEIO UMA ROTA PELO HISTÓRICO
-        |--------------------------------------------------------------------------
-        */
-
-        const parametros =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const codigoRota =
-            parametros.get('rota');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | URL DOS DADOS
-        |--------------------------------------------------------------------------
-        */
-
-        let urlDados =
-            '/monitoramento/dados';
-
-
-        if (codigoRota) {
-
-            urlDados +=
-                '?rota=' +
-                encodeURIComponent(
-                    codigoRota
-                );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CARREGA
-        |--------------------------------------------------------------------------
-        */
-
-        fetch(urlDados)
-
-        .then(
-            function (response) {
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        'Erro HTTP: ' +
-                        response.status
-                    );
-
-                }
-
-                return response.json();
+                posicaoY.innerText = robo.y.toFixed(6);
 
             }
-        )
-
-        .then(
-            function (data) {
-
-                medicoes = data;
-
-                /*
-                |--------------------------------------------------------------------------
-                | TRANSFORMA BANCO EM ROTA
-                |--------------------------------------------------------------------------
-                */
-
-                rota =
-                    medicoes
-                    .map(
-                        function (medicao) {
-
-                            return {
-
-                                x:
-                                    parseFloat(
-                                        medicao.x
-                                    ),
-
-                                y:
-                                    parseFloat(
-                                        medicao.y
-                                    ),
-
-                                temperatura:
-                                    parseFloat(
-                                        medicao.temperatura
-                                    ),
-
-                                umidade:
-                                    parseFloat(
-                                        medicao.umidade
-                                    ),
-
-                                recebidaEm:
-                                    medicao.recebida_em
-
-                            };
-
-                        }
-                    )
-                    .filter(
-                        function (ponto) {
-
-                            return (
-                                !isNaN(ponto.x)
-                                &&
-                                !isNaN(ponto.y)
-                            );
-
-                        }
-                    );
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | ORDENA POR DATA
-                |--------------------------------------------------------------------------
-                */
+            if (distancia) {
 
-                rota.sort(
-                    function (a, b) {
+                distancia.innerText = distanciaPercorrida.toFixed(1);
 
-                        return (
-                            new Date(a.recebidaEm)
-                            -
-                            new Date(b.recebidaEm)
-                        );
-
-                    }
-                );
+            }
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | NENHUM DADO
-                |--------------------------------------------------------------------------
-                */
+            if (direcao) {
 
-                if (rota.length === 0) {
+                direcao.innerText = Math.round(robo.direcao) + '°';
 
-                    console.warn(
-                        'Nenhuma medição encontrada.'
-                    );
-
-                    dadosCarregados = true;
-
-                    atualizarBotoes();
-
-                    return;
-
-                }
+            }
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | CRIA ROTA VISUAL
-                |--------------------------------------------------------------------------
-                */
+            if (velocidade) {
 
-                criarRotaVisual();
+                velocidade.innerText = robo.velocidade.toFixed(1);
+
+            }
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | CALCULA DISTÂNCIA
-                |--------------------------------------------------------------------------
-                */
+            if (bateria) {
 
-                calcularDistanciaTotal();
+                bateria.innerText = Math.round(robo.bateria) + '%';
+
+            }
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | ESTADO INICIAL
-                |--------------------------------------------------------------------------
-                */
+            if (temperatura) {
 
-                pontoAtual = 0;
+                temperatura.innerText = robo.temperatura.toFixed(1) + '°C';
+
+            }
+
+
+            if (umidade) {
+
+                umidade.innerText = Math.round(robo.umidade) + '%';
+
+            }
+
+            const ultimaAtualizacao = document.getElementById('ultimaAtualizacao');
+
+
+            if (ultimaAtualizacao) {
+
+                ultimaAtualizacao.innerText = new Date().toLocaleTimeString('pt-BR');
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ANIMAÇÃO
+        |--------------------------------------------------------------------------
+        */
+
+        function animar() {
+
+            if (!emExecucao){
+
+                return;
+
+            }
+
+
+            if (rota.length < 2) {
+
+                emExecucao = false;
+
+                atualizarBotoes();
+
+                return;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | VELOCIDADE
+            |--------------------------------------------------------------------------
+            */
+
+            progresso += 0.006 * velocidadeReproducao;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | AVANÇA PONTO
+            |--------------------------------------------------------------------------
+            */
+
+            if (progresso >= 1) {
+
+                progresso -= 1;
+
+                pontoAtual++;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FINAL DA ROTA
+            |--------------------------------------------------------------------------
+            */
+
+            if (pontoAtual >= rota.length - 1) {
+
+                pontoAtual = rota.length - 1;
 
                 progresso = 0;
 
-                distanciaPercorrida = 0;
+
+                distanciaPercorrida = distanciaTotal;
 
 
-                robo.x =
-                    rota[0].x;
+                robo.bateria = 67;
 
-                robo.y =
-                    rota[0].y;
-
-                robo.temperatura =
-                    rota[0].temperatura;
-
-                robo.umidade =
-                    rota[0].umidade;
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | PRIMEIRO DESENHO
-                |--------------------------------------------------------------------------
-                */
-
-                ajustarCanvas();
 
                 desenharMapa();
 
                 atualizarInformacoes();
 
-
-                dadosCarregados = true;
+                emExecucao = false;
 
                 atualizarBotoes();
 
-            }
-        )
-
-        .catch(
-            function (error) {
-
-                console.error(
-                    'Erro ao carregar medições:',
-                    error
-                );
+                return;
 
             }
-        );
-
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | RESPONSIVIDADE
-    |--------------------------------------------------------------------------
-    */
-
-    let resizeTimeout;
 
 
-    window.addEventListener(
+            /*
+            |--------------------------------------------------------------------------
+            | DISTÂNCIA PERCORRIDA
+            |--------------------------------------------------------------------------
+            */
 
-        'resize',
-
-        function () {
-
-            clearTimeout(
-                resizeTimeout
-            );
+            let distancia = 0;
 
 
-            resizeTimeout =
-                setTimeout(
+            for (let i = 1; i <= pontoAtual;i++) {
 
-                    function () {
+                distancia += calcularDistancia(
+                                rota[i - 1],
 
-                        ajustarCanvas();
+                                rota[i]
 
-                        desenharMapa();
+                            );
 
-                    },
+            }
 
-                    100
 
-                );
+            /*
+            |--------------------------------------------------------------------------
+            | TRECHO ATUAL
+            |--------------------------------------------------------------------------
+            */
+
+            const trechoAtual = calcularDistancia(
+                                    rota[pontoAtual],
+
+                                    rota[pontoAtual + 1]
+
+                                );
+
+
+            distancia += trechoAtual * progresso;
+
+
+            distanciaPercorrida = distancia;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | BATERIA
+            |--------------------------------------------------------------------------
+            */
+
+            if (distanciaTotal > 0){
+
+                robo.bateria = Math.max(15,87 - (distanciaPercorrida /distanciaTotal) * 20);
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DESENHA
+            |--------------------------------------------------------------------------
+            */
+
+            desenharMapa();
+
+            atualizarInformacoes();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PRÓXIMO FRAME
+            |--------------------------------------------------------------------------
+            */
+
+            animacaoId = requestAnimationFrame(animar);
 
         }
 
-    );
+
+        /*
+        |--------------------------------------------------------------------------
+        | INICIAR
+        |--------------------------------------------------------------------------
+        */
+
+        function iniciarAnimacao() {
+
+            if (emExecucao || rota.length < 2){
+
+                return;
+
+            }
+
+            emExecucao = true;
+
+            atualizarBotoes();
+
+            animacaoId = requestAnimationFrame(animar);
+
+        }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | INICIA
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | PARAR
+        |--------------------------------------------------------------------------
+        */
 
-    atualizarBotoes();
+        function pararAnimacao() {
 
-    carregarMedicoes();
+            emExecucao = false;
 
-});
+
+            if (animacaoId){
+
+                cancelAnimationFrame(animacaoId);
+                animacaoId = null;
+
+            }
+
+
+            atualizarBotoes();
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REINICIAR
+        |--------------------------------------------------------------------------
+        */
+
+        function reiniciarAnimacao() {
+
+            pararAnimacao();
+
+            pontoAtual = 0;
+
+            progresso = 0;
+
+            distanciaPercorrida = 0;
+
+
+            robo.bateria = 87;
+
+
+            if (rota.length > 0) {
+
+                robo.x = rota[0].x;
+
+                robo.y = rota[0].y;
+
+
+                robo.temperatura = rota[0].temperatura;
+
+
+                robo.umidade = rota[0].umidade;
+
+            }
+
+            desenharMapa();
+
+            atualizarInformacoes();
+
+            atualizarBotoes();
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | EVENTOS DOS BOTÕES
+        |--------------------------------------------------------------------------
+        */
+
+        if (btnVelocidade) { btnVelocidade.addEventListener('click', function () { indiceVelocidade = (indiceVelocidade + 1) % velocidadesReproducao.length; velocidadeReproducao = velocidadesReproducao[indiceVelocidade]; document.getElementById('valorVelocidade').textContent = velocidadeReproducao + 'x'; const descricao = 'Velocidade da reprodução: ' + velocidadeReproducao + 'x. Clique para alternar entre 1x, 2x, 4x e 8x.'; btnVelocidade.title = descricao; btnVelocidade.setAttribute('aria-label', descricao); }); }
+
+        if (btnIniciar) {
+
+            btnIniciar.addEventListener(
+                'click',
+                iniciarAnimacao
+            );
+
+        }
+
+
+        if (btnParar) {
+
+            btnParar.addEventListener(
+                'click',
+                pararAnimacao
+            );
+
+        }
+
+
+        if (btnReiniciar) {
+
+            btnReiniciar.addEventListener(
+                'click',
+                reiniciarAnimacao
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CARREGA DADOS DO BANCO
+        |--------------------------------------------------------------------------
+        */
+
+        function carregarMedicoes() {
+
+            /*
+            |--------------------------------------------------------------------------
+            | VERIFICA SE VEIO UMA ROTA PELO HISTÓRICO
+            |--------------------------------------------------------------------------
+            */
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const codigoRota =
+                parametros.get('rota');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | URL DOS DADOS
+            |--------------------------------------------------------------------------
+            */
+
+            let urlDados =
+                '/monitoramento/dados';
+
+
+            if (codigoRota) {
+
+                urlDados +=
+                    '?rota=' +
+                    encodeURIComponent(
+                        codigoRota
+                    );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CARREGA
+            |--------------------------------------------------------------------------
+            */
+
+            fetch(urlDados)
+
+            .then(
+                function (response) {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            'Erro HTTP: ' +
+                            response.status
+                        );
+
+                    }
+
+                    return response.json();
+
+                }
+            )
+
+            .then(
+                function (data) {
+
+                    medicoes = data;
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | TRANSFORMA BANCO EM ROTA
+                    |--------------------------------------------------------------------------
+                    */
+
+                    rota =
+                        medicoes
+                        .map(
+                            function (medicao) {
+
+                                return {
+
+                                    x:
+                                        parseFloat(
+                                            medicao.x
+                                        ),
+
+                                    y:
+                                        parseFloat(
+                                            medicao.y
+                                        ),
+
+                                    temperatura:
+                                        parseFloat(
+                                            medicao.temperatura
+                                        ),
+
+                                    umidade:
+                                        parseFloat(
+                                            medicao.umidade
+                                        ),
+
+                                    recebidaEm:
+                                        medicao.recebida_em
+
+                                };
+
+                            }
+                        )
+                        .filter(
+                            function (ponto) {
+
+                                return (
+                                    !isNaN(ponto.x)
+                                    &&
+                                    !isNaN(ponto.y)
+                                );
+
+                            }
+                        );
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | ORDENA POR DATA
+                    |--------------------------------------------------------------------------
+                    */
+
+                    rota.sort(
+                        function (a, b) {
+
+                            return (
+                                new Date(a.recebidaEm)
+                                -
+                                new Date(b.recebidaEm)
+                            );
+
+                        }
+                    );
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | NENHUM DADO
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (rota.length === 0) {
+
+                        console.warn(
+                            'Nenhuma medição encontrada.'
+                        );
+
+                        dadosCarregados = true;
+
+                        atualizarBotoes();
+
+                        return;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CRIA ROTA VISUAL
+                    |--------------------------------------------------------------------------
+                    */
+
+                    criarRotaVisual();
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CALCULA DISTÂNCIA
+                    |--------------------------------------------------------------------------
+                    */
+
+                    calcularDistanciaTotal();
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | ESTADO INICIAL
+                    |--------------------------------------------------------------------------
+                    */
+
+                    pontoAtual = 0;
+
+                    progresso = 0;
+
+                    distanciaPercorrida = 0;
+
+
+                    robo.x =
+                        rota[0].x;
+
+                    robo.y =
+                        rota[0].y;
+
+                    robo.temperatura =
+                        rota[0].temperatura;
+
+                    robo.umidade =
+                        rota[0].umidade;
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | PRIMEIRO DESENHO
+                    |--------------------------------------------------------------------------
+                    */
+
+                    ajustarCanvas();
+
+                    desenharMapa();
+
+                    atualizarInformacoes();
+
+
+                    dadosCarregados = true;
+
+                    atualizarBotoes();
+
+                }
+            )
+
+            .catch(
+                function (error) {
+
+                    console.error(
+                        'Erro ao carregar medições:',
+                        error
+                    );
+
+                }
+            );
+
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | RESPONSIVIDADE
+        |--------------------------------------------------------------------------
+        */
+
+        let resizeTimeout;
+
+
+        window.addEventListener(
+
+            'resize',
+
+            function () {
+
+                clearTimeout(
+                    resizeTimeout
+                );
+
+
+                resizeTimeout =
+                    setTimeout(
+
+                        function () {
+
+                            ajustarCanvas();
+
+                            desenharMapa();
+
+                        },
+
+                        100
+
+                    );
+
+            }
+
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INICIA
+        |--------------------------------------------------------------------------
+        */
+
+        atualizarBotoes();
+
+        carregarMedicoes();
+
+    });
 
 </script>
 
