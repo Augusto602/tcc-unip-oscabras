@@ -95,7 +95,7 @@
 
 
     {{-- =========================================================
-         PAINEL DE ROTAS
+         PAINEL
     ========================================================== --}}
 
     <div class="historico-panel">
@@ -119,7 +119,7 @@
 
 
         {{-- =====================================================
-             TABELA
+             DESKTOP - TABELA
         ====================================================== --}}
 
         <div class="historico-table-wrapper">
@@ -146,8 +146,6 @@
 
                         <tr>
 
-                            {{-- NOME --}}
-
                             <td>
 
                                 <div class="rota-nome">
@@ -173,8 +171,6 @@
                             </td>
 
 
-                            {{-- DATA --}}
-
                             <td>
 
                                 <div class="rota-data">
@@ -192,8 +188,6 @@
                             </td>
 
 
-                            {{-- VEÍCULO --}}
-
                             <td>
 
                                 <div class="rota-veiculo">
@@ -209,8 +203,6 @@
                             </td>
 
 
-                            {{-- DURAÇÃO --}}
-
                             <td>
 
                                 <div class="rota-duracao">
@@ -225,8 +217,6 @@
 
                             </td>
 
-
-                            {{-- STATUS --}}
 
                             <td>
 
@@ -254,8 +244,6 @@
 
                             </td>
 
-
-                            {{-- AÇÃO --}}
 
                             <td>
 
@@ -310,6 +298,172 @@
 
         </div>
 
+
+        {{-- =====================================================
+             MOBILE - CARDS
+        ====================================================== --}}
+
+        <div class="historico-mobile">
+
+            @forelse ($rotas as $rota)
+
+                <div class="rota-mobile-card">
+
+                    <div class="rota-mobile-top">
+
+                        <div class="rota-mobile-nome">
+
+                            <div class="rota-marker">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    {{ $rota->nome }}
+                                </strong>
+
+                                <span>
+                                    {{ $rota->codigo }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        @if ($rota->status == 'Em atividade')
+
+                            <span class="rota-status status-atividade">
+
+                                <span class="rota-status-dot"></span>
+
+                                Em atividade
+
+                            </span>
+
+                        @else
+
+                            <span class="rota-status status-finalizada">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                Finalizada
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+
+                    <div class="rota-mobile-dados">
+
+
+                        <div class="rota-mobile-item">
+
+                            <span class="mobile-label">
+                                Data
+                            </span>
+
+                            <div class="mobile-value">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <div>
+
+                                    <strong>
+                                        {{ \Carbon\Carbon::parse($rota->data_inicio)->format('d/m/Y') }}
+                                    </strong>
+
+                                    <small>
+                                        {{ \Carbon\Carbon::parse($rota->data_inicio)->format('H:i') }}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="rota-mobile-item">
+
+                            <span class="mobile-label">
+                                Veículo
+                            </span>
+
+                            <div class="mobile-value">
+
+                                <i class="fa-solid fa-tractor"></i>
+
+                                <strong>
+                                    {{ $rota->veiculo }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="rota-mobile-item">
+
+                            <span class="mobile-label">
+                                Duração
+                            </span>
+
+                            <div class="mobile-value">
+
+                                <i class="fa-regular fa-clock"></i>
+
+                                <strong>
+                                    {{ $rota->duracao }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
+                        class="btn-mobile-rota"
+                    >
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        Visualizar rota
+
+                    </a>
+
+                </div>
+
+            @empty
+
+                <div class="historico-vazio mobile">
+
+                    <div class="historico-vazio-icon">
+
+                        <i class="fa-solid fa-route"></i>
+
+                    </div>
+
+                    <strong>
+                        Nenhuma rota encontrada
+                    </strong>
+
+                    <span>
+                        Nenhuma movimentação foi registrada até o momento.
+                    </span>
+
+                </div>
+
+            @endforelse
+
+        </div>
+
     </div>
 
 </div>
@@ -327,8 +481,11 @@
 
 .historico-rotas {
     width: 100%;
+
     padding: 22px 25px 60px;
+
     box-sizing: border-box;
+
     color: #e6eee9;
 }
 
@@ -339,15 +496,19 @@
 
 .historico-header {
     display: flex;
+
     align-items: center;
     justify-content: space-between;
+
     margin-bottom: 22px;
 }
 
 
 .historico-header-left {
     display: flex;
+
     align-items: center;
+
     gap: 15px;
 }
 
@@ -356,7 +517,10 @@
     width: 48px;
     height: 48px;
 
+    min-width: 48px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -379,7 +543,7 @@
 
     color: #eef5f1;
 
-    font-size: 23px;
+    font-size: 24px;
     font-weight: 600;
 }
 
@@ -389,7 +553,7 @@
 
     color: #8fa39a;
 
-    font-size: 13px;
+    font-size: 14px;
 }
 
 
@@ -409,9 +573,10 @@
 
 
 .resumo-card {
-    min-height: 90px;
+    min-height: 94px;
 
     display: flex;
+
     align-items: center;
 
     gap: 13px;
@@ -437,12 +602,13 @@
 
 
 .resumo-icon {
-    width: 45px;
-    height: 45px;
+    width: 46px;
+    height: 46px;
 
-    min-width: 45px;
+    min-width: 46px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -477,7 +643,7 @@
 
     color: #9db3aa;
 
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
 
     text-transform: uppercase;
@@ -489,7 +655,7 @@
 .resumo-info strong {
     color: #ffffff;
 
-    font-size: 25px;
+    font-size: 26px;
     font-weight: 800;
 }
 
@@ -517,6 +683,7 @@
     min-height: 62px;
 
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
@@ -533,7 +700,7 @@
 
     color: #e9f1ed;
 
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -552,7 +719,7 @@
 
     color: #7e9389;
 
-    font-size: 10px;
+    font-size: 11px;
 }
 
 
@@ -587,7 +754,7 @@
 
     color: #82978d;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
 
     text-transform: uppercase;
@@ -605,7 +772,7 @@
 
     color: #d8e3dd;
 
-    font-size: 12px;
+    font-size: 13px;
 
     vertical-align: middle;
 }
@@ -632,6 +799,7 @@
 
 .rota-nome {
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -641,12 +809,13 @@
 
 
 .rota-marker {
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
 
-    min-width: 35px;
+    min-width: 36px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -663,7 +832,7 @@
 
     color: #eef5f0;
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 
@@ -674,7 +843,7 @@
 
     color: #71847b;
 
-    font-size: 9px;
+    font-size: 10px;
 }
 
 
@@ -687,7 +856,7 @@
 
     color: #e3ece7;
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 
@@ -698,7 +867,7 @@
 
     color: #7f9389;
 
-    font-size: 10px;
+    font-size: 11px;
 }
 
 
@@ -708,6 +877,7 @@
 
 .rota-veiculo {
     display: flex;
+
     align-items: center;
 
     gap: 7px;
@@ -727,6 +897,7 @@
 
 .rota-duracao {
     display: flex;
+
     align-items: center;
 
     gap: 6px;
@@ -743,6 +914,7 @@
 
 .rota-status {
     display: inline-flex;
+
     align-items: center;
 
     gap: 6px;
@@ -751,7 +923,7 @@
 
     border-radius: 20px;
 
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
 
     white-space: nowrap;
@@ -789,11 +961,12 @@
 
 
 /* =========================================================
-   VISUALIZAR
+   BOTÃO
 ========================================================= */
 
 .btn-visualizar-rota {
     display: inline-flex;
+
     align-items: center;
 
     gap: 7px;
@@ -810,7 +983,7 @@
 
     color: #72cf7e;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
 
     white-space: nowrap;
@@ -831,6 +1004,15 @@
 
 
 /* =========================================================
+   MOBILE CARDS
+========================================================= */
+
+.historico-mobile {
+    display: none;
+}
+
+
+/* =========================================================
    VAZIO
 ========================================================= */
 
@@ -840,10 +1022,13 @@
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     min-height: 250px;
+
+    padding: 20px;
+
+    text-align: center;
 
     color: #71847b;
 }
@@ -854,6 +1039,7 @@
     height: 50px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -884,27 +1070,379 @@
 
 
 /* =========================================================
-   RESPONSIVIDADE
+   TABLET
 ========================================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
 
     .historico-resumo {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
     }
 
 }
 
 
-@media (max-width: 750px) {
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
 
     .historico-rotas {
-        padding: 14px 14px 50px;
+        padding: 16px 14px 40px;
     }
 
 
+    /* CABEÇALHO */
+
+    .historico-header {
+        margin-bottom: 18px;
+    }
+
+
+    .historico-header-left {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .historico-icon {
+        width: 44px;
+        height: 44px;
+
+        min-width: 44px;
+
+        font-size: 18px;
+    }
+
+
+    .historico-header h2 {
+        font-size: 21px;
+    }
+
+
+    .historico-header p {
+        font-size: 12px;
+
+        line-height: 1.5;
+    }
+
+
+    /* RESUMO */
+
     .historico-resumo {
         grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        margin-bottom: 16px;
+    }
+
+
+    .resumo-card {
+        min-height: 78px;
+
+        padding: 13px 14px;
+    }
+
+
+    .resumo-icon {
+        width: 42px;
+        height: 42px;
+
+        min-width: 42px;
+
+        font-size: 16px;
+    }
+
+
+    .resumo-info span {
+        font-size: 10px;
+    }
+
+
+    .resumo-info strong {
+        font-size: 23px;
+    }
+
+
+    /* PAINEL */
+
+    .historico-panel {
+        background: transparent;
+
+        border: none;
+
+        box-shadow: none;
+
+        overflow: visible;
+    }
+
+
+    .historico-panel-header {
+        min-height: auto;
+
+        padding: 14px;
+
+        margin-bottom: 10px;
+
+        background: #192622;
+
+        border: 1px solid #293c35;
+
+        border-radius: 10px;
+    }
+
+
+    .historico-panel-header h3 {
+        font-size: 15px;
+    }
+
+
+    .historico-panel-header span {
+        font-size: 10px;
+
+        line-height: 1.4;
+    }
+
+
+    /* SOME A TABELA */
+
+    .historico-table-wrapper {
+        display: none;
+    }
+
+
+    /* MOSTRA CARDS */
+
+    .historico-mobile {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    .rota-mobile-card {
+        width: 100%;
+
+        padding: 15px;
+
+        box-sizing: border-box;
+
+        background: linear-gradient(
+            160deg,
+            #1b2925,
+            #15211d
+        );
+
+        border: 1px solid #315b46;
+
+        border-radius: 11px;
+
+        box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+
+
+    /* TOPO */
+
+    .rota-mobile-top {
+        display: flex;
+
+        align-items: flex-start;
+        justify-content: space-between;
+
+        gap: 10px;
+
+        padding-bottom: 13px;
+
+        margin-bottom: 13px;
+
+        border-bottom: 1px solid #293c35;
+    }
+
+
+    .rota-mobile-nome {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        min-width: 0;
+    }
+
+
+    .rota-mobile-nome > div:last-child {
+        min-width: 0;
+    }
+
+
+    .rota-mobile-nome strong {
+        display: block;
+
+        color: #eef5f0;
+
+        font-size: 14px;
+
+        line-height: 1.35;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    .rota-mobile-nome span {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #71847b;
+
+        font-size: 10px;
+    }
+
+
+    .rota-mobile-top .rota-status {
+        flex-shrink: 0;
+
+        font-size: 9px;
+
+        padding: 5px 8px;
+    }
+
+
+    /* DADOS */
+
+    .rota-mobile-dados {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 10px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .rota-mobile-item {
+        min-width: 0;
+
+        padding: 10px;
+
+        background: rgba(15, 26, 22, .65);
+
+        border: 1px solid #293c35;
+
+        border-radius: 8px;
+    }
+
+
+    .mobile-label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #71847b;
+
+        font-size: 9px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: .4px;
+    }
+
+
+    .mobile-value {
+        display: flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        color: #dce8e2;
+
+        min-width: 0;
+    }
+
+
+    .mobile-value i {
+        color: #69c174;
+
+        font-size: 12px;
+    }
+
+
+    .mobile-value strong {
+        display: block;
+
+        color: #e8f1ec;
+
+        font-size: 12px;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    .mobile-value small {
+        display: block;
+
+        margin-top: 2px;
+
+        color: #7e9389;
+
+        font-size: 9px;
+    }
+
+
+    /* BOTÃO */
+
+    .btn-mobile-rota {
+        width: 100%;
+
+        min-height: 42px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 8px;
+
+        box-sizing: border-box;
+
+        text-decoration: none;
+
+        background: #1d392d;
+
+        border: 1px solid #315b46;
+
+        border-radius: 8px;
+
+        color: #72cf7e;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    .btn-mobile-rota:active {
+        background: #254837;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR PEQUENO
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .historico-rotas {
+        padding: 14px 11px 35px;
     }
 
 
@@ -913,29 +1451,36 @@
     }
 
 
-    .historico-table {
-        min-width: 800px;
-    }
-
-}
-
-
-@media (max-width: 480px) {
-
-    .historico-header-left {
-        align-items: flex-start;
-    }
-
-
-    .historico-icon {
-        width: 42px;
-        height: 42px;
-
-        min-width: 42px;
-    }
-
-
     .historico-header p {
+        font-size: 11px;
+    }
+
+
+    .rota-mobile-card {
+        padding: 13px;
+    }
+
+
+    .rota-mobile-dados {
+        grid-template-columns: 1fr;
+    }
+
+
+    .rota-mobile-top {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .rota-mobile-top .rota-status {
+        align-self: flex-start;
+    }
+
+
+    .btn-mobile-rota {
+        min-height: 40px;
+
         font-size: 11px;
     }
 

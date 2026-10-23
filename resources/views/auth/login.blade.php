@@ -56,18 +56,14 @@
                             <path d="M1 5l7 5 7-5" stroke="#7aaa6a" stroke-width="1.2" stroke-linecap="round"/>
                         </svg>
 
-                        <input
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="seu@email.com.br"
-                            required
-                        >
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="seu@email.com.br" required>
                     </div>
                 </div>
 
                 <div class="field">
+
                     <label>Senha</label>
+                    
                     <div class="field-wrap">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <rect x="3" y="7" width="10" height="7" rx="1.5" stroke="#7aaa6a" stroke-width="1.2"/>
@@ -75,12 +71,8 @@
                             <circle cx="8" cy="10.5" r="1" fill="#7aaa6a"/>
                         </svg>
 
-                        <input
-                            type="password"
-                            name="senha"
-                            placeholder="••••••••"
-                            required
-                        >
+                        <input type="password" name="senha" placeholder="••••••••" required>
+
                     </div>
                 </div>
 
@@ -89,6 +81,7 @@
                 <button type="submit" class="btn-login">
                     Entrar no sistema
                 </button>
+
             </form>
         </div>
 

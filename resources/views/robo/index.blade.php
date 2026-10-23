@@ -86,7 +86,7 @@
 
                 <strong id="posicaoX">0.000000</strong>
 
-                <small>metros</small>
+                <small>latitude</small>
 
             </div>
 
@@ -106,7 +106,7 @@
 
                 <strong id="posicaoY">0.000000</strong>
 
-                <small>metros</small>
+                <small>longitude</small>
 
             </div>
 
@@ -124,9 +124,9 @@
 
                 <span>Distância</span>
 
-                <strong id="distancia">128.5</strong>
+                <strong id="distancia">0.0</strong>
 
-                <small>metros percorridos</small>
+                <small>estimativa percorrida</small>
 
             </div>
 
@@ -906,6 +906,25 @@ body {
 
 
 /* =========================================================
+   DISTÂNCIA
+========================================================= */
+
+#distancia {
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+
+    .robo-stat:nth-child(3) #distancia {
+        font-size: 18px;
+    }
+
+}
+
+
+/* =========================================================
    MAPA + PAINEL LATERAL
 ========================================================= */
 
@@ -1395,8 +1414,7 @@ body {
 @media (max-width: 1300px) {
 
     .robo-stats {
-        grid-template-columns:
-            repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .robo-content {
@@ -1412,73 +1430,525 @@ body {
 
 @media (max-width: 1000px) {
 
+    .robo-dashboard {
+        padding: 20px 20px 50px;
+    }
+
     .robo-content {
         grid-template-columns: 1fr;
         gap: 16px;
+    }
+
+    .robo-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .map-wrapper {
         height: 500px;
     }
 
+    .side-panel {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .side-panel .info-panel:last-child {
+        grid-column: 1 / -1;
+    }
+
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 700px) {
 
-    .robo-dashboard {
-        padding: 14px 14px 60px;
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
     }
+
+    .robo-dashboard {
+        width: 100%;
+        padding: 14px 0 36px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    /* CABEÇALHO */
 
     .robo-header {
-        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         gap: 12px;
+        margin-bottom: 14px;
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
     }
 
-    .robo-online {
-        font-size: 8px;
+    .robo-header-left {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
     }
 
-    .robo-controls {
-        flex-wrap: wrap;
+    .robo-header-left > div:last-child {
+        min-width: 0;
     }
 
-    .robo-stats {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .map-wrapper {
-        height: 420px;
-    }
-
-}
-
-
-@media (max-width: 480px) {
-
-    .robo-stats {
-        grid-template-columns: 1fr;
+    .robo-title-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        font-size: 17px;
+        border-radius: 10px;
     }
 
     .robo-header-left h2 {
         font-size: 18px;
+        line-height: 1.25;
     }
 
-    .environment-grid {
-        grid-template-columns: 1fr;
+    .robo-header-left p {
+        margin-top: 3px;
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* CONTROLES */
+
+    .robo-header-right {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .robo-controls {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .robo-btn {
+        width: 100%;
+        min-width: 0;
+        height: 41px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        box-sizing: border-box;
     }
 
     .robo-btn span {
         display: none;
     }
 
-    .robo-btn {
+    .robo-btn i {
+        font-size: 12px;
+    }
+
+    #btnVelocidade {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .robo-online {
+        align-self: flex-start;
+        padding: 6px 10px;
+        font-size: 8px;
+    }
+
+    .online-dot {
+        width: 7px;
+        height: 7px;
+        min-width: 7px;
+    }
+
+    /* INDICADORES */
+
+    .robo-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin: 0 10px 14px;
+    }
+
+    .robo-stat {
+        min-width: 0;
+        min-height: 76px;
+        padding: 11px;
+        gap: 9px;
+        border-radius: 9px;
+        overflow: hidden;
+    }
+
+    .robo-stat:nth-child(5) {
+        grid-column: 1 / -1;
+    }
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 14px;
+    }
+
+    .stat-info {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .stat-info span {
+        margin-bottom: 3px;
+        font-size: 8px;
+        white-space: normal;
+    }
+
+    .stat-info strong {
+        display: block;
+        max-width: 100%;
+        font-size: 17px;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+    }
+
+    #posicaoX,
+    #posicaoY {
+        font-size: 13px;
+        word-break: break-all;
+    }
+
+    .stat-info small {
+        display: block;
+        margin: 3px 0 0;
+        font-size: 7px;
+        line-height: 1.3;
+    }
+
+    /* ÁREA PRINCIPAL */
+
+    .robo-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    /* MAPA */
+
+    .map-panel {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .panel-header {
+        min-height: 54px;
         padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .panel-header > div:first-child {
+        min-width: 0;
+    }
+
+    .panel-header h3 {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .panel-header span {
+        margin-top: 3px;
+        font-size: 8px;
+        line-height: 1.35;
+    }
+
+    .map-status {
+        flex-shrink: 0;
+        padding: 5px 7px;
+        font-size: 7px;
+    }
+
+    .gps-dot {
+        width: 6px;
+        height: 6px;
+        min-width: 6px;
+    }
+
+    .map-wrapper {
+        width: 100%;
+        height: 365px;
+        min-height: 365px;
+    }
+
+    #mapaRobo {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .map-legend {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        width: auto;
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        justify-content: start;
+        gap: 5px 10px;
+        padding: 7px 9px;
+        font-size: 7px;
+    }
+
+    /* PAINÉIS ABAIXO */
+
+    .side-panel {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        margin: 0 10px;
+        gap: 10px;
+    }
+
+    .info-panel {
+        width: 100%;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .info-panel-title {
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    .info-panel-title i {
+        font-size: 13px;
+    }
+
+    /* AMBIENTE */
+
+    .environment-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .environment-item {
+        min-width: 0;
+        min-height: 55px;
+        padding: 9px;
+        grid-template-columns: 22px minmax(0, 1fr);
+    }
+
+    .environment-item i {
+        font-size: 12px;
+    }
+
+    .environment-item span {
+        font-size: 7px;
+    }
+
+    .environment-item strong {
+        font-size: 14px;
+    }
+
+    /* DETECÇÕES */
+
+    .detections {
+        gap: 8px;
+    }
+
+    .detection {
+        padding: 9px;
+        min-width: 0;
+    }
+
+    .detection-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+    }
+
+    .detection strong {
+        font-size: 11px;
+    }
+
+    .detection span {
+        font-size: 8px;
+    }
+
+    /* SISTEMA */
+
+    .system-row {
+        gap: 10px;
+        padding: 9px 2px;
+        font-size: 9px;
+    }
+
+    .system-row span {
+        min-width: 0;
+    }
+
+    .system-row strong {
+        font-size: 9px;
+        text-align: right;
+        white-space: nowrap;
     }
 
 }
 
+
+/* =========================================================
+   CELULAR PEQUENO
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .robo-dashboard {
+        padding: 12px 0 32px;
+    }
+
+    .robo-header-left h2 {
+        font-size: 17px;
+    }
+
+    .robo-header-left p {
+        font-size: 9px;
+    }
+
+    .robo-controls {
+        gap: 6px;
+    }
+
+    .robo-btn {
+        height: 40px;
+    }
+
+    .robo-stats {
+        gap: 7px;
+    }
+
+    .robo-stat {
+        min-height: 72px;
+        padding: 9px;
+        gap: 8px;
+    }
+
+    .stat-icon {
+        width: 33px;
+        height: 33px;
+        min-width: 33px;
+        font-size: 13px;
+    }
+
+    .stat-info strong {
+        font-size: 16px;
+    }
+
+    #posicaoX,
+    #posicaoY {
+        font-size: 12px;
+    }
+
+    .map-wrapper {
+        height: 350px;
+        min-height: 350px;
+    }
+
+    .panel-header {
+        padding: 9px 10px;
+    }
+
+    .panel-header h3 {
+        font-size: 12px;
+    }
+
+    .panel-header span {
+        font-size: 7px;
+    }
+
+    .map-status {
+        font-size: 6px;
+        padding: 4px 6px;
+    }
+
+    .environment-item {
+        padding: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR MUITO PEQUENO
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .robo-dashboard {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .robo-header-left h2 {
+        font-size: 16px;
+    }
+
+    .robo-header-left p {
+        font-size: 8px;
+    }
+
+    .robo-controls {
+        gap: 5px;
+    }
+
+    .robo-btn {
+        height: 38px;
+    }
+
+    .robo-stat {
+        padding: 8px;
+    }
+
+    .map-wrapper {
+        height: 330px;
+        min-height: 330px;
+    }
+
+    .map-status {
+        display: none;
+    }
+
+    .panel-header > div:first-child {
+        width: 100%;
+    }
+
+    .system-row {
+        align-items: flex-start;
+    }
+
+    .system-row strong {
+        max-width: 45%;
+        white-space: normal;
+    }
+
+}
 </style>
 
 @endsection
@@ -1718,19 +2188,211 @@ body {
         |--------------------------------------------------------------------------
         */
 
-        function calcularDistancia(a, b) {
+        function calcularDistanciaBruta(a, b) {
+
+            const ax = Number(a.x);
+            const ay = Number(a.y);
+            const bx = Number(b.x);
+            const by = Number(b.y);
+
+
+            if (
+                !Number.isFinite(ax) ||
+                !Number.isFinite(ay) ||
+                !Number.isFinite(bx) ||
+                !Number.isFinite(by)
+            ) {
+
+                return 0;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | COORDENADAS GEOGRÁFICAS
+            |--------------------------------------------------------------------------
+            |
+            | No seu projeto:
+            |
+            | X = latitude
+            | Y = longitude
+            |
+            | Exemplo:
+            | -23.550100 / -46.633098
+            |
+            | Nesse caso usamos Haversine e retornamos METROS.
+            |
+            */
+
+            const coordenadasGeograficas =
+                Math.abs(ax) <= 90 &&
+                Math.abs(bx) <= 90 &&
+                Math.abs(ay) <= 180 &&
+                Math.abs(by) <= 180;
+
+
+            if (coordenadasGeograficas) {
+
+                const raioTerra = 6371000;
+
+                const rad =
+                    Math.PI / 180;
+
+
+                const lat1 =
+                    ax * rad;
+
+                const lat2 =
+                    bx * rad;
+
+
+                const deltaLat =
+                    (bx - ax) * rad;
+
+                const deltaLon =
+                    (by - ay) * rad;
+
+
+                const h =
+                    Math.sin(deltaLat / 2) ** 2 +
+                    Math.cos(lat1) *
+                    Math.cos(lat2) *
+                    Math.sin(deltaLon / 2) ** 2;
+
+
+                const angulo =
+                    2 *
+                    Math.atan2(
+                        Math.sqrt(h),
+                        Math.sqrt(1 - h)
+                    );
+
+
+                return raioTerra * angulo;
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | COORDENADAS CARTESIANAS
+            |--------------------------------------------------------------------------
+            */
 
             const dx =
-                b.x - a.x;
+                bx - ax;
 
             const dy =
-                b.y - a.y;
+                by - ay;
 
 
             return Math.sqrt(
                 dx * dx +
                 dy * dy
             );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DISTÂNCIA USADA PELO ODOMETRO
+        |--------------------------------------------------------------------------
+        |
+        | A rota deste projeto pode possuir poucos pontos e, por isso, a distância
+        | entre duas leituras consecutivas pode ser grande. Não descartamos trechos
+        | por velocidade ou por tamanho. O odômetro soma a distância geográfica real
+        | entre todos os pontos válidos recebidos do banco.
+        |
+        */
+
+        function calcularDistancia(a, b) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | DISTÂNCIA OPERACIONAL DO ROBÔ
+            |--------------------------------------------------------------------------
+            |
+            | As coordenadas X/Y são usadas para posicionamento e desenho do mapa.
+            | Elas não são usadas diretamente como odômetro, porque uma diferença
+            | pequena em latitude/longitude pode representar dezenas ou centenas
+            | de metros e os pontos deste projeto são dados de simulação.
+            |
+            | A distância percorrida é calculada por:
+            |
+            |     distância = velocidade × tempo entre medições
+            |
+            | Velocidade padrão do painel: 3,8 km/h.
+            |
+            */
+
+            if (!a || !b) {
+
+                return 0;
+
+            }
+
+
+            const dataA =
+                a.recebidaEm
+                    ? new Date(a.recebidaEm)
+                    : null;
+
+            const dataB =
+                b.recebidaEm
+                    ? new Date(b.recebidaEm)
+                    : null;
+
+
+            if (
+                dataA &&
+                dataB &&
+                !isNaN(dataA.getTime()) &&
+                !isNaN(dataB.getTime())
+            ) {
+
+                let segundos =
+                    (dataB.getTime() - dataA.getTime()) / 1000;
+
+
+                if (segundos <= 0) {
+
+                    return 0;
+
+                }
+
+
+                /*
+                | Evita que uma pausa longa entre registros seja interpretada
+                | como deslocamento contínuo do robô.
+                */
+
+                const intervaloMaximoSegundos = 30;
+
+                segundos =
+                    Math.min(
+                        segundos,
+                        intervaloMaximoSegundos
+                    );
+
+
+                const metrosPorSegundo =
+                    robo.velocidade / 3.6;
+
+
+                return metrosPorSegundo * segundos;
+
+            }
+
+
+            /*
+            | Fallback quando a medição não possui data válida.
+            | Considera um passo curto de 1 segundo, evitando transformar
+            | latitude/longitude diretamente em metros.
+            */
+
+            return robo.velocidade / 3.6;
 
         }
 
@@ -2188,7 +2850,7 @@ body {
             rota.forEach(function (ponto) {
 
                 const distancia =
-                    calcularDistancia(
+                    calcularDistanciaBruta(
 
                         {
                             x: x,
@@ -2297,7 +2959,7 @@ body {
             height
         ) {
 
-            const margem = 55;
+            const margem = width <= 500 ? 18 : (width <= 700 ? 24 : 55);
 
 
             const larguraMapa =
@@ -2443,6 +3105,8 @@ body {
 
             const height =
                 canvas.clientHeight;
+
+            const modoMobile = width <= 500;
 
 
             if (
@@ -2683,12 +3347,12 @@ body {
                 if (termico.ativo) {
                     ctx.save(); ctx.beginPath(); ctx.rect(mapa.margem, mapa.margem, mapa.largura, mapa.altura); ctx.clip();
                     ctx.drawImage(termico.camada, mapa.margem, mapa.margem, mapa.largura, mapa.altura); ctx.restore();
-                    ctx.save(); ctx.font = '10px Arial'; ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
-                    ctx.fillText('Temperatura estimada (°C)', mapa.margem, mapa.margem - 29, mapa.largura);
-                    const larguraEscala = Math.min(140, mapa.largura); const escala = ctx.createLinearGradient(mapa.margem, 0, mapa.margem + larguraEscala, 0);
+                    ctx.save(); ctx.font = modoMobile ? '8px Arial' : '10px Arial'; ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.fillText('Temperatura estimada (°C)', mapa.margem, modoMobile ? 12 : mapa.margem - 29, mapa.largura);
+                    const larguraEscala = Math.min(modoMobile ? 105 : 140, mapa.largura); const escala = ctx.createLinearGradient(mapa.margem, 0, mapa.margem + larguraEscala, 0);
                     [21, 23, 25, 27, 29, 31].forEach(function (t, i) { const c = corTemperatura(t); escala.addColorStop(i / 5, 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')'); });
-                    ctx.fillStyle = escala; ctx.fillRect(mapa.margem, mapa.margem - 22, larguraEscala, 5);
-                    ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fillText('≤21', mapa.margem, mapa.margem - 5); ctx.textAlign = 'right'; ctx.fillText('≥31 °C', mapa.margem + larguraEscala, mapa.margem - 5); ctx.restore();
+                    ctx.fillStyle = escala; ctx.fillRect(mapa.margem, modoMobile ? 17 : mapa.margem - 22, larguraEscala, 5);
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fillText('≤21', mapa.margem, modoMobile ? 31 : mapa.margem - 5); ctx.textAlign = 'right'; ctx.fillText('≥31 °C', mapa.margem + larguraEscala, modoMobile ? 31 : mapa.margem - 5); ctx.restore();
                 }
             }
 
@@ -2726,7 +3390,7 @@ body {
                 'rgba(255,255,255,0.55)';
 
             ctx.font =
-                '11px Arial';
+                modoMobile ? '8px Arial' : '11px Arial';
 
             ctx.textAlign =
                 'center';
@@ -2809,8 +3473,27 @@ body {
             |--------------------------------------------------------------------------
             */
 
+            const totalPontosClima = pontosClima.length;
+
+            const passoPontosClima =
+                modoMobile
+                    ? Math.max(6, Math.ceil(totalPontosClima / 12))
+                    : Math.max(4, Math.ceil(totalPontosClima / 20));
+
+
             pontosClima.forEach(
                 function (ponto, index) {
+
+                    const mostrarPonto =
+                        index === 0 ||
+                        index === totalPontosClima - 1 ||
+                        index % passoPontosClima === 0;
+
+
+                    if (!mostrarPonto) {
+                        return;
+                    }
+
 
                     const x =
                         mapa.x(
@@ -2840,7 +3523,7 @@ body {
                     ctx.arc(
                         x,
                         y,
-                        6,
+                        modoMobile ? 4 : 6,
                         0,
                         Math.PI * 2
                     );
@@ -2864,31 +3547,6 @@ body {
                     ctx.stroke();
 
 
-                    /*
-                    |----------------------------------------------------------------------
-                    | NÚMERO DO PONTO
-                    |----------------------------------------------------------------------
-                    */
-
-                    ctx.fillStyle =
-                        'rgba(255,255,255,0.75)';
-
-                    ctx.font =
-                        '9px Arial';
-
-                    ctx.textAlign =
-                        'center';
-
-
-                    ctx.fillText(
-
-                        index + 1,
-
-                        x,
-
-                        y - 10
-
-                    );
 
                 }
             );
@@ -3224,7 +3882,7 @@ body {
                     '#cbd5e1';
 
                 ctx.font =
-                    'bold 10px Arial';
+                    modoMobile ? 'bold 8px Arial' : 'bold 10px Arial';
 
                 ctx.textAlign =
                     'left';
@@ -3234,7 +3892,7 @@ body {
 
                     'ORIGEM',
 
-                    inicioX + 15,
+                    inicioX + (modoMobile ? 10 : 15),
 
                     inicioY + 4
 
@@ -3321,7 +3979,7 @@ body {
                     '#f8fafc';
 
                 ctx.font =
-                    'bold 10px Arial';
+                    modoMobile ? 'bold 8px Arial' : 'bold 10px Arial';
 
                 ctx.textAlign =
                     'left';
@@ -3331,7 +3989,7 @@ body {
 
                     'DESTINO',
 
-                    destinoX + 19,
+                    destinoX + (modoMobile ? 11 : 19),
 
                     destinoY + 4
 
@@ -3371,7 +4029,7 @@ body {
                     ctx.arc(
                         x,
                         y,
-                        22,
+                        modoMobile ? 15 : 22,
                         0,
                         Math.PI * 2
                     );
@@ -3402,7 +4060,7 @@ body {
                     ctx.arc(
                         x,
                         y,
-                        8,
+                        modoMobile ? 6 : 8,
                         0,
                         Math.PI * 2
                     );
@@ -3432,7 +4090,7 @@ body {
                         '#f8fafc';
 
                     ctx.font =
-                        'bold 11px Arial';
+                        modoMobile ? 'bold 8px Arial' : 'bold 11px Arial';
 
                     ctx.textAlign =
                         'left';
@@ -3442,9 +4100,9 @@ body {
 
                         objeto.tipo,
 
-                        x + 15,
+                        x + (modoMobile ? 9 : 15),
 
-                        y - 10
+                        y - (modoMobile ? 7 : 10)
 
                     );
 
@@ -3548,7 +4206,7 @@ body {
             ctx.arc(
                 roboX,
                 roboY,
-                32,
+                modoMobile ? 22 : 32,
                 0,
                 Math.PI * 2
             );
@@ -3607,7 +4265,7 @@ body {
                     );
 
 
-                const tamanho = 34;
+                const tamanho = modoMobile ? 24 : 34;
 
 
                 const setaX =
@@ -3650,7 +4308,7 @@ body {
                 ctx.stroke();
 
 
-                const ponta = 8;
+                const ponta = modoMobile ? 6 : 8;
 
 
                 ctx.beginPath();
@@ -3717,7 +4375,7 @@ body {
             ctx.arc(
                 roboX,
                 roboY,
-                12,
+                modoMobile ? 9 : 12,
                 0,
                 Math.PI * 2
             );
@@ -3747,7 +4405,7 @@ body {
                 '#ffffff';
 
             ctx.font =
-                'bold 12px Arial';
+                modoMobile ? 'bold 9px Arial' : 'bold 12px Arial';
 
             ctx.textAlign =
                 'left';
@@ -3757,9 +4415,9 @@ body {
 
                 'ROBÔ',
 
-                roboX + 19,
+                roboX + (modoMobile ? 12 : 19),
 
-                roboY - 21
+                roboY - (modoMobile ? 14 : 21)
 
             );
 
@@ -3770,141 +4428,15 @@ body {
             |--------------------------------------------------------------------------
             */
 
-            const textoX =
-                'X: ' +
-                robo.x.toFixed(6);
-
-
-            const textoY =
-                'Y: ' +
-                robo.y.toFixed(6);
-
-
             /*
             |--------------------------------------------------------------------------
-            | FUNDO DAS COORDENADAS
+            | COORDENADAS E TEMPERATURA
             |--------------------------------------------------------------------------
+            |
+            | As informações permanecem nos cards superiores e no painel lateral.
+            | Não são repetidas sobre o mapa para evitar sobreposição visual.
+            |
             */
-
-            ctx.fillStyle =
-                'rgba(10,20,16,0.94)';
-
-
-            ctx.beginPath();
-
-
-            if (
-                ctx.roundRect
-            ) {
-
-                ctx.roundRect(
-
-                    roboX + 15,
-
-                    roboY + 7,
-
-                    190,
-
-                    27,
-
-                    6
-
-                );
-
-            } else {
-
-                ctx.rect(
-
-                    roboX + 15,
-
-                    roboY + 7,
-
-                    190,
-
-                    27
-
-                );
-
-            }
-
-
-            ctx.fill();
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | X
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.font =
-                'bold 11px Arial';
-
-            ctx.fillStyle =
-                '#69c174';
-
-            ctx.textAlign =
-                'left';
-
-
-            ctx.fillText(
-
-                textoX,
-
-                roboX + 22,
-
-                roboY + 25
-
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Y
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.fillStyle =
-                '#55b9d9';
-
-
-            ctx.fillText(
-
-                textoY,
-
-                roboX + 112,
-
-                roboY + 25
-
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | TEMPERATURA
-            |--------------------------------------------------------------------------
-            */
-
-            ctx.fillStyle =
-                '#fbbf24';
-
-            ctx.font =
-                'bold 10px Arial';
-
-            ctx.textAlign =
-                'left';
-
-
-            ctx.fillText(
-
-                robo.temperatura.toFixed(1) +
-                '°C',
-
-                roboX + 18,
-
-                roboY + 43
-
-            );
 
         }
 
@@ -3950,7 +4482,17 @@ body {
 
             if (distancia) {
 
-                distancia.innerText = distanciaPercorrida.toFixed(1);
+                if (distanciaPercorrida < 10) {
+
+                    distancia.innerText =
+                        distanciaPercorrida.toFixed(2);
+
+                } else {
+
+                    distancia.innerText =
+                        distanciaPercorrida.toFixed(1);
+
+                }
 
             }
 
@@ -3997,6 +4539,66 @@ body {
                 ultimaAtualizacao.innerText = new Date().toLocaleTimeString('pt-BR');
 
             }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CALCULA DISTÂNCIA PERCORRIDA ATÉ A POSIÇÃO ATUAL
+        |--------------------------------------------------------------------------
+        */
+
+        function calcularDistanciaPercorridaAtual() {
+
+            if (rota.length < 2) {
+
+                return 0;
+
+            }
+
+
+            let total = 0;
+
+
+            for (
+                let i = 1;
+                i <= pontoAtual && i < rota.length;
+                i++
+            ) {
+
+                total +=
+                    calcularDistancia(
+                        rota[i - 1],
+                        rota[i]
+                    );
+
+            }
+
+
+            if (
+                pontoAtual <
+                rota.length - 1
+            ) {
+
+                const trechoAtual =
+                    calcularDistancia(
+                        rota[pontoAtual],
+                        rota[pontoAtual + 1]
+                    );
+
+
+                const progressoVisual =
+                    suavizar(progresso);
+
+
+                total +=
+                    trechoAtual * progressoVisual;
+
+            }
+
+
+            return total;
 
         }
 
@@ -4089,39 +4691,8 @@ body {
             |--------------------------------------------------------------------------
             */
 
-            let distancia = 0;
-
-
-            for (let i = 1; i <= pontoAtual;i++) {
-
-                distancia += calcularDistancia(
-                                rota[i - 1],
-
-                                rota[i]
-
-                            );
-
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | TRECHO ATUAL
-            |--------------------------------------------------------------------------
-            */
-
-            const trechoAtual = calcularDistancia(
-                                    rota[pontoAtual],
-
-                                    rota[pontoAtual + 1]
-
-                                );
-
-
-            distancia += trechoAtual * progresso;
-
-
-            distanciaPercorrida = distancia;
+            distanciaPercorrida =
+                calcularDistanciaPercorridaAtual();
 
 
             /*
@@ -4472,6 +5043,13 @@ body {
 
                     calcularDistanciaTotal();
 
+
+                    console.log(
+                        'Distância operacional estimada:',
+                        distanciaTotal.toFixed(2),
+                        'metros | Pontos:',
+                        rota.length
+                    );
 
                     /*
                     |--------------------------------------------------------------------------

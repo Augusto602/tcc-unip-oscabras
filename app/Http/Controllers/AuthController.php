@@ -80,7 +80,7 @@ class AuthController extends Controller
                 'Cliente'
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('index.informacoes');
     }
 
     public function logout(Request $request)
