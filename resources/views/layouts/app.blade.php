@@ -636,7 +636,7 @@
                 </span>
 
                 <span>
-                    Carrinhos
+                    Veículos
                 </span>
 
             </a>
@@ -672,7 +672,7 @@
                 </span>
 
                 <span>
-                    Clientes
+                    Usuários
                 </span>
 
             </a>
