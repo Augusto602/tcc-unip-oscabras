@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClienteController;
@@ -10,22 +11,60 @@ use App\Http\Controllers\MonitoramentoController;
 use App\Http\Controllers\InformacoesController;
 
 
-Route::get('/', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'autenticar'])->name('login.enviar');
+/*
+|--------------------------------------------------------------------------
+| ROTAS PÚBLICAS
+|--------------------------------------------------------------------------
+*/
+
+// Login
+Route::get('/', [AuthController::class, 'login']) ->name('login');
+
+Route::post('/login', [AuthController::class, 'autenticar']) ->name('login.enviar');
+
+
+// Cadastro de novo usuário
+Route::get('/cadastro', [AuthController::class, 'cadastro']) ->name('cadastro');
+
+Route::post('/cadastro', [AuthController::class, 'salvarCadastro']) ->name('cadastro.salvar');
+
+
+/*
+|--------------------------------------------------------------------------
+| ROTAS PROTEGIDAS
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['autenticado'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/carrinhos', [CarrinhoController::class, 'index'])->name('carrinhos.index');
-    Route::get('/monitoramento/dados', [MonitoramentoController::class, 'dados']);
+    // Informações
+    Route::get('/informacoes', [InformacoesController::class, 'index']) ->name('index.informacoes');
 
-    Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
-    Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
-    Route::get('/monitoramento', [RoboController::class, 'index'])->name('monitoramento');
 
-    Route::get('/robo', [RoboController::class, 'index'])->name('robo.index');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index']) ->name('dashboard');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-   Route::get('/informacoes', [InformacoesController::class, 'index'])->name('index.informacoes');
+    // Carrinhos
+    Route::get('/carrinhos', [CarrinhoController::class, 'index']) ->name('carrinhos.index');
+
+
+    // Clientes
+    Route::get('/clientes', [ClienteController::class, 'index']) ->name('clientes.index');
+
+    Route::post('/clientes', [ClienteController::class, 'store']) ->name('clientes.store');
+
+
+    // Monitoramento
+    Route::get('/monitoramento', [RoboController::class, 'index']) ->name('monitoramento');
+
+    Route::get('/monitoramento/dados', [MonitoramentoController::class, 'dados']) ->name('monitoramento.dados');
+
+
+    // Robô
+    Route::get('/robo', [RoboController::class, 'index']) ->name('robo.index');
+
+
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout']) ->name('logout');
 });

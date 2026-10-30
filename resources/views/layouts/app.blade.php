@@ -5,6 +5,8 @@
 
     <title>@yield('title', 'Sistema Agrícola')</title>
 
+    <link rel="icon" type="image/png" href="{{ asset('imagem/icone_sistema.png') }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -661,7 +663,7 @@
 
 
             {{-- CLIENTES --}}
-
+<!-- 
             <a
                 href="{{ route('clientes.index') }}"
                 class="menu-item {{ request()->routeIs('clientes.*') ? 'active' : '' }}"
@@ -675,7 +677,7 @@
                     Usuários
                 </span>
 
-            </a>
+            </a> -->
 
         </nav>
 
@@ -739,7 +741,7 @@
 
             {{-- USUÁRIO --}}
 
-            <div class="user-info">
+            <!-- <div class="user-info">
 
                 <span>
                     Usuário: {{ session('usuario_nome') }}
@@ -749,7 +751,7 @@
                     Tipo: {{ session('tipo_login') }}
                 </span>
 
-            </div>
+            </div> -->
 
         </header>
 

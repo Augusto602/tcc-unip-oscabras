@@ -106,7 +106,10 @@
 
         {{-- ROTAS --}}
 
-        <div class="informacao-card">
+        <a
+            href="{{ route('dashboard') }}"
+            class="informacao-card informacao-card-link"
+        >
 
             <div class="informacao-card-icon rotas">
                 <i class="fa-solid fa-route"></i>
@@ -123,12 +126,19 @@
 
             </div>
 
-        </div>
+            <div class="informacao-card-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </a>
 
 
         {{-- VEÍCULOS --}}
 
-        <div class="informacao-card">
+        <a
+            href="{{ route('carrinhos.index') }}"
+            class="informacao-card informacao-card-link"
+        >
 
             <div class="informacao-card-icon veiculos">
                 <i class="fa-solid fa-tractor"></i>
@@ -145,12 +155,19 @@
 
             </div>
 
-        </div>
+            <div class="informacao-card-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </a>
 
 
         {{-- MONITORAMENTO --}}
 
-        <div class="informacao-card">
+        <a
+            href="{{ route('monitoramento') }}"
+            class="informacao-card informacao-card-link"
+        >
 
             <div class="informacao-card-icon monitoramento">
                 <i class="fa-solid fa-chart-line"></i>
@@ -167,7 +184,11 @@
 
             </div>
 
-        </div>
+            <div class="informacao-card-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </a>
 
 
         {{-- USUÁRIOS --}}
@@ -501,6 +522,61 @@
         #1e302a,
         #17241f
     );
+}
+
+
+/* =========================================================
+   CARDS CLICÁVEIS
+========================================================= */
+
+.informacao-card-link {
+    position: relative;
+
+    color: inherit;
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.informacao-card-link:visited,
+.informacao-card-link:active,
+.informacao-card-link:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.informacao-card-link:hover {
+    text-decoration: none;
+}
+
+
+.informacao-card-arrow {
+    align-self: center;
+
+    margin-left: auto;
+    padding-left: 12px;
+
+    color: #587067;
+
+    font-size: 13px;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+.informacao-card-link:hover .informacao-card-arrow {
+    color: #72cf7e;
+
+    transform: translateX(4px);
+}
+
+
+.informacao-card-link:hover .informacao-card-content h3 {
+    color: #7bdc86;
 }
 
 
