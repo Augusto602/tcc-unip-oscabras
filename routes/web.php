@@ -41,6 +41,7 @@ Route::middleware(['autenticado'])->group(function () {
     Route::get('/informacoes', [InformacoesController::class, 'index']) ->name('index.informacoes');
 
 
+
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']) ->name('dashboard');
 
@@ -58,7 +59,12 @@ Route::middleware(['autenticado'])->group(function () {
     // Monitoramento
     Route::get('/monitoramento', [RoboController::class, 'index']) ->name('monitoramento');
 
+
     Route::get('/monitoramento/dados', [MonitoramentoController::class, 'dados']) ->name('monitoramento.dados');
+
+    Route::get('/monitoramento/rota', [MonitoramentoController::class, 'estadoRota'])->name('monitoramento.rota.estado');
+
+    Route::post('/monitoramento/rota', [MonitoramentoController::class, 'iniciarRota'])->name('monitoramento.rota.iniciar');
 
 
     // Robô

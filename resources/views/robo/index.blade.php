@@ -7,6 +7,42 @@
 
 <div class="robo-dashboard">
 
+    {{--
+        PORTA DE ENTRADA DA ROTA
+        Contrato esperado do endpoint (ajuste os caminhos na configuração JS):
+        GET  /monitoramento/rota
+          { "rota_ativa": { "codigo": "mov-...", "veiculo_nome": "..." } | null,
+            "veiculos_disponiveis": [{ "id": 1, "nome": "Veículo 1" }] }
+        POST /monitoramento/rota  { "veiculo_id": 1 }
+          { "rota": { "codigo": "mov-...", "veiculo_nome": "..." } }
+    --}}
+    <div class="route-gate" id="routeGate" role="dialog" aria-modal="true" aria-labelledby="routeGateTitle" hidden>
+        <div class="route-gate-card">
+            <div class="route-gate-icon"><i class="fa-solid fa-route"></i></div>
+            <span class="route-gate-kicker">MONITORAMENTO</span>
+            <h2 id="routeGateTitle">Nenhuma rota em execução</h2>
+            <p id="routeGateMessage">Selecione o veículo para iniciar o monitoramento.</p>
+
+            <form id="formNovaRota" hidden>
+                <label for="selectVeiculo">Selecione o veículo</label>
+                <select id="selectVeiculo" name="veiculo_id" required>
+                    <option value="">Carregando veículos...</option>
+                </select>
+                <button type="submit" class="route-gate-primary" id="btnConfirmarRota">
+                    <i class="fa-solid fa-route"></i> Iniciar rota
+                </button>
+            </form>
+
+            <button type="button" class="route-gate-retry" id="btnTentarNovamente" hidden>
+                Tentar novamente
+            </button>
+
+            <a class="route-gate-exit" href="{{ route('dashboard') }}">
+                Voltar ao painel
+            </a>
+        </div>
+    </div>
+
     {{-- =========================================================
          CABEÇALHO
     ========================================================== --}}
@@ -544,6 +580,93 @@ body {
     box-sizing: border-box;
     color: #e6eee9;
     overflow: visible;
+}
+
+.route-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(7, 14, 11, .88);
+    backdrop-filter: blur(7px);
+}
+
+.route-gate[hidden] { display: none; }
+
+.route-gate-card {
+    width: min(100%, 440px);
+    padding: 32px;
+    text-align: center;
+    background: linear-gradient(160deg, #1b2925, #121c19);
+    border: 1px solid #315b46;
+    border-radius: 16px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.45);
+}
+
+.route-gate-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px;
+    border-radius: 15px;
+    color: #77d782;
+    background: #193629;
+    font-size: 23px;
+}
+
+.route-gate-kicker {
+    color: #77d782;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.route-gate-card h2 { margin: 9px 0; color: #eef5f1; font-size: 22px; }
+.route-gate-card p { margin: 0 0 22px; color: #9aada4; font-size: 13px; line-height: 1.6; }
+.route-gate-card form { margin-top: 20px; text-align: left; }
+.route-gate-card label { display: block; margin-bottom: 8px; color: #cbd8d1; font-size: 12px; font-weight: 700; }
+.route-gate-card select {
+    width: 100%;
+    padding: 12px;
+    color: #eef5f1;
+    background: #101a17;
+    border: 1px solid #3a594b;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+.route-gate-card select:focus { outline: 2px solid #69c174; outline-offset: 2px; }
+.route-gate-primary, .route-gate-retry {
+    min-height: 43px;
+    padding: 11px 18px;
+    color: #0e1a12;
+    background: #72d17c;
+    border: 0;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.route-gate-card > .route-gate-primary { width: 100%; }
+.route-gate-card form .route-gate-primary { width: 100%; }
+.route-gate-primary:disabled { opacity: .55; cursor: wait; }
+.route-gate-retry { margin-top: 12px; color: #dce9e1; background: #253a30; }
+.route-gate-exit {
+    display: inline-block;
+    margin-top: 16px;
+    color: #aebfb6;
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.route-gate-exit:hover { color: #ffffff; }
+
+@media (max-width: 520px) {
+    .route-gate-card { padding: 25px 20px; }
+    .route-gate-card h2 { font-size: 19px; }
 }
 
 .main-map {
@@ -1965,6 +2088,19 @@ body {
 
     document.addEventListener('DOMContentLoaded', function () {
 
+        /*
+        |--------------------------------------------------------------------------
+        | ENDPOINTS DA ROTA
+        |--------------------------------------------------------------------------
+        | O backend ainda será criado. O mesmo recurso REST é consultado por GET
+        | e iniciado por POST. Altere estas URLs se as rotas Laravel usarem outro
+        | caminho. O contrato esperado está documentado junto ao HTML da tela.
+        */
+        const API_ROTA = {
+            estado: '/monitoramento/rota',
+            iniciar: '/monitoramento/rota'
+        };
+
 
         /*
         |--------------------------------------------------------------------------
@@ -2037,6 +2173,137 @@ body {
         const btnVelocidade = document.getElementById('btnVelocidade');
         const velocidadesReproducao = [1, 2, 4, 8]; let indiceVelocidade = 0; let velocidadeReproducao = 1;
         const estadoRoboEl = document.getElementById('estadoRobo');
+        const routeGate = document.getElementById('routeGate');
+        const routeGateTitle = document.getElementById('routeGateTitle');
+        const routeGateMessage = document.getElementById('routeGateMessage');
+        const formNovaRota = document.getElementById('formNovaRota');
+        const selectVeiculo = document.getElementById('selectVeiculo');
+        const btnConfirmarRota = document.getElementById('btnConfirmarRota');
+        const btnTentarNovamente = document.getElementById('btnTentarNovamente');
+        let veiculosDisponiveis = [];
+        let iniciarAoCarregarRota = false;
+
+        function mostrarGate(titulo, mensagem) {
+            routeGateTitle.textContent = titulo;
+            routeGateMessage.textContent = mensagem;
+            routeGate.hidden = false;
+            btnTentarNovamente.hidden = titulo !== 'Não foi possível consultar as rotas';
+            formNovaRota.hidden = true;
+        }
+
+        function obterCodigoRota(rotaResposta) {
+            if (!rotaResposta) return null;
+            return rotaResposta.codigo || rotaResposta.codigo_rota || rotaResposta.chave || null;
+        }
+
+        function mostrarSelecaoVeiculo() {
+            selectVeiculo.replaceChildren();
+            const opcaoInicial = document.createElement('option');
+            opcaoInicial.value = '';
+            opcaoInicial.textContent = 'Escolha um veículo';
+            selectVeiculo.appendChild(opcaoInicial);
+
+            veiculosDisponiveis.forEach(function (veiculo) {
+                const option = document.createElement('option');
+                option.value = veiculo.id;
+                option.textContent = veiculo.nome || veiculo.modelo || ('Veículo ' + veiculo.id);
+                selectVeiculo.appendChild(option);
+            });
+
+            formNovaRota.hidden = false;
+            if (veiculosDisponiveis.length === 0) {
+                routeGateMessage.textContent = 'Não há veículos disponíveis para iniciar uma rota.';
+                selectVeiculo.disabled = true;
+                btnConfirmarRota.disabled = true;
+            } else {
+                selectVeiculo.disabled = false;
+                btnConfirmarRota.disabled = false;
+                selectVeiculo.focus();
+            }
+        }
+
+        function tratarRotaAtiva(rotaAtiva) {
+            const codigoRota = obterCodigoRota(rotaAtiva);
+            if (!codigoRota) {
+                mostrarGate('Rota ativa sem identificação', 'A consulta encontrou uma rota, mas não retornou o código necessário para carregar as medições.');
+                return;
+            }
+            routeGate.hidden = true;
+            if (rotaAtiva.veiculo_nome) {
+                const subtitulo = document.querySelector('.robo-header-left p');
+                if (subtitulo) subtitulo.textContent = 'Acompanhando ' + rotaAtiva.veiculo_nome;
+            }
+            carregarMedicoes(codigoRota, iniciarAoCarregarRota);
+            iniciarAoCarregarRota = false;
+        }
+
+        function consultarEstadoRota() {
+            mostrarGate('Verificando rotas', 'Consultando se há algum veículo em mapeamento...');
+            fetch(API_ROTA.estado, { headers: { 'Accept': 'application/json' } })
+                .then(function (response) {
+                    if (!response.ok) throw new Error('Erro HTTP: ' + response.status);
+                    return response.json();
+                })
+                .then(function (data) {
+                    veiculosDisponiveis = data.veiculos_disponiveis || data.veiculos || [];
+                    const rotaAtiva = data.rota_ativa || data.rota || null;
+                    if (rotaAtiva) {
+                        tratarRotaAtiva(rotaAtiva);
+                    } else if (veiculosDisponiveis.length === 0) {
+                        mostrarGate(
+                            'Nenhuma rota em execução',
+                            'Não há veículos disponíveis para iniciar uma rota.'
+                        );
+                    } else {
+                        mostrarGate(
+                            'Nenhuma rota em execução',
+                            'Selecione o veículo para iniciar o monitoramento.'
+                        );
+                        mostrarSelecaoVeiculo();
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Erro ao consultar rota ativa:', error);
+                    mostrarGate('Não foi possível consultar as rotas', 'Confira a conexão e tente consultar novamente.');
+                });
+        }
+
+        if (btnTentarNovamente) btnTentarNovamente.addEventListener('click', consultarEstadoRota);
+        if (formNovaRota) formNovaRota.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const veiculoId = selectVeiculo.value;
+            if (!veiculoId) return;
+
+            btnConfirmarRota.disabled = true;
+            btnConfirmarRota.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Iniciando...';
+            const csrf = document.querySelector('meta[name="csrf-token"]');
+            const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+            if (csrf) headers['X-CSRF-TOKEN'] = csrf.content;
+
+            fetch(API_ROTA.iniciar, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ veiculo_id: veiculoId })
+            })
+                .then(function (response) {
+                    if (!response.ok) return response.json().catch(function () { return {}; }).then(function (body) {
+                        throw new Error(body.message || 'Erro HTTP: ' + response.status);
+                    });
+                    return response.json();
+                })
+                .then(function (data) {
+                    const novaRota = data.rota || data;
+                    if (!obterCodigoRota(novaRota)) throw new Error('O endpoint não retornou o código da rota iniciada.');
+                    iniciarAoCarregarRota = true;
+                    tratarRotaAtiva(novaRota);
+                })
+                .catch(function (error) {
+                    console.error('Erro ao iniciar rota:', error);
+                    routeGateMessage.textContent = error.message || 'Não foi possível iniciar a rota. Tente novamente.';
+                    btnConfirmarRota.disabled = false;
+                    btnConfirmarRota.innerHTML = '<i class="fa-solid fa-route"></i> Iniciar rota';
+                });
+        });
 
 
         /*
@@ -4864,7 +5131,7 @@ body {
         |--------------------------------------------------------------------------
         */
 
-        function carregarMedicoes() {
+        function carregarMedicoes(codigoRota, iniciarAutomaticamente) {
 
             /*
             |--------------------------------------------------------------------------
@@ -4878,8 +5145,7 @@ body {
                 );
 
 
-            const codigoRota =
-                parametros.get('rota');
+            const rotaHistorica = parametros.get('rota');
 
 
             /*
@@ -4892,12 +5158,14 @@ body {
                 '/monitoramento/dados';
 
 
-            if (codigoRota) {
+            const codigoParaCarregar = codigoRota || rotaHistorica;
+
+            if (codigoParaCarregar) {
 
                 urlDados +=
                     '?rota=' +
                     encodeURIComponent(
-                        codigoRota
+                        codigoParaCarregar
                     );
 
             }
@@ -5021,6 +5289,10 @@ body {
 
                         atualizarBotoes();
 
+                        if (iniciarAutomaticamente) {
+                mostrarGate('Rota iniciada', 'Aguardando as primeiras medições do veículo.');
+                        }
+
                         return;
 
                     }
@@ -5094,6 +5366,14 @@ body {
 
                     atualizarBotoes();
 
+                    if (iniciarAutomaticamente && rota.length >= 2) {
+                        iniciarAnimacao();
+                    }
+
+                    if (iniciarAutomaticamente && rota.length < 2) {
+                        mostrarGate('Rota iniciada', 'Aguardando novas medições para iniciar o deslocamento no mapa.');
+                    }
+
                 }
             )
 
@@ -5104,6 +5384,8 @@ body {
                         'Erro ao carregar medições:',
                         error
                     );
+
+                    mostrarGate('Não foi possível carregar a rota', 'A rota foi localizada, mas houve um erro ao carregar as medições.');
 
                 }
             );
@@ -5158,7 +5440,12 @@ body {
 
         atualizarBotoes();
 
-        carregarMedicoes();
+        const parametrosIniciais = new URLSearchParams(window.location.search);
+        if (parametrosIniciais.get('rota')) {
+            carregarMedicoes();
+        } else {
+            consultarEstadoRota();
+        }
 
     });
 
