@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\SyncController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/execucoes/status', [ExecucaoController::class, 'status']);
+
 Route::middleware('api.autenticado')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);

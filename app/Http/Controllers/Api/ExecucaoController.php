@@ -28,6 +28,22 @@ class ExecucaoController extends Controller
         return $this->sucesso($execucoes, 'Execuções listadas com sucesso.');
     }
 
+    public function status()
+    {
+        $execucao = Execucao::query()
+            ->orderByDesc('data_execucao')
+            ->orderByDesc('id_execucao')
+            ->first(['status_execucao']);
+
+        if (!$execucao) {
+            return $this->erro('Execução não encontrada.', 404);
+        }
+
+        return response()->json([
+            'status_execucao' => $execucao->status_execucao,
+        ]);
+    }
+
     public function show($id)
     {
         $execucao = Execucao::find($id);
