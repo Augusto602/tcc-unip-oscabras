@@ -122,7 +122,7 @@
 
                 <strong id="posicaoX">0.000000</strong>
 
-                <small>latitude</small>
+                <small>coordenada local estimada</small>
 
             </div>
 
@@ -142,7 +142,7 @@
 
                 <strong id="posicaoY">0.000000</strong>
 
-                <small>longitude</small>
+                <small>coordenada local estimada</small>
 
             </div>
 
@@ -162,7 +162,7 @@
 
                 <strong id="distancia">0.0</strong>
 
-                <small>estimativa percorrida</small>
+                <small>unidades X/Y (estimativa)</small>
 
             </div>
 
@@ -247,7 +247,7 @@
 
                     <span class="gps-dot"></span>
 
-                    LOCALIZAÇÃO 
+                    POSIÇÃO ESTIMADA 
 
                 </div>
 
@@ -335,7 +335,7 @@
                         <span>Umidade</span>
 
                         <strong id="umidade">
-                            68%
+                            --
                         </strong>
 
                     </div>
@@ -369,79 +369,9 @@
                 </div>
 
 
-                <div class="detections">
-
-
-                    {{-- ÁRVORE --}}
-
-                    <div class="detection">
-
-                        <div class="detection-icon tree">
-
-                            <i class="fa-solid fa-tree"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>Árvore</strong>
-
-                            <span>
-                                X: 71 | Y: 78
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- OBSTÁCULO --}}
-
-                    <div class="detection">
-
-                        <div class="detection-icon warning">
-
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>Obstáculo</strong>
-
-                            <span>
-                                X: 55 | Y: 49
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- IRRIGAÇÃO --}}
-
-                    <div class="detection">
-
-                        <div class="detection-icon water">
-
-                            <i class="fa-solid fa-faucet-drip"></i>
-
-                        </div>
-
-                        <div>
-
-                            <strong>Irrigação</strong>
-
-                            <span>
-                                X: 28 | Y: 61
-                            </span>
-
-                        </div>
-
-                    </div>
-
+                <div class="detections" id="listaDeteccoes" aria-live="polite">
+                    <div class="detection"><div><strong>Aguardando detecções</strong><span>Os objetos serão carregados da execução selecionada.</span></div></div>
                 </div>
-
             </div>
 
 
@@ -488,7 +418,7 @@
                     </span>
 
                     <strong class="status-ok">
-                        Alta precisão
+                        Estimadas (sem GPS)
                     </strong>
 
                 </div>
@@ -1070,6 +1000,8 @@ body {
 
     .map-panel {
         min-width: 0;
+        /* Nao esticar o painel para acompanhar a coluna lateral. */
+        align-self: start;
 
         background: #17221f;
 
@@ -1474,6 +1406,94 @@ body {
     font-size: 9px;
 }
 
+
+
+/* Rolagem independente para muitos objetos, sem aumentar o painel lateral. */
+#listaDeteccoes {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #456a54 #121c19;
+    padding-right: 5px;
+    align-content: start;
+}
+#listaDeteccoes::-webkit-scrollbar { width: 7px; }
+#listaDeteccoes::-webkit-scrollbar-track { background: #121c19; border-radius: 8px; }
+#listaDeteccoes::-webkit-scrollbar-thumb { background: #456a54; border-radius: 8px; }
+#listaDeteccoes::-webkit-scrollbar-thumb:hover { background: #69c174; }
+
+/* Melhoria isolada: apenas os cartões de objetos detectados. */
+#listaDeteccoes .detection {
+    display: block;
+    padding: 13px;
+    border-radius: 10px;
+    min-width: 0;
+}
+#listaDeteccoes .detection-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    margin-bottom: 11px;
+}
+#listaDeteccoes .detection-icon { flex-shrink: 0; }
+#listaDeteccoes .detection-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.35;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+#listaDeteccoes .detection-confidence {
+    display: inline-flex;
+    flex-shrink: 0;
+    padding: 5px 7px;
+    border-radius: 6px;
+    border: 1px solid #80551e;
+    background: #3b2d1a;
+    color: #ffca85;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+#listaDeteccoes .detection-metadata {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+#listaDeteccoes .detection-field {
+    min-width: 0;
+    padding: 9px 10px;
+    background: #172620;
+    border: 1px solid #304d3e;
+    border-radius: 7px;
+}
+#listaDeteccoes .detection-field.is-wide { grid-column: 1 / -1; }
+#listaDeteccoes .detection-field-label {
+    display: block;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #a9c3b5;
+    margin-bottom: 4px;
+}
+#listaDeteccoes .detection-field-value {
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 700;
+    color: #f0f8f2;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+@media (max-width: 700px) {
+    #listaDeteccoes .detection { padding: 12px; }
+    #listaDeteccoes .detection-name { font-size: 14px; }
+    #listaDeteccoes .detection-field-label { font-size: 11px; }
+    #listaDeteccoes .detection-field-value { font-size: 13px; }
+}
 
 /* =========================================================
    SISTEMA
@@ -2098,7 +2118,8 @@ body {
         */
         const API_ROTA = {
             estado: '/monitoramento/rota',
-            iniciar: '/monitoramento/rota'
+            iniciar: '/monitoramento/rota',
+            deteccoes: '/monitoramento/deteccoes'
         };
 
 
@@ -2324,30 +2345,158 @@ body {
         |--------------------------------------------------------------------------
         */
 
-        const objetos = [
+        // Detecções dinâmicas, sempre vinculadas ao ID da execução.
+        let objetos = [];
+        let escalaVisual = null;
+        let execucaoAtualId = null;
+        let consultaDeteccoesSeq = 0;
+        let timerDeteccoes = null;
 
-            {
-                tipo: 'Árvore',
-                x: 71,
-                y: 78,
-                icone: '🌳'
-            },
+        function numeroValido(valor) {
+            if (valor === null || valor === undefined || valor === '') return null;
+            const n = Number(valor);
+            return Number.isFinite(n) ? n : null;
+        }
 
-            {
-                tipo: 'Obstáculo',
-                x: 55,
-                y: 49,
-                icone: '⚠'
-            },
+        // Datas da telemetria chegam em ISO 8601 com fuso UTC (+00:00).
+        // Exibe somente data e hora no formato brasileiro, em Sao Paulo.
+        function formatarDataHoraBR(valor) {
+            if (!valor) return '';
+            const data = new Date(valor);
+            if (Number.isNaN(data.getTime())) return String(valor);
+            return new Intl.DateTimeFormat('pt-BR', {
+                timeZone: 'America/Sao_Paulo',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hourCycle: 'h23'
+            }).format(data);
+        }
 
-            {
-                tipo: 'Irrigação',
-                x: 28,
-                y: 61,
-                icone: '💧'
+        function transformarObjetoParaVisual(objeto) {
+            if (!escalaVisual) return null;
+            const x = numeroValido(objeto.x);
+            const y = numeroValido(objeto.y);
+            if (x === null || y === null) return null;
+            return {
+                ...objeto,
+                x: escalaVisual.min + (x - escalaVisual.menorX) / escalaVisual.intervaloX * escalaVisual.tamanho,
+                y: escalaVisual.min + (y - escalaVisual.menorY) / escalaVisual.intervaloY * escalaVisual.tamanho
+            };
+        }
+
+        function atualizarListaDeteccoes() {
+            const lista = document.getElementById('listaDeteccoes');
+            const total = document.getElementById('quantidadeObjetos');
+            if (total) total.textContent = String(objetos.length);
+            if (!lista) return;
+            const posicaoRolagemDeteccoes = lista.scrollTop;
+            lista.replaceChildren();
+
+            if (objetos.length === 0) {
+                const vazio = document.createElement('div');
+                vazio.className = 'detection';
+                vazio.textContent = 'Nenhuma detecção registrada nesta execução.';
+                lista.appendChild(vazio);
+                return;
             }
 
-        ];
+            function criarCampo(rotulo, valor, larguraTotal) {
+                const campo = document.createElement('div');
+                campo.className = 'detection-field' + (larguraTotal ? ' is-wide' : '');
+                const label = document.createElement('span');
+                label.className = 'detection-field-label';
+                label.textContent = rotulo;
+                const valorEl = document.createElement('span');
+                valorEl.className = 'detection-field-value';
+                valorEl.textContent = valor;
+                campo.appendChild(label);
+                campo.appendChild(valorEl);
+                return campo;
+            }
+
+            objetos.forEach(function (objeto) {
+                const item = document.createElement('div');
+                item.className = 'detection';
+
+                const cabecalho = document.createElement('div');
+                cabecalho.className = 'detection-header';
+                const icone = document.createElement('div');
+                icone.className = 'detection-icon warning';
+                const iconeFonte = document.createElement('i');
+                iconeFonte.className = 'fa-solid fa-eye';
+                icone.appendChild(iconeFonte);
+
+                const nome = document.createElement('strong');
+                nome.className = 'detection-name';
+                nome.textContent = objeto.tipo || 'Objeto';
+
+                const confianca = numeroValido(objeto.confianca);
+                const percentual = document.createElement('span');
+                percentual.className = 'detection-confidence';
+                percentual.textContent = confianca === null
+                    ? 'N/D'
+                    : (confianca * 100).toFixed(1) + '%';
+                percentual.title = 'Confiança da detecção';
+                cabecalho.appendChild(icone);
+                cabecalho.appendChild(nome);
+                cabecalho.appendChild(percentual);
+
+                const metadados = document.createElement('div');
+                metadados.className = 'detection-metadata';
+                const x = numeroValido(objeto.x);
+                const y = numeroValido(objeto.y);
+                metadados.appendChild(criarCampo('Observação X', x === null ? 'Não informado' : x.toFixed(3), false));
+                metadados.appendChild(criarCampo('Observação Y', y === null ? 'Não informado' : y.toFixed(3), false));
+                if (objeto.data_hora) {
+                    metadados.appendChild(criarCampo('Data e horário', formatarDataHoraBR(objeto.data_hora), true));
+                }
+
+                item.appendChild(cabecalho);
+                item.appendChild(metadados);
+                lista.appendChild(item);
+            });
+            lista.scrollTop = posicaoRolagemDeteccoes;
+        }
+
+        async function carregarDeteccoes(idExecucao) {
+            const sequencia = ++consultaDeteccoesSeq;
+            if (!idExecucao) {
+                objetos = [];
+                atualizarListaDeteccoes();
+                return;
+            }
+            try {
+                const url = API_ROTA.deteccoes + '?execucao=' + encodeURIComponent(idExecucao);
+                const resposta = await fetch(url, {headers: {'Accept': 'application/json'}, credentials: 'same-origin'});
+                if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+                const dados = await resposta.json();
+                if (sequencia !== consultaDeteccoesSeq) return;
+                objetos = Array.isArray(dados) ? dados : [];
+                atualizarListaDeteccoes();
+                desenharMapa();
+            } catch (erro) {
+                if (sequencia !== consultaDeteccoesSeq) return;
+                console.error('Erro ao carregar detecções da execução:', erro);
+                const lista = document.getElementById('listaDeteccoes');
+                if (lista) lista.textContent = 'Não foi possível consultar as detecções.';
+            }
+        }
+
+        function atualizarConsultaDeteccoes(idExecucao) {
+            if (timerDeteccoes) clearInterval(timerDeteccoes);
+            timerDeteccoes = null;
+            execucaoAtualId = idExecucao;
+            carregarDeteccoes(idExecucao);
+            if (idExecucao) {
+                timerDeteccoes = setInterval(function () {
+                    if (!document.hidden) carregarDeteccoes(execucaoAtualId);
+                }, 10000);
+            }
+        }
 
 
         /*
@@ -2564,103 +2713,20 @@ body {
 
         /*
         |--------------------------------------------------------------------------
-        | DISTÂNCIA USADA PELO ODOMETRO
+        | DISTÂNCIA ESTIMADA POR DESLOCAMENTO LOCAL X/Y
         |--------------------------------------------------------------------------
-        |
-        | A rota deste projeto pode possuir poucos pontos e, por isso, a distância
-        | entre duas leituras consecutivas pode ser grande. Não descartamos trechos
-        | por velocidade ou por tamanho. O odômetro soma a distância geográfica real
-        | entre todos os pontos válidos recebidos do banco.
-        |
+        | X/Y são coordenadas locais estimadas, não latitude/longitude.
+        | Se os pontos forem iguais, não existe deslocamento registrado.
+        | O resultado fica em unidades X/Y (metros apenas se a escala for metros).
         */
-
         function calcularDistancia(a, b) {
-
-            /*
-            |--------------------------------------------------------------------------
-            | DISTÂNCIA OPERACIONAL DO ROBÔ
-            |--------------------------------------------------------------------------
-            |
-            | As coordenadas X/Y são usadas para posicionamento e desenho do mapa.
-            | Elas não são usadas diretamente como odômetro, porque uma diferença
-            | pequena em latitude/longitude pode representar dezenas ou centenas
-            | de metros e os pontos deste projeto são dados de simulação.
-            |
-            | A distância percorrida é calculada por:
-            |
-            |     distância = velocidade × tempo entre medições
-            |
-            | Velocidade padrão do painel: 3,8 km/h.
-            |
-            */
-
-            if (!a || !b) {
-
-                return 0;
-
-            }
-
-
-            const dataA =
-                a.recebidaEm
-                    ? new Date(a.recebidaEm)
-                    : null;
-
-            const dataB =
-                b.recebidaEm
-                    ? new Date(b.recebidaEm)
-                    : null;
-
-
-            if (
-                dataA &&
-                dataB &&
-                !isNaN(dataA.getTime()) &&
-                !isNaN(dataB.getTime())
-            ) {
-
-                let segundos =
-                    (dataB.getTime() - dataA.getTime()) / 1000;
-
-
-                if (segundos <= 0) {
-
-                    return 0;
-
-                }
-
-
-                /*
-                | Evita que uma pausa longa entre registros seja interpretada
-                | como deslocamento contínuo do robô.
-                */
-
-                const intervaloMaximoSegundos = 30;
-
-                segundos =
-                    Math.min(
-                        segundos,
-                        intervaloMaximoSegundos
-                    );
-
-
-                const metrosPorSegundo =
-                    robo.velocidade / 3.6;
-
-
-                return metrosPorSegundo * segundos;
-
-            }
-
-
-            /*
-            | Fallback quando a medição não possui data válida.
-            | Considera um passo curto de 1 segundo, evitando transformar
-            | latitude/longitude diretamente em metros.
-            */
-
-            return robo.velocidade / 3.6;
-
+            if (!a || !b) return 0;
+            const ax = numeroValido(a.x);
+            const ay = numeroValido(a.y);
+            const bx = numeroValido(b.x);
+            const by = numeroValido(b.y);
+            if (ax === null || ay === null || bx === null || by === null) return 0;
+            return Math.hypot(bx - ax, by - ay);
         }
 
 
@@ -2704,6 +2770,7 @@ body {
                 rotaVisual = [];
 
                 pontosClima = [];
+                escalaVisual = null;
 
                 return;
 
@@ -2785,6 +2852,11 @@ body {
             const visualMinimo = 8;
             const visualMaximo = 92;
             const visualTamanho = visualMaximo - visualMinimo;
+            escalaVisual = {
+                min: visualMinimo, tamanho: visualTamanho,
+                menorX: menorX, menorY: menorY,
+                intervaloX: intervaloX, intervaloY: intervaloY
+            };
 
 
             /*
@@ -4272,17 +4344,11 @@ body {
             */
 
             objetos.forEach(
-                function (objeto) {
-
-                    const x =
-                        mapa.x(
-                            objeto.x
-                        );
-
-                    const y =
-                        mapa.y(
-                            objeto.y
-                        );
+                function (objetoOriginal) {
+                    const objeto = transformarObjetoParaVisual(objetoOriginal);
+                    if (!objeto) return;
+                    const x = mapa.x(objeto.x);
+                    const y = mapa.y(objeto.y);
 
 
                     /*
@@ -4787,14 +4853,14 @@ body {
 
             if (temperatura) {
 
-                temperatura.innerText = robo.temperatura.toFixed(1) + '°C';
+                temperatura.innerText = Number.isFinite(robo.temperatura) ? robo.temperatura.toFixed(1) + '°C' : 'Sem leitura';
 
             }
 
 
             if (umidade) {
 
-                umidade.innerText = Math.round(robo.umidade) + '%';
+                umidade.innerText = Number.isFinite(robo.umidade) ? Math.round(robo.umidade) + '%' : 'Sem leitura';
 
             }
 
@@ -5199,7 +5265,11 @@ body {
             .then(
                 function (data) {
 
-                    medicoes = data;
+                    medicoes = Array.isArray(data) ? data : (Array.isArray(data.medicoes) ? data.medicoes : []);
+                    // O endpoint /monitoramento/dados precisa retornar id_execucao em cada medição.
+                    const idDaExecucao = medicoes.length ? Number(medicoes[0].id_execucao) :
+                        Number(data && data.id_execucao);
+                    atualizarConsultaDeteccoes(Number.isInteger(idDaExecucao) && idDaExecucao > 0 ? idDaExecucao : null);
 
                     /*
                     |--------------------------------------------------------------------------
@@ -5216,26 +5286,22 @@ body {
 
                                     x:
                                         parseFloat(
-                                            medicao.x
+                                            medicao.x !== undefined ? medicao.x : medicao.latitude_X
                                         ),
 
                                     y:
                                         parseFloat(
-                                            medicao.y
+                                            medicao.y !== undefined ? medicao.y : medicao.longitude_Y
                                         ),
 
                                     temperatura:
-                                        parseFloat(
-                                            medicao.temperatura
-                                        ),
+                                        numeroValido(medicao.temperatura),
 
                                     umidade:
-                                        parseFloat(
-                                            medicao.umidade
-                                        ),
+                                        numeroValido(medicao.umidade),
 
                                     recebidaEm:
-                                        medicao.recebida_em
+                                        medicao.recebida_em || medicao.data_hora
 
                                 };
 

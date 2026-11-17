@@ -66,6 +66,8 @@ Route::middleware(['autenticado'])->group(function () {
 
     Route::post('/monitoramento/rota', [MonitoramentoController::class, 'iniciarRota'])->name('monitoramento.rota.iniciar');
 
+    Route::get('/monitoramento/deteccoes',[\App\Http\Controllers\DeteccoesMonitoramentoController::class, 'index']
+);
 
     // Robô
     Route::get('/robo', [RoboController::class, 'index']) ->name('robo.index');
@@ -73,4 +75,5 @@ Route::middleware(['autenticado'])->group(function () {
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']) ->name('logout');
+
 });
