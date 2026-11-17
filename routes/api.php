@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DadoMicroclimaticoController;
 use App\Http\Controllers\Api\LogNavegacaoController;
 use App\Http\Controllers\Api\EventoDeteccaoController;
 use App\Http\Controllers\Api\SyncController;
+use App\Http\Controllers\Api\TelemetriaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\SyncController;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/telemetria', [TelemetriaController::class, 'store']);
 
 Route::get('/execucoes/status', [ExecucaoController::class, 'status']);
 
