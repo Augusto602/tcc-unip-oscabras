@@ -70,19 +70,19 @@
 
             <div class="robo-controls">
 
-                <button type="button" class="robo-btn start" id="btnIniciar" title="Iniciar">
+                <button type="button" class="robo-btn start" id="btnIniciar" title="Reproduzir trajeto no mapa (não inicia o robô físico)">
                     <i class="fa-solid fa-play"></i>
                     <span>Iniciar</span>
                 </button>
 
-                <button type="button" class="robo-btn stop" id="btnParar" title="Parar">
-                    <i class="fa-solid fa-pause"></i>
+                <button type="button" class="robo-btn stop" id="btnParar" title="Abortar a execução no banco (não confirma parada física)">
+                    <i class="fa-solid fa-stop"></i>
                     <span>Parar</span>
                 </button>
 
                 <button type="button" class="robo-btn" id="btnVelocidade" title="Velocidade da reprodução: 1x. Clique para acelerar." aria-label="Velocidade da reprodução: 1x. Clique para acelerar."><i class="fa-solid fa-forward" aria-hidden="true"></i> <b id="valorVelocidade">1x</b></button>
 
-                <button type="button" class="robo-btn reset" id="btnReiniciar" title="Reiniciar">
+                <button type="button" class="robo-btn reset" id="btnReiniciar" title="Reiniciar a reprodução no mapa">
                     <i class="fa-solid fa-rotate-left"></i>
                     <span>Reiniciar</span>
                 </button>
@@ -214,6 +214,8 @@
     {{-- =========================================================
          ÁREA PRINCIPAL
     ========================================================== --}}
+
+    <div id="avisoMedicoes" role="status" aria-live="polite" hidden style="margin: 0 0 12px; padding: 12px 15px; border: 1px solid #7a5c32; border-radius: 9px; background: #342719; color: #ffca8b; font-size: 13px;"></div>
 
     <div class="robo-content">
 
@@ -2112,13 +2114,14 @@ body {
         |--------------------------------------------------------------------------
         | ENDPOINTS DA ROTA
         |--------------------------------------------------------------------------
-        | O backend ainda será criado. O mesmo recurso REST é consultado por GET
-        | e iniciado por POST. Altere estas URLs se as rotas Laravel usarem outro
-        | caminho. O contrato esperado está documentado junto ao HTML da tela.
+        | O backend controla execucoes.status_execucao: em_andamento ou abortada.
+        | O botao Parar faz POST /monitoramento/rota/parar para abortar o registro.
+        | Isso nao e confirmacao de parada fisica do robo.
         */
         const API_ROTA = {
             estado: '/monitoramento/rota',
             iniciar: '/monitoramento/rota',
+            parar: '/monitoramento/rota/parar',
             deteccoes: '/monitoramento/deteccoes'
         };
 
@@ -2203,6 +2206,12 @@ body {
         const btnTentarNovamente = document.getElementById('btnTentarNovamente');
         let veiculosDisponiveis = [];
         let iniciarAoCarregarRota = false;
+        // Estado da execução no backend, independente da reprodução do canvas.
+        let execucaoAtivaId = null;
+        let paradaPendente = false;
+        let solicitacaoParadaEmCurso = false;
+        let estadoExecucaoConfirmado = false;
+        let rotaCodigoAtivo = null;
 
         function mostrarGate(titulo, mensagem) {
             routeGateTitle.textContent = titulo;
@@ -2250,6 +2259,13 @@ body {
                 return;
             }
             routeGate.hidden = true;
+            const idRecebido = Number(rotaAtiva.id_execucao || rotaAtiva.codigo || rotaAtiva.execucao_id || rotaAtiva.id);
+            execucaoAtivaId = Number.isInteger(idRecebido) && idRecebido > 0 ? idRecebido : null;
+            estadoExecucaoConfirmado = true;
+            paradaPendente = rotaAtiva.status_execucao === 'parando' ||
+                rotaAtiva.status_execucao === 'parada_solicitada';
+            rotaCodigoAtivo = codigoRota;
+            atualizarBotoes();
             if (rotaAtiva.veiculo_nome) {
                 const subtitulo = document.querySelector('.robo-header-left p');
                 if (subtitulo) subtitulo.textContent = 'Acompanhando ' + rotaAtiva.veiculo_nome;
@@ -2271,11 +2287,19 @@ body {
                     if (rotaAtiva) {
                         tratarRotaAtiva(rotaAtiva);
                     } else if (veiculosDisponiveis.length === 0) {
+                        execucaoAtivaId = null;
+                        estadoExecucaoConfirmado = true;
+                        paradaPendente = false;
+                        atualizarBotoes();
                         mostrarGate(
                             'Nenhuma rota em execução',
                             'Não há veículos disponíveis para iniciar uma rota.'
                         );
                     } else {
+                        execucaoAtivaId = null;
+                        estadoExecucaoConfirmado = true;
+                        paradaPendente = false;
+                        atualizarBotoes();
                         mostrarGate(
                             'Nenhuma rota em execução',
                             'Selecione o veículo para iniciar o monitoramento.'
@@ -2539,7 +2563,10 @@ body {
 
             if (btnParar) {
 
-                btnParar.disabled = !emExecucao;
+                btnParar.disabled = !estadoExecucaoConfirmado || !execucaoAtivaId ||
+                    paradaPendente || solicitacaoParadaEmCurso;
+                const textoParar = btnParar.querySelector('span');
+                if (textoParar) textoParar.textContent = paradaPendente ? 'Parada solicitada' : 'Parar';
 
             }
 
@@ -2553,18 +2580,15 @@ body {
 
             if (estadoRoboEl) {
 
-                if (emExecucao) {
-
-                    estadoRoboEl.innerText ='Em movimento';
-
-                    estadoRoboEl.className = 'status-ok';
-
-                }else{
-
-                    estadoRoboEl.innerText = 'Parado';
-
+                if (paradaPendente) {
+                    estadoRoboEl.innerText = 'Parada solicitada (aguardando robô)';
                     estadoRoboEl.className = 'status-paused';
-
+                } else if (execucaoAtivaId) {
+                    estadoRoboEl.innerText = 'Execução ativa no banco';
+                    estadoRoboEl.className = 'status-ok';
+                } else {
+                    estadoRoboEl.innerText = estadoExecucaoConfirmado ? 'Sem execução ativa' : 'Consultando execução';
+                    estadoRoboEl.className = 'status-paused';
                 }
 
             }
@@ -5171,16 +5195,95 @@ body {
         }
 
 
-        if (btnParar) {
+        async function solicitarParadaRobo() {
+            if (!execucaoAtivaId || paradaPendente || solicitacaoParadaEmCurso) return;
+            if (!window.confirm('Solicitar parada da execução ' + execucaoAtivaId + '?')) return;
 
-            btnParar.addEventListener(
-                'click',
-                pararAnimacao
-            );
-
+            solicitacaoParadaEmCurso = true;
+            atualizarBotoes();
+            try {
+                const csrf = document.querySelector('meta[name="csrf-token"]');
+                const resposta = await fetch(API_ROTA.parar, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        ...(csrf ? {'X-CSRF-TOKEN': csrf.content} : {})
+                    },
+                    body: JSON.stringify({id_execucao: execucaoAtivaId})
+                });
+                const dados = await resposta.json().catch(function () { return {}; });
+                if (!resposta.ok) {
+                    throw new Error(dados.message || 'Erro HTTP ' + resposta.status);
+                }
+                // Este backend marca a execução como 'abortada' imediatamente no banco.
+                // Isso NÃO é confirmação de parada física dos motores.
+                if (dados.status_execucao === 'abortada') {
+                    execucaoAtivaId = null;
+                    estadoExecucaoConfirmado = true;
+                    paradaPendente = false;
+                    rotaCodigoAtivo = null;
+                    pararAnimacao();
+                    if (estadoRoboEl) {
+                        estadoRoboEl.textContent = 'Execução abortada no sistema';
+                        estadoRoboEl.className = 'status-paused';
+                    }
+                    window.alert(dados.message || 'Execução abortada no banco.');
+                    // Reabre a seleção de veículo caso não haja outra rota ativa.
+                    consultarEstadoRota();
+                } else {
+                    paradaPendente = true;
+                    pararAnimacao();
+                    window.alert(dados.message || 'Parada solicitada no sistema.');
+                }
+            } catch (erro) {
+                window.alert('Não foi possível solicitar a parada: ' + erro.message);
+                console.error('Erro na solicitação de parada:', erro);
+            } finally {
+                solicitacaoParadaEmCurso = false;
+                atualizarBotoes();
+            }
         }
 
+        if (btnParar) {
+            btnParar.addEventListener('click', solicitarParadaRobo);
+        }
 
+        // Reconciliar sem substituir a rota no canvas ou abrir o modal a cada consulta.
+        async function sincronizarEstadoExecucao() {
+            if (document.hidden || solicitacaoParadaEmCurso) return;
+            try {
+                const resposta = await fetch(API_ROTA.estado, {
+                    headers: {'Accept': 'application/json'}, credentials: 'same-origin', cache: 'no-store'
+                });
+                if (!resposta.ok) return;
+                const dados = await resposta.json();
+                const ativa = dados.rota_ativa || dados.rota || null;
+                const codigo = obterCodigoRota(ativa);
+                if (!ativa) {
+                    execucaoAtivaId = null;
+                    paradaPendente = false;
+                    estadoExecucaoConfirmado = true;
+                    rotaCodigoAtivo = null;
+                    atualizarBotoes();
+                    return;
+                }
+                if (codigo && rotaCodigoAtivo && String(codigo) !== String(rotaCodigoAtivo)) {
+                    // Uma nova rota começou; a página deve selecionar sua execução.
+                    window.location.reload();
+                    return;
+                }
+                const id = Number(ativa.id_execucao || ativa.codigo || ativa.execucao_id || ativa.id);
+                execucaoAtivaId = Number.isInteger(id) && id > 0 ? id : null;
+                paradaPendente = ativa.status_execucao === 'parando' ||
+                    ativa.status_execucao === 'parada_solicitada' || paradaPendente;
+                estadoExecucaoConfirmado = true;
+                atualizarBotoes();
+            } catch (erro) {
+                console.warn('Falha ao sincronizar estado da execução:', erro);
+            }
+        }
         if (btnReiniciar) {
 
             btnReiniciar.addEventListener(
@@ -5265,11 +5368,17 @@ body {
             .then(
                 function (data) {
 
-                    medicoes = Array.isArray(data) ? data : (Array.isArray(data.medicoes) ? data.medicoes : []);
+                    medicoes = Array.isArray(data) ? data : (data && Array.isArray(data.medicoes) ? data.medicoes : []);
+                    const aviso = document.getElementById('avisoMedicoes');
+                    if (aviso) { aviso.hidden = true; aviso.textContent = ''; }
                     // O endpoint /monitoramento/dados precisa retornar id_execucao em cada medição.
                     const idDaExecucao = medicoes.length ? Number(medicoes[0].id_execucao) :
-                        Number(data && data.id_execucao);
+                        Number((data && data.id_execucao) || execucaoAtivaId || codigoParaCarregar);
                     atualizarConsultaDeteccoes(Number.isInteger(idDaExecucao) && idDaExecucao > 0 ? idDaExecucao : null);
+                    if (!rotaHistorica && rotaCodigoAtivo && Number.isInteger(idDaExecucao) && idDaExecucao > 0) {
+                        execucaoAtivaId = idDaExecucao;
+                        atualizarBotoes();
+                    }
 
                     /*
                     |--------------------------------------------------------------------------
@@ -5351,12 +5460,24 @@ body {
                             'Nenhuma medição encontrada.'
                         );
 
-                        dadosCarregados = true;
-
+                        dadosCarregados = false;
+                        rotaVisual = [];
+                        pontosClima = [];
+                        desenharMapa.cacheTermico = null;
+                        ajustarCanvas();
+                        desenharMapa();
+                        const avisoSemLeituras = document.getElementById('avisoMedicoes');
+                        if (avisoSemLeituras) {
+                            avisoSemLeituras.textContent = 'Rota em andamento. Aguardando as primeiras medições; você ainda pode usar Parar.';
+                            avisoSemLeituras.hidden = false;
+                        }
                         atualizarBotoes();
 
-                        if (iniciarAutomaticamente) {
-                mostrarGate('Rota iniciada', 'Aguardando as primeiras medições do veículo.');
+                        // Não bloquear o botão Parar com o modal enquanto aguarda medições.
+                        if (iniciarAutomaticamente && execucaoAtivaId) {
+                            routeGate.hidden = true;
+                            const subtitulo = document.querySelector('.robo-header-left p');
+                            if (subtitulo) subtitulo.textContent = 'Rota ativa. Aguardando primeiras medições.';
                         }
 
                         return;
@@ -5436,8 +5557,11 @@ body {
                         iniciarAnimacao();
                     }
 
-                    if (iniciarAutomaticamente && rota.length < 2) {
-                        mostrarGate('Rota iniciada', 'Aguardando novas medições para iniciar o deslocamento no mapa.');
+                    if (iniciarAutomaticamente && rota.length < 2 && execucaoAtivaId) {
+                        // Com um ponto, o mapa não anima; o botão Parar continua disponível.
+                        routeGate.hidden = true;
+                        const subtitulo = document.querySelector('.robo-header-left p');
+                        if (subtitulo) subtitulo.textContent = 'Rota ativa. Aguardando novas medições.';
                     }
 
                 }
@@ -5451,7 +5575,15 @@ body {
                         error
                     );
 
-                    mostrarGate('Não foi possível carregar a rota', 'A rota foi localizada, mas houve um erro ao carregar as medições.');
+                    const aviso = document.getElementById('avisoMedicoes');
+                    if (aviso) {
+                        aviso.textContent = 'Não foi possível carregar as medições: ' + (error.message || String(error)) + '. Se a execução estiver ativa, o botão Parar continua disponível.';
+                        aviso.hidden = false;
+                    }
+                    // Erro nas medições NÃO deve bloquear o comando de parada.
+                    // Só o GET /monitoramento/rota determina se a execução está ativa.
+                    if (execucaoAtivaId) routeGate.hidden = true;
+                    atualizarBotoes();
 
                 }
             );
@@ -5512,6 +5644,9 @@ body {
         } else {
             consultarEstadoRota();
         }
+
+        // Consulta leve do estado no banco, independente da animação do mapa.
+        setInterval(sincronizarEstadoExecucao, 10000);
 
     });
 

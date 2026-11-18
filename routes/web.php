@@ -66,8 +66,9 @@ Route::middleware(['autenticado'])->group(function () {
 
     Route::post('/monitoramento/rota', [MonitoramentoController::class, 'iniciarRota'])->name('monitoramento.rota.iniciar');
 
-    Route::get('/monitoramento/deteccoes',[\App\Http\Controllers\DeteccoesMonitoramentoController::class, 'index']
-);
+    Route::get('/monitoramento/deteccoes',[\App\Http\Controllers\DeteccoesMonitoramentoController::class, 'index']);
+
+    Route::post('/monitoramento/rota/parar',[\App\Http\Controllers\MonitoramentoController::class, 'pararRota'])->name('monitoramento.rota.parar');
 
     // Robô
     Route::get('/robo', [RoboController::class, 'index']) ->name('robo.index');

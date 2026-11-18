@@ -10,19 +10,19 @@ class MonitoramentoController extends Controller
 {
     public function dados(Request $request)
     {
-        $idExecucao = $request->query('rota');
+        $dados = $request->validate([
+            'rota' => 'nullable|integer|min:1',
+        ]);
+        $idExecucao = $dados['rota'] ?? null;
 
-        if (empty($idExecucao)) {
-            $ultimaExecucao = DB::table('execucoes')
-                ->orderByDesc('data_execucao')
+        if (!$idExecucao) {
+            $idExecucao = DB::table('execucoes')
                 ->orderByDesc('id_execucao')
-                ->first();
+                ->value('id_execucao');
+        }
 
-            if (!$ultimaExecucao) {
-                return response()->json([]);
-            }
-
-            $idExecucao = $ultimaExecucao->id_execucao;
+        if (!$idExecucao) {
+            return response()->json([]);
         }
 
         $medicoes = DB::table('dados_microclimaticos')
@@ -37,8 +37,10 @@ class MonitoramentoController extends Controller
                 DB::raw('data_hora as recebida_em')
             )
             ->orderBy('data_hora', 'asc')
+            ->orderBy('id_dado', 'asc')
             ->get();
 
+        // Uma execução recém-iniciada pode não possuir medições.
         return response()->json($medicoes);
     }
 
@@ -49,9 +51,11 @@ class MonitoramentoController extends Controller
             ->where('e.status_execucao', 'em_andamento')
             ->orderByDesc('e.id_execucao')
             ->select(
+                'e.id_execucao',
                 'e.id_execucao as codigo',
                 'e.id_veiculo as veiculo_id',
-                'v.nome_veiculo as veiculo_nome'
+                'v.nome_veiculo as veiculo_nome',
+                'e.status_execucao'
             )
             ->first();
 
@@ -61,10 +65,7 @@ class MonitoramentoController extends Controller
                     ->from('execucoes')
                     ->where('status_execucao', 'em_andamento');
             })
-            ->select(
-                'v.id_veiculo as id',
-                'v.nome_veiculo as nome'
-            )
+            ->select('v.id_veiculo as id', 'v.nome_veiculo as nome')
             ->orderBy('v.nome_veiculo')
             ->get();
 
@@ -77,7 +78,7 @@ class MonitoramentoController extends Controller
     public function iniciarRota(Request $request)
     {
         $dados = $request->validate([
-            'veiculo_id' => 'required|integer',
+            'veiculo_id' => 'required|integer|min:1',
             'local_execucao' => 'nullable|string|max:255',
         ]);
 
@@ -98,35 +99,56 @@ class MonitoramentoController extends Controller
                 ->first();
 
             if (!$veiculo) {
-                return response()->json([
-                    'message' => 'Veículo não encontrado.',
-                ], 404);
+                return response()->json(['message' => 'Veículo não encontrado.'], 404);
             }
 
             $agora = now();
-
             $idExecucao = DB::table('execucoes')->insertGetId([
                 'id_usuario' => $veiculo->id_usuario,
                 'id_veiculo' => $veiculo->id_veiculo,
                 'data_execucao' => $agora->toDateString(),
-                'local_execucao' => $dados['local_execucao']
-                    ?? 'Área de monitoramento',
+                'local_execucao' => $dados['local_execucao'] ?? 'Área de monitoramento',
                 'status_execucao' => 'em_andamento',
-                'nome_execucao' => 'Rota V'
-                    . $veiculo->id_veiculo
-                    . '-'
-                    . $agora->format('YmdHis')
-                    . '-'
-                    . Str::upper(Str::random(5)),
+                'nome_execucao' => 'Rota V' . $veiculo->id_veiculo . '-'
+                    . $agora->format('YmdHis') . '-' . Str::upper(Str::random(5)),
             ]);
 
             return response()->json([
                 'rota' => [
+                    'id_execucao' => $idExecucao,
                     'codigo' => (string) $idExecucao,
                     'veiculo_id' => $veiculo->id_veiculo,
                     'veiculo_nome' => $veiculo->nome_veiculo,
+                    'status_execucao' => 'em_andamento',
                 ],
             ], 201);
         });
+    }
+
+    public function pararRota(Request $request)
+    {
+        $dados = $request->validate([
+            'id_execucao' => 'required|integer|min:1',
+        ]);
+        $idExecucao = (int) $dados['id_execucao'];
+
+        // Atualiza uma única execução ativa. Nunca aborta outras rotas.
+        $atualizadas = DB::table('execucoes')
+            ->where('id_execucao', $idExecucao)
+            ->where('status_execucao', 'em_andamento')
+            ->update(['status_execucao' => 'abortada']);
+
+        if ($atualizadas === 0) {
+            return response()->json([
+                'message' => 'Execução não encontrada ou não está em andamento.',
+            ], 409);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Execução abortada no banco de dados.',
+            'id_execucao' => $idExecucao,
+            'status_execucao' => 'abortada',
+        ]);
     }
 }
