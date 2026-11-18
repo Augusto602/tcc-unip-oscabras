@@ -244,20 +244,11 @@
 
                             <td>
 
-                                @if ($statusAbortada)
-                                    <button type="button" class="btn-visualizar-rota" disabled
-                                            title="Rota abortada: visualização indisponível"
-                                            aria-label="Visualização indisponível: rota abortada">
-                                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                                        Indisponível
-                                    </button>
-                                @else
-                                    <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
-                                       class="btn-visualizar-rota">
-                                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
-                                        Visualizar
-                                    </a>
-                                @endif
+                                <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
+                                   class="btn-visualizar-rota">
+                                    <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                                    Visualizar
+                                </a>
 
                             </td>
 
@@ -425,20 +416,11 @@
                     </div>
 
 
-                    @if ($statusAbortada)
-                        <button type="button" class="btn-mobile-rota" disabled
-                                title="Rota abortada: visualização indisponível"
-                                aria-label="Visualização indisponível: rota abortada">
-                            <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                            Indisponível
-                        </button>
-                    @else
-                        <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
-                           class="btn-mobile-rota">
-                            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
-                            Visualizar rota
-                        </a>
-                    @endif
+                    <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
+                       class="btn-mobile-rota">
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                        Visualizar rota
+                    </a>
 
                 </div>
 
