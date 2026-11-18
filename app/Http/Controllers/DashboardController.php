@@ -48,151 +48,76 @@ class DashboardController extends Controller
         $rotas = $execucoes
             ->map(function ($execucao) {
 
-                /*
-                |--------------------------------------------------------------------------
-                | DATA DE INÍCIO / FIM
-                |--------------------------------------------------------------------------
-                */
-
+                // DATA DE INICIO
                 if (!empty($execucao->data_inicio)) {
-
-                    $dataInicio = Carbon::parse(
-                        $execucao->data_inicio
-                    );
-
+                    $dataInicio = Carbon::parse($execucao->data_inicio);
                 } else {
-
-                    $dataInicio = Carbon::parse(
-                        $execucao->data_execucao
-                    );
-
+                    $dataInicio = Carbon::parse($execucao->data_execucao);
                 }
 
-
+                // DATA DE FIM
                 if (!empty($execucao->data_fim)) {
-
-                    $dataFim = Carbon::parse(
-                        $execucao->data_fim
-                    );
-
+                    $dataFim = Carbon::parse($execucao->data_fim);
                 } else {
-
                     $dataFim = $dataInicio->copy();
-
                 }
 
+                // DURACAO
+                $duracaoMinutos = $dataInicio->diffInMinutes($dataFim);
 
-                /*
-                |--------------------------------------------------------------------------
-                | DURAÇÃO
-                |--------------------------------------------------------------------------
-                */
-
-                $duracaoMinutos = $dataInicio->diffInMinutes(
-                    $dataFim
-                );
-
-                $horas = intdiv(
-                    $duracaoMinutos,
-                    60
-                );
-
+                $horas = intdiv($duracaoMinutos, 60);
                 $minutos = $duracaoMinutos % 60;
 
-
                 if ($horas > 0) {
-
                     $duracao = sprintf(
                         '%02dh %02dmin',
                         $horas,
                         $minutos
                     );
-
                 } else {
-
-                    $duracao = sprintf(
-                        '%02d min',
-                        $minutos
-                    );
-
+                    $duracao = sprintf('%02d min', $minutos);
                 }
 
+                // STATUS REAL DA EXECUCAO
+                $statusBanco = trim((string) $execucao->status_execucao);
 
-                /*
-                |--------------------------------------------------------------------------
-                | STATUS
-                |--------------------------------------------------------------------------
-                */
-
-                $status = $execucao->status_execucao;
-
-
-                if ($status == 'concluida') {
-
-                    $status = 'Finalizada';
-
-                } else if ($status == 'em_andamento') {
-
-                    $status = 'Em atividade';
-
-                } else if ($status == 'abortada') {
-
-                    $status = 'Finalizada';
-
-                } else if ($status == 'falha') {
-
-                    $status = 'Finalizada';
-
-                }
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | MONTA ROTA
-                |--------------------------------------------------------------------------
-                */
-
-                return (object) [
-
-                    'codigo' =>
-                        $execucao->id_execucao,
-
-                    'nome' =>
-                        $execucao->nome_execucao,
-
-                    'data_inicio' =>
-                        $dataInicio->format(
-                            'Y-m-d H:i:s'
-                        ),
-
-                    'data_fim' =>
-                        $dataFim->format(
-                            'Y-m-d H:i:s'
-                        ),
-
-                    'veiculo' =>
-                        !empty($execucao->nome_veiculo)
-                            ? $execucao->nome_veiculo
-                            : 'Não informado',
-
-                    'duracao' =>
-                        $duracao,
-
-                    'status' =>
-                        $status,
-
-                    'quantidade_medicoes' =>
-                        $execucao->quantidade_medicoes,
-
-                    'local_execucao' =>
-                        $execucao->local_execucao,
-
+                $statusMapeados = [
+                    'em_andamento' => 'Em atividade',
+                    'concluida' => 'Finalizada',
+                    'abortada' => 'Abortada',
+                    'falha' => 'Falha',
                 ];
 
+                $status = $statusMapeados[$statusBanco]
+                    ?? 'Desconhecido';
+
+                // MONTA ROTA
+                return (object) [
+                    'codigo' => $execucao->id_execucao,
+
+                    'nome' => $execucao->nome_execucao,
+
+                    'data_inicio' => $dataInicio->format('Y-m-d H:i:s'),
+
+                    'data_fim' => $dataFim->format('Y-m-d H:i:s'),
+
+                    'veiculo' => !empty($execucao->nome_veiculo)
+                        ? $execucao->nome_veiculo
+                        : 'Não informado',
+
+                    'duracao' => $duracao,
+
+                    'status' => $status,
+
+                    'status_execucao' => $statusBanco,
+
+                    'quantidade_medicoes' => $execucao->quantidade_medicoes,
+
+                    'local_execucao' => $execucao->local_execucao,
+                ];
             })
             ->sortByDesc('data_inicio')
             ->values();
-
 
         return view(
             'dashboard.index',

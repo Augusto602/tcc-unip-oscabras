@@ -43,6 +43,23 @@
         </div>
     </div>
 
+    {{-- Modal de encerramento da execução (independente das medições) --}}
+    <div class="parada-modal" id="modalParada" role="dialog" aria-modal="true" aria-labelledby="modalParadaTitulo" aria-describedby="modalParadaDescricao" hidden>
+        <div class="parada-modal-card" role="document">
+            <button type="button" class="parada-modal-fechar" id="modalParadaFechar" aria-label="Fechar janela"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <div class="parada-modal-icone" id="modalParadaIcone"><i class="fa-solid fa-stop" aria-hidden="true"></i></div>
+            <span class="parada-modal-etiqueta" id="modalParadaEtiqueta">CONTROLE DA EXECUÇÃO</span>
+            <h2 id="modalParadaTitulo">Encerrar rota?</h2>
+            <p id="modalParadaDescricao">Deseja realmente abortar esta execução? O registro será marcado como abortado no sistema.</p>
+            <p class="parada-modal-observacao" id="modalParadaObservacao">Isso não confirma a parada física dos motores do robô.</p>
+            <div class="parada-modal-acoes">
+                <button type="button" class="parada-modal-cancelar" id="modalParadaCancelar">Cancelar</button>
+                <button type="button" class="parada-modal-confirmar" id="modalParadaConfirmar"><i class="fa-solid fa-stop" aria-hidden="true"></i> Encerrar rota</button>
+                <button type="button" class="parada-modal-ok" id="modalParadaOk" hidden>Entendi</button>
+            </div>
+        </div>
+    </div>
+
     {{-- =========================================================
          CABEÇALHO
     ========================================================== --}}
@@ -504,6 +521,28 @@ body {
 /* =========================================================
    DASHBOARD
 ========================================================= */
+
+/* Modal de confirmação da parada: tema do painel, sem alert/confirm do navegador. */
+.parada-modal { position: fixed; inset: 0; z-index: 11000; display: flex; align-items: center; justify-content: center; padding: 18px; background: rgba(5, 12, 9, .82); backdrop-filter: blur(6px); }
+.parada-modal[hidden], .parada-modal [hidden] { display: none !important; }
+.parada-modal-card { position: relative; width: min(100%, 430px); box-sizing: border-box; padding: 32px 28px 26px; text-align: center; color: #eaf3ed; background: linear-gradient(155deg, #1d2a25, #121d18); border: 1px solid #385243; border-radius: 17px; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+.parada-modal-fechar { position: absolute; top: 14px; right: 14px; padding: 7px 10px; background: transparent; color: #9daea4; border: 0; border-radius: 7px; cursor: pointer; font-size: 15px; }
+.parada-modal-fechar:hover { background: #2c3b32; color: #fff; }
+.parada-modal-icone { width: 64px; height: 64px; margin: 0 auto 18px; display: grid; place-items: center; font-size: 23px; color: #ffb17e; background: #422b21; border: 1px solid #79513c; border-radius: 17px; }
+.parada-modal-icone.sucesso { color: #79dd90; background: #1c3b29; border-color: #346c49; }
+.parada-modal-icone.erro { color: #ff988e; background: #432523; border-color: #834743; }
+.parada-modal-etiqueta { color: #91b49f; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
+.parada-modal-card h2 { margin: 10px 0 10px; font-size: 23px; font-weight: 750; color: #f4faf6; }
+.parada-modal-card p { margin: 0; color: #b3c2b7; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+.parada-modal-card .parada-modal-observacao { margin-top: 12px; color: #e9b583; font-size: 11px; }
+.parada-modal-acoes { display: flex; gap: 10px; margin-top: 25px; }
+.parada-modal-acoes button { min-height: 45px; flex: 1; border-radius: 9px; border: 1px solid transparent; padding: 10px 14px; font-weight: 750; font-size: 12px; cursor: pointer; }
+.parada-modal-cancelar { color: #d5e0d8; background: #25352d; border-color: #3b5142 !important; }
+.parada-modal-confirmar { color: #fff1e8; background: #a74e35; border-color: #c56847 !important; }
+.parada-modal-ok { color: #112218; background: #78d58c; }
+.parada-modal-acoes button:hover:not(:disabled) { filter: brightness(1.1); }
+.parada-modal-acoes button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 480px) { .parada-modal-card { padding: 29px 19px 21px; } .parada-modal-acoes { flex-direction: column-reverse; } }
 
 .robo-dashboard {
     width: 100%;
@@ -5195,11 +5234,79 @@ body {
         }
 
 
+        // Dialog acessível de confirmação e retorno da parada.
+        const modalParada = document.getElementById('modalParada');
+        const modalParadaTitulo = document.getElementById('modalParadaTitulo');
+        const modalParadaDescricao = document.getElementById('modalParadaDescricao');
+        const modalParadaObservacao = document.getElementById('modalParadaObservacao');
+        const modalParadaEtiqueta = document.getElementById('modalParadaEtiqueta');
+        const modalParadaIcone = document.getElementById('modalParadaIcone');
+        const modalParadaConfirmar = document.getElementById('modalParadaConfirmar');
+        const modalParadaCancelar = document.getElementById('modalParadaCancelar');
+        const modalParadaOk = document.getElementById('modalParadaOk');
+        const modalParadaFechar = document.getElementById('modalParadaFechar');
+        let modalidadeParada = 'confirmacao';
+        let ultimaFocoParada = null;
+        let atualizarGateDepoisModal = false;
+
+        function abrirModalParada() {
+            if (!execucaoAtivaId || paradaPendente || solicitacaoParadaEmCurso) return;
+            modalidadeParada = 'confirmacao';
+            atualizarGateDepoisModal = false;
+            ultimaFocoParada = document.activeElement;
+            modalParadaEtiqueta.textContent = 'CONTROLE DA EXECUÇÃO';
+            modalParadaTitulo.textContent = 'Encerrar rota?';
+            modalParadaDescricao.textContent = 'Deseja encerrar a execução #' + execucaoAtivaId + '? O status será alterado para abortada no banco de dados.';
+            modalParadaObservacao.textContent = 'O encerramento no sistema não garante a parada física dos motores.';
+            modalParadaObservacao.hidden = false;
+            modalParadaIcone.className = 'parada-modal-icone';
+            modalParadaIcone.innerHTML = '<i class="fa-solid fa-stop" aria-hidden="true"></i>';
+            modalParadaCancelar.hidden = false;
+            modalParadaConfirmar.hidden = false;
+            modalParadaOk.hidden = true;
+            modalParadaFechar.disabled = false;
+            modalParada.hidden = false;
+            modalParadaCancelar.focus();
+        }
+
+        function fecharModalParada() {
+            if (solicitacaoParadaEmCurso) return;
+            modalParada.hidden = true;
+            if (ultimaFocoParada && typeof ultimaFocoParada.focus === 'function' && !ultimaFocoParada.disabled) {
+                ultimaFocoParada.focus();
+            }
+            if (atualizarGateDepoisModal) {
+                atualizarGateDepoisModal = false;
+                consultarEstadoRota();
+            }
+        }
+
+        function mostrarResultadoParada(tipo, mensagem) {
+            modalidadeParada = 'resultado';
+            modalParadaEtiqueta.textContent = tipo === 'sucesso' ? 'EXECUÇÃO ATUALIZADA' : 'NÃO FOI POSSÍVEL ENCERRAR';
+            modalParadaTitulo.textContent = tipo === 'sucesso' ? 'Rota encerrada' : 'Não foi possível encerrar';
+            modalParadaDescricao.textContent = mensagem;
+            modalParadaObservacao.textContent = tipo === 'sucesso'
+                ? 'Status atualizado no banco. Isso não confirma a parada física do robô.'
+                : 'A execução poderá continuar ativa. Verifique o erro e tente novamente.';
+            modalParadaIcone.className = 'parada-modal-icone ' + (tipo === 'sucesso' ? 'sucesso' : 'erro');
+            modalParadaIcone.innerHTML = tipo === 'sucesso'
+                ? '<i class="fa-solid fa-check" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>';
+            modalParadaCancelar.hidden = true;
+            modalParadaConfirmar.hidden = true;
+            modalParadaOk.hidden = false;
+            modalParadaOk.focus();
+        }
+
         async function solicitarParadaRobo() {
             if (!execucaoAtivaId || paradaPendente || solicitacaoParadaEmCurso) return;
-            if (!window.confirm('Solicitar parada da execução ' + execucaoAtivaId + '?')) return;
-
+            const idSolicitado = execucaoAtivaId;
             solicitacaoParadaEmCurso = true;
+            modalParadaConfirmar.disabled = true;
+            modalParadaConfirmar.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Encerrando...';
+            modalParadaCancelar.disabled = true;
+            modalParadaFechar.disabled = true;
             atualizarBotoes();
             try {
                 const csrf = document.querySelector('meta[name="csrf-token"]');
@@ -5211,14 +5318,11 @@ body {
                         'Content-Type': 'application/json',
                         ...(csrf ? {'X-CSRF-TOKEN': csrf.content} : {})
                     },
-                    body: JSON.stringify({id_execucao: execucaoAtivaId})
+                    body: JSON.stringify({id_execucao: idSolicitado})
                 });
                 const dados = await resposta.json().catch(function () { return {}; });
-                if (!resposta.ok) {
-                    throw new Error(dados.message || 'Erro HTTP ' + resposta.status);
-                }
-                // Este backend marca a execução como 'abortada' imediatamente no banco.
-                // Isso NÃO é confirmação de parada física dos motores.
+                if (!resposta.ok) throw new Error(dados.message || 'Erro HTTP ' + resposta.status);
+
                 if (dados.status_execucao === 'abortada') {
                     execucaoAtivaId = null;
                     estadoExecucaoConfirmado = true;
@@ -5229,26 +5333,50 @@ body {
                         estadoRoboEl.textContent = 'Execução abortada no sistema';
                         estadoRoboEl.className = 'status-paused';
                     }
-                    window.alert(dados.message || 'Execução abortada no banco.');
-                    // Reabre a seleção de veículo caso não haja outra rota ativa.
-                    consultarEstadoRota();
+                    atualizarGateDepoisModal = true;
+                    mostrarResultadoParada('sucesso', 'A execução #' + idSolicitado + ' foi marcada como abortada no banco de dados.');
                 } else {
                     paradaPendente = true;
                     pararAnimacao();
-                    window.alert(dados.message || 'Parada solicitada no sistema.');
+                    mostrarResultadoParada('sucesso', dados.message || 'A solicitação de parada foi registrada.');
                 }
             } catch (erro) {
-                window.alert('Não foi possível solicitar a parada: ' + erro.message);
                 console.error('Erro na solicitação de parada:', erro);
+                mostrarResultadoParada('erro', erro.message || 'Erro de comunicação com o servidor.');
             } finally {
                 solicitacaoParadaEmCurso = false;
+                modalParadaConfirmar.disabled = false;
+                modalParadaConfirmar.innerHTML = '<i class="fa-solid fa-stop" aria-hidden="true"></i> Encerrar rota';
+                modalParadaCancelar.disabled = false;
+                modalParadaFechar.disabled = false;
                 atualizarBotoes();
             }
         }
 
-        if (btnParar) {
-            btnParar.addEventListener('click', solicitarParadaRobo);
-        }
+        if (btnParar) btnParar.addEventListener('click', abrirModalParada);
+        modalParadaConfirmar.addEventListener('click', solicitarParadaRobo);
+        modalParadaCancelar.addEventListener('click', fecharModalParada);
+        modalParadaFechar.addEventListener('click', fecharModalParada);
+        modalParadaOk.addEventListener('click', fecharModalParada);
+        modalParada.addEventListener('click', function (event) {
+            if (event.target === modalParada && modalidadeParada !== 'confirmacao') return;
+            if (event.target === modalParada) fecharModalParada();
+        });
+        document.addEventListener('keydown', function (event) {
+            if (modalParada.hidden) return;
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                fecharModalParada();
+            }
+            if (event.key === 'Tab') {
+                const elementos = Array.from(modalParada.querySelectorAll('button:not([disabled]):not([hidden])'));
+                if (!elementos.length) return;
+                const primeiro = elementos[0];
+                const ultimo = elementos[elementos.length - 1];
+                if (event.shiftKey && document.activeElement === primeiro) { event.preventDefault(); ultimo.focus(); }
+                else if (!event.shiftKey && document.activeElement === ultimo) { event.preventDefault(); primeiro.focus(); }
+            }
+        });
 
         // Reconciliar sem substituir a rota no canvas ou abrir o modal a cada consulta.
         async function sincronizarEstadoExecucao() {

@@ -143,7 +143,9 @@
                 <tbody>
 
                     @forelse ($rotas as $rota)
-
+                        @php
+                            $statusAbortada = mb_strtolower(trim((string) $rota->status), 'UTF-8') === 'abortada';
+                        @endphp
                         <tr>
 
                             <td>
@@ -220,26 +222,21 @@
 
                             <td>
 
-                                @if ($rota->status == 'Em atividade')
-
+                                @if ($statusAbortada)
+                                    <span class="rota-status status-abortada">
+                                        <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                                        Abortada
+                                    </span>
+                                @elseif ($rota->status == 'Em atividade')
                                     <span class="rota-status status-atividade">
-
                                         <span class="rota-status-dot"></span>
-
                                         Em atividade
-
                                     </span>
-
                                 @else
-
                                     <span class="rota-status status-finalizada">
-
-                                        <i class="fa-solid fa-check"></i>
-
+                                        <i class="fa-solid fa-check" aria-hidden="true"></i>
                                         Finalizada
-
                                     </span>
-
                                 @endif
 
                             </td>
@@ -247,16 +244,20 @@
 
                             <td>
 
-                                <a
-                                    href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
-                                    class="btn-visualizar-rota"
-                                >
-
-                                    <i class="fa-solid fa-chart-line"></i>
-
-                                    Visualizar
-
-                                </a>
+                                @if ($statusAbortada)
+                                    <button type="button" class="btn-visualizar-rota" disabled
+                                            title="Rota abortada: visualização indisponível"
+                                            aria-label="Visualização indisponível: rota abortada">
+                                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                                        Indisponível
+                                    </button>
+                                @else
+                                    <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
+                                       class="btn-visualizar-rota">
+                                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                                        Visualizar
+                                    </a>
+                                @endif
 
                             </td>
 
@@ -306,7 +307,9 @@
         <div class="historico-mobile">
 
             @forelse ($rotas as $rota)
-
+                @php
+                    $statusAbortada = mb_strtolower(trim((string) $rota->status), 'UTF-8') === 'abortada';
+                @endphp
                 <div class="rota-mobile-card">
 
                     <div class="rota-mobile-top">
@@ -332,26 +335,21 @@
                         </div>
 
 
-                        @if ($rota->status == 'Em atividade')
-
+                        @if ($statusAbortada)
+                            <span class="rota-status status-abortada">
+                                <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                                Abortada
+                            </span>
+                        @elseif ($rota->status == 'Em atividade')
                             <span class="rota-status status-atividade">
-
                                 <span class="rota-status-dot"></span>
-
                                 Em atividade
-
                             </span>
-
                         @else
-
                             <span class="rota-status status-finalizada">
-
-                                <i class="fa-solid fa-check"></i>
-
+                                <i class="fa-solid fa-check" aria-hidden="true"></i>
                                 Finalizada
-
                             </span>
-
                         @endif
 
                     </div>
@@ -427,16 +425,20 @@
                     </div>
 
 
-                    <a
-                        href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
-                        class="btn-mobile-rota"
-                    >
-
-                        <i class="fa-solid fa-chart-line"></i>
-
-                        Visualizar rota
-
-                    </a>
+                    @if ($statusAbortada)
+                        <button type="button" class="btn-mobile-rota" disabled
+                                title="Rota abortada: visualização indisponível"
+                                aria-label="Visualização indisponível: rota abortada">
+                            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                            Indisponível
+                        </button>
+                    @else
+                        <a href="/monitoramento?rota={{ urlencode($rota->codigo) }}"
+                           class="btn-mobile-rota">
+                            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                            Visualizar rota
+                        </a>
+                    @endif
 
                 </div>
 
@@ -948,6 +950,12 @@
 }
 
 
+.status-abortada {
+    background: #3a221f;
+    border: 1px solid #824a44;
+    color: #ffa79d;
+}
+
 .rota-status-dot {
     width: 6px;
     height: 6px;
@@ -966,6 +974,8 @@
 
 .btn-visualizar-rota {
     display: inline-flex;
+    font-family: inherit;
+    cursor: pointer;
 
     align-items: center;
 
@@ -992,7 +1002,7 @@
 }
 
 
-.btn-visualizar-rota:hover {
+.btn-visualizar-rota:not(:disabled):hover {
     background: #254837;
 
     border-color: #69c174;
@@ -1002,6 +1012,17 @@
     transform: translateY(-1px);
 }
 
+
+.btn-visualizar-rota:disabled,
+.btn-mobile-rota:disabled {
+    background: #252d2a;
+    border-color: #3b4540;
+    color: #798880;
+    opacity: .6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
 
 /* =========================================================
    MOBILE CARDS
@@ -1428,7 +1449,7 @@
     }
 
 
-    .btn-mobile-rota:active {
+    .btn-mobile-rota:not(:disabled):active {
         background: #254837;
     }
 
